@@ -19,7 +19,7 @@ export const site = {
     country: "Portugal",
     phone: "+351 912 925 598",
     phoneHref: "tel:+351912925598",
-    email: "", // TODO: confirm a public email to show
+    email: "somm@dogmawinebar.com",
   },
 
   // Each line shows as "days — time"
@@ -34,7 +34,8 @@ export const site = {
   },
 
   social: {
-    instagram: "", // TODO: add Instagram URL
+    instagram: "https://instagram.com/dogma.wine.bar",
+    instagramHandle: "@dogma.wine.bar",
     facebook: "",
   },
 

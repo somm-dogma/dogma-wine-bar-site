@@ -30,6 +30,9 @@ const year = new Date().getFullYear();
       {site.contact.email && (
         <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
       )}
+      {site.social.instagram && (
+        <p><a href={site.social.instagram} target="_blank" rel="noopener">{site.social.instagramHandle ?? "Instagram"}</a></p>
+      )}
       <a class="btn btn--cream footer-cta" href={site.booking.table}>Book a table</a>
     </div>
 

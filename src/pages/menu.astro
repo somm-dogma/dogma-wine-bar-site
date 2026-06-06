@@ -1,0 +1,132 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { menuSections } from "../data/menu";
+---
+
+<Base
+  title="Menu"
+  description="Dogma Wine Bar's menus — tastings, food, wines by the glass and bottle, and Port & other drinks."
+  headerSolid={true}
+>
+  <PageHeader
+    eyebrow="Eat &amp; drink"
+    title="Our menu"
+    subtitle="Tastings, food, and a cellar that lets the terroir speak. Choose a section below."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="menu-tabs" role="tablist" aria-label="Menu sections">
+        {menuSections.map((s, i) => (
+          <button
+            class="menu-tab"
+            role="tab"
+            id={`tab-${i}`}
+            data-target={`panel-${i}`}
+            aria-controls={`panel-${i}`}
+            aria-selected={i === 0 ? "true" : "false"}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      <div class="menu-panels">
+        {menuSections.map((s, i) => (
+          <div
+            class="menu-panel"
+            role="tabpanel"
+            id={`panel-${i}`}
+            aria-labelledby={`tab-${i}`}
+            hidden={i !== 0}
+          >
+            <div class="menu-frame">
+              <iframe
+                src={`https://drive.google.com/file/d/${s.fileId}/preview`}
+                title={`${s.label} menu`}
+                loading="lazy"
+                allow="autoplay"
+              ></iframe>
+            </div>
+            <a
+              class="menu-open"
+              href={`https://drive.google.com/file/d/${s.fileId}/view`}
+              target="_blank"
+              rel="noopener"
+            >
+              Open {s.label} in a new tab ↗
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .menu-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .menu-tab {
+    padding: 0.7em 1.3em;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .menu-tab:hover { border-color: var(--gold); }
+  .menu-tab[aria-selected="true"] {
+    background: var(--wine-800);
+    color: var(--cream-50);
+    border-color: var(--wine-800);
+  }
+
+  .menu-panel[hidden] { display: none; }
+  .menu-frame {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    background: #fff;
+  }
+  .menu-frame iframe {
+    width: 100%;
+    height: min(82vh, 920px);
+    border: 0;
+    display: block;
+  }
+  .menu-open {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--wine-800);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .menu-open:hover { color: var(--gold); }
+</style>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".menu-tab"));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>(".menu-panel"));
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.getAttribute("data-target");
+      tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+      panels.forEach((p) => {
+        p.hidden = p.id !== target;
+      });
+    });
+  });
+</script>
