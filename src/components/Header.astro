@@ -1,0 +1,156 @@
+---
+import { site, nav } from "../data/site";
+
+interface Props {
+  solid?: boolean;
+}
+const { solid = false } = Astro.props;
+---
+
+<header class:list={["site-header", { "is-solid": solid }]} id="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">Dogma</a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="primary-nav" aria-label="Main navigation">
+      {nav.map((item) => <a class="nav__link" href={item.href}>{item.label}</a>)}
+      <a class="btn btn--cream nav__cta" href={site.booking.table}>Book a table</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    color: var(--cream-50);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  /* Legibility scrim while transparent over the hero */
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgba(43, 10, 17, 0.6), rgba(43, 10, 17, 0));
+    transition: opacity 0.3s ease;
+  }
+  .site-header.is-scrolled,
+  .site-header.is-solid {
+    background: var(--wine-900);
+    box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.55);
+  }
+  .site-header.is-scrolled::before,
+  .site-header.is-solid::before {
+    opacity: 0;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding-left: 0.3em;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.1rem);
+  }
+  .nav__link {
+    font-size: var(--step--1);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.92;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .nav__link:hover { color: var(--gold-300); opacity: 1; }
+  .nav__cta { margin-left: 0.4rem; }
+
+  .nav-toggle { display: none; }
+
+  @media (max-width: 880px) {
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      background: none;
+      border: 0;
+      color: inherit;
+    }
+    .nav-toggle span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: currentColor;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .site-header.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .site-header.is-open .nav-toggle span:nth-child(2) { opacity: 0; }
+    .site-header.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.5rem var(--gutter) 2rem;
+      background: var(--wine-900);
+      box-shadow: 0 20px 30px -16px rgba(0, 0, 0, 0.5);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s;
+    }
+    .site-header.is-open { background: var(--wine-900); }
+    .site-header.is-open .nav { transform: none; opacity: 1; visibility: visible; }
+    .nav__cta { margin-left: 0; margin-top: 0.4rem; }
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  if (header) {
+    if (!header.classList.contains("is-solid")) {
+      const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+    const toggle = header.querySelector<HTMLButtonElement>(".nav-toggle");
+    toggle?.addEventListener("click", () => {
+      const open = header.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    header.querySelectorAll(".nav__link").forEach((link) =>
+      link.addEventListener("click", () => {
+        header.classList.remove("is-open");
+        toggle?.setAttribute("aria-expanded", "false");
+      })
+    );
+  }
+</script>

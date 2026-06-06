@@ -1,0 +1,126 @@
+---
+import { site, nav } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <p class="brand">Dogma</p>
+      <p class="footer-tag">{site.tagline}</p>
+    </div>
+
+    <div class="footer-col">
+      <h4 class="footer-h">Visit</h4>
+      <p>
+        {site.contact.address}<br />
+        {site.contact.postalCode} {site.contact.city}<br />
+        {site.contact.country}
+      </p>
+      <ul class="footer-hours">
+        {site.hours.map((h) => (
+          <li><span>{h.days}</span><span>{h.time}</span></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 class="footer-h">Contact</h4>
+      <p><a href={site.contact.phoneHref}>{site.contact.phone}</a></p>
+      {site.contact.email && (
+        <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+      )}
+      <a class="btn btn--cream footer-cta" href={site.booking.table}>Book a table</a>
+    </div>
+
+    <div class="footer-col">
+      <h4 class="footer-h">Explore</h4>
+      <ul class="footer-nav">
+        {nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {year} {site.name}. All rights reserved.</p>
+    <p>
+      Design by
+      <a href={site.credits.designerUrl} target="_blank" rel="noopener">{site.credits.designer}</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--wine-950);
+    color: var(--cream-50);
+    padding-top: clamp(3rem, 6vw, 5rem);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .footer-brand .brand {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .footer-tag {
+    margin-top: 0.8rem;
+    max-width: 28ch;
+    color: rgba(250, 245, 234, 0.72);
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: 1.35;
+  }
+  .footer-h {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 1rem;
+  }
+  .footer-col p { color: rgba(250, 245, 234, 0.82); }
+  .footer-col a:hover { color: var(--gold-300); }
+  .footer-hours {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .footer-hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: var(--step--1);
+    color: rgba(250, 245, 234, 0.82);
+    border-bottom: 1px solid rgba(250, 245, 234, 0.12);
+    padding-bottom: 0.4rem;
+  }
+  .footer-cta { margin-top: 1.3rem; }
+  .footer-nav { display: grid; gap: 0.6rem; }
+  .footer-nav a { color: rgba(250, 245, 234, 0.82); }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid rgba(250, 245, 234, 0.12);
+    font-size: var(--step--1);
+    color: rgba(250, 245, 234, 0.6);
+  }
+  .footer-bottom a { color: var(--gold-300); }
+
+  @media (max-width: 880px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>

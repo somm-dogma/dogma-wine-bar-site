@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Inner pages (no dark hero) use a solid header so the nav stays readable. */
+  headerSolid?: boolean;
+}
+
+const { title, description, headerSolid = false } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — Wine Bar in Porto`;
+const pageDesc = description ?? site.description;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#3e0f18" />
+    <title>{pageTitle}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Header solid={headerSolid} />
+    <main class:list={[{ "main--padded": headerSolid }]}>
+      <slot />
+    </main>
+    <Footer />
+    <style>
+      .main--padded { padding-top: var(--header-h); }
+    </style>
+  </body>
+</html>
