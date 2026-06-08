@@ -1,22 +1,21 @@
 ---
 import Base from "../layouts/Base.astro";
+import OrientalArch from "../components/OrientalArch.astro";
+import SunDecorator from "../components/SunDecorator.astro";
 import { site } from "../data/site";
 import { awards, sommelier, services, wineries, posts } from "../data/home";
 
-// Hero photo (Douro Valley). TODO: localise into /public before launch.
-const heroImg =
-  "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
-
-const fmtDate = (d: string) =>
-  new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+const heroImg = "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
+const fmtDate = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 ---
 
 <Base>
-  <!-- HERO -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- HERO SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`}></div>
 
-    <!-- Hero decorations -->
     <div class="hero__decoration hero__decoration--top-left">
       <span class="hero__label">SINCE {site.established}</span>
     </div>
@@ -24,125 +23,281 @@ const fmtDate = (d: string) =>
       <span class="hero__label">MEMBER OF<br/>STARWINELIST</span>
     </div>
 
-    <!-- Main content -->
     <div class="hero__content">
       <h1 class="hero__title">WINE BAR<br/>DOGMA</h1>
       <p class="hero__description">{site.tagline}</p>
     </div>
 
-    <!-- CTA Buttons -->
     <div class="hero__buttons">
       <a class="hero__btn hero__btn--left" href={site.booking.tasting}>book a tasting</a>
       <a class="hero__btn hero__btn--right" href={site.booking.table}>book a table</a>
     </div>
 
-    <!-- Scroll indicator -->
-    <a class="hero__scroll" href="#about" aria-label="Scroll to content">↓</a>
+    <a class="hero__scroll" href="#section-manifesto" aria-label="Scroll to content">↓</a>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section about" id="about">
-    <div class="container about__inner">
-      <p class="eyebrow">The house</p>
-      <h2 class="about__title">A wine paradise in the heart of Porto.</h2>
-      <p class="lead">
-        From a single idea in 2023, Dogma has become one of the city's most talked-about
-        wine bars — a place to slow down, taste widely, and let the terroir speak.
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- MANIFESTO SECTION: "DOGMA IS VASILY'S HOME & CREATIVE STUDIO" -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section class="section manifesto" id="section-manifesto">
+    <div class="container manifesto__inner">
+      <h2 class="manifesto__title">
+        DOGMA IS<br/>
+        <span class="manifesto__highlight">VASILY'S HOME</span><br/>
+        & CREATIVE STUDIO
+      </h2>
+
+      <p class="manifesto__description">
+        Discover the amazing world of wine at Dogma, a "wine paradise" located in the heart of Porto's historic center
       </p>
-    </div>
-  </section>
 
-  <!-- AWARDS -->
-  <section class="awards">
-    <div class="container awards__grid">
-      {awards.map((a) => <p class="awards__item">{a}</p>)}
-    </div>
-  </section>
-
-  <!-- SOMMELIER -->
-  <section class="section sommelier">
-    <div class="container sommelier__inner">
-      <div class="sommelier__media" aria-hidden="true"><span>&ldquo;</span></div>
-      <div class="sommelier__body">
-        <p class="eyebrow">The sommelier</p>
-        <blockquote class="sommelier__quote">{sommelier.quote}</blockquote>
-        <p class="sommelier__name">{sommelier.name}<span>{sommelier.role}</span></p>
-        <a class="btn btn--primary" href="/sommelier">Meet Vasilii</a>
+      <div class="manifesto__badges">
+        <OrientalArch
+          badge={true}
+          badgeText="STAR WINE LIST"
+          badgeYear="2024"
+          title="2024"
+        />
+        <OrientalArch
+          badge={true}
+          badgeText="STAR WINE LIST"
+          badgeYear="2025"
+          title="2025"
+        />
+        <OrientalArch
+          badge={true}
+          badgeText="STAR WINE LIST"
+          badgeYear="2026"
+          title="2026"
+        />
       </div>
     </div>
   </section>
 
-  <!-- SERVICES -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- PROUD SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section class="section proud">
+    <div class="container proud__inner">
+      <div class="proud__header">
+        <SunDecorator size="large" color="cream" />
+        <h2 class="proud__title">We are proud</h2>
+        <SunDecorator size="large" color="cream" />
+      </div>
+
+      <p class="proud__text">
+        In its short existence, Dogma has already achieved great success, made a name among top wine bars,
+        joined the wine community, and is talked about by wine connoisseurs.
+      </p>
+
+      <div class="proud__medals">
+        <div class="proud__medal">
+          <OrientalArch badge={true} badgeText="" badgeYear="">
+            <p class="proud__number">1</p>
+            <p class="proud__medal-text">member of the highly respected StarWineList in Portugal</p>
+          </OrientalArch>
+        </div>
+
+        <div class="proud__medal">
+          <OrientalArch badge={true} badgeText="" badgeYear="">
+            <p class="proud__number">6</p>
+            <p class="proud__medal-text">ranked among the World's top 6 winebars as a Startup</p>
+          </OrientalArch>
+        </div>
+
+        <div class="proud__medal">
+          <OrientalArch badge={true} badgeText="" badgeYear="">
+            <p class="proud__number">2</p>
+            <p class="proud__medal-text">twice nominated for "Wine experience" of the year by Great Wine Capitals</p>
+          </OrientalArch>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- AUTHOR'S QUOTE: VASILII -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section class="section author">
+    <div class="container author__inner">
+      <div class="author__content">
+        <div class="author__header">
+          <SunDecorator size="medium" color="cream" />
+          <p class="author__label">Author's quote</p>
+          <SunDecorator size="medium" color="cream" />
+        </div>
+
+        <blockquote class="author__quote">
+          Hello, I'm Vasilii, head sommelier and owner of Dogma.<br/>
+          I am the first Port Wine Master in Portugal and one of the country's top 3 sommeliers.<br/>
+          I host signature tastings in Porto.
+        </blockquote>
+
+        <p class="author__name">{sommelier.name}</p>
+        <p class="author__role">{sommelier.role}</p>
+
+        <a class="author__btn" href={site.booking.tasting}>book a tasting</a>
+      </div>
+
+      <div class="author__image">
+        <!-- Placeholder - would be Vasilii's photo -->
+        <div class="author__image-placeholder">
+          <p class="author__image-label">Vasilii's Portrait</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- CHECK IT OUT SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section class="section checkout">
+    <div class="container checkout__inner">
+      <h2 class="checkout__title">CHECK IT OUT</h2>
+
+      <div class="checkout__content">
+        <div class="checkout__circle">
+          <!-- This would be the circular image of the store -->
+          <div class="checkout__circle-placeholder">
+            <p>Store Image</p>
+          </div>
+        </div>
+
+        <div class="checkout__features">
+          <p class="checkout__feature">Personalized approach</p>
+          <p class="checkout__feature">Wine pairing</p>
+          <p class="checkout__feature">Portuguese wines</p>
+          <p class="checkout__feature">Port wines</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SERVICES SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
   <section class="section services" id="services">
-    <div class="container">
-      <header class="section-head center">
-        <p class="eyebrow">What we offer</p>
-        <h2>Our services</h2>
-      </header>
-      <div class="services__grid">
-        {services.map((s, i) => (
-          <a class="card" href={s.href}>
-            <span class="card__num">{String(i + 1).padStart(2, "0")}</span>
-            <h3 class="card__title">{s.title}</h3>
-            <p class="card__text">{s.text}</p>
-            <span class="card__arrow" aria-hidden="true">→</span>
-          </a>
-        ))}
+    <div class="container services__inner">
+      <div class="services__header">
+        <p class="services__label">Our services</p>
+      </div>
+
+      <div class="services__list">
+        <div class="service-item">
+          <p class="service__subtitle">CAREFUL SELECTION OF "THE BEST" OF PORTUGAL</p>
+          <h3 class="service__title">WINE TASTING</h3>
+        </div>
+
+        <div class="service-item">
+          <p class="service__subtitle">BEST SELECTION FROM MASTER OF PORT</p>
+          <h3 class="service__title">PORT WINE TASTING</h3>
+        </div>
+
+        <div class="service-item">
+          <p class="service__subtitle">AUTHENTIC TREASURES</p>
+          <h3 class="service__title">WINE BOXES</h3>
+        </div>
+
+        <div class="service-item">
+          <p class="service__subtitle">WHAT COULD BE BETTER?</p>
+          <h3 class="service__title">GIFT CARDS</h3>
+        </div>
+
+        <div class="service-item">
+          <p class="service__subtitle">AN UNFORGETTABLE EXPERIENCE</p>
+          <h3 class="service__title">WINE TOURS</h3>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- WINERIES -->
-  <section class="section wineries">
-    <div class="container">
-      <header class="section-head center">
-        <p class="eyebrow">Hand in hand with the makers</p>
-        <h2>We cooperate</h2>
-      </header>
-      <ul class="wineries__list">
-        {wineries.map((w) => (
-          <li>
-            <span class="wineries__name">{w.name}</span>
-            <span class="wineries__country">{w.country}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- BLOG -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- BLOG SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
   <section class="section blog" id="blog">
-    <div class="container">
-      <header class="section-head center">
-        <p class="eyebrow">Stories &amp; notes</p>
-        <h2>From our blog</h2>
-      </header>
+    <div class="container blog__inner">
+      <div class="blog__header">
+        <SunDecorator size="medium" color="cream" />
+        <h2 class="blog__title">Our blog</h2>
+        <SunDecorator size="medium" color="cream" />
+      </div>
+
       <div class="blog__grid">
-        {posts.map((p) => (
-          <article class="post">
-            <time class="post__date" datetime={p.date}>{fmtDate(p.date)}</time>
-            <h3 class="post__title">{p.title}</h3>
-            <p class="post__excerpt">{p.excerpt}</p>
-          </article>
+        {posts.map((post) => (
+          <div class="blog__post">
+            <OrientalArch badge={true} badgeText="">
+              <div class="blog__post-image-placeholder">
+                <p>{post.title}</p>
+              </div>
+            </OrientalArch>
+
+            <p class="blog__post-date">{fmtDate(post.date)}</p>
+            <h3 class="blog__post-title">{post.title}</h3>
+            <p class="blog__post-excerpt">{post.excerpt}</p>
+            <a class="blog__post-link" href="#">READ MORE</a>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container cta__inner">
-      <h2 class="cta__title">Want to learn about wine?</h2>
-      <p class="cta__text">
-        At Dogma you'll gain a wealth of experience in the flavours of wine and Port. Pull up a seat.
-      </p>
-      <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer__backdrop">
+      <h2 class="footer__logo">DOGMA</h2>
     </div>
-  </section>
+
+    <div class="container footer__content">
+      <div class="footer__col footer__col--dogma">
+        <h4 class="footer__heading">DOGMA</h4>
+        <p class="footer__tagline">{site.tagline}</p>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">SERVICES</h4>
+        <ul class="footer__list">
+          <li><a href="/menu">menu</a></li>
+          <li><a href={site.booking.tasting}>wine tastings</a></li>
+          <li><a href={site.booking.tasting}>port wine tastings</a></li>
+          <li><a href="/coming">wine boxes</a></li>
+          <li><a href="/coming">wine tours</a></li>
+          <li><a href="/coming">gift cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">COMPANY</h4>
+        <ul class="footer__list">
+          <li><a href="/#section-manifesto">about</a></li>
+          <li><a href="/sommelier">sommelier</a></li>
+          <li><a href="/#blog">blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">CONTACTS</h4>
+        <ul class="footer__list">
+          <li><a href="https://maps.google.com/?q={site.contact.address}">{site.contact.address}</a></li>
+          <li><a href={site.contact.phoneHref}>{site.contact.phone}</a></li>
+          <li><a href="/contacts">contact us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer__bottom">
+      <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+      <p>Design by <a href={site.credits.designerUrl} target="_blank" rel="noopener">{site.credits.designer}</a></p>
+      <p><a href="/privacy">Polite privacy</a></p>
+    </div>
+  </footer>
 </Base>
 
 <style>
+  /* ════════════════════════════════════════════════════════════════ */
   /* HERO */
+  /* ════════════════════════════════════════════════════════════════ */
   .hero {
     position: relative;
     height: 100vh;
@@ -161,7 +316,6 @@ const fmtDate = (d: string) =>
     z-index: -2;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
   }
 
   .hero::after {
@@ -171,13 +325,12 @@ const fmtDate = (d: string) =>
     z-index: -1;
     background: linear-gradient(
       to top,
-      rgba(43, 10, 17, 0.92) 0%,
-      rgba(43, 10, 17, 0.4) 40%,
-      rgba(43, 10, 17, 0.3) 100%
+      rgba(107, 15, 26, 0.92) 0%,
+      rgba(107, 15, 26, 0.4) 40%,
+      rgba(107, 15, 26, 0.3) 100%
     );
   }
 
-  /* Decorative labels - SINCE & MEMBER */
   .hero__decoration {
     position: absolute;
     z-index: 10;
@@ -204,12 +357,10 @@ const fmtDate = (d: string) =>
     line-height: 1.4;
   }
 
-  /* Main title - GIGANTIC */
   .hero__content {
     position: relative;
     z-index: 5;
     text-align: center;
-    max-width: 95%;
   }
 
   .hero__title {
@@ -235,7 +386,6 @@ const fmtDate = (d: string) =>
     line-height: 1.6;
   }
 
-  /* CTA Buttons */
   .hero__buttons {
     position: absolute;
     z-index: 10;
@@ -269,15 +419,6 @@ const fmtDate = (d: string) =>
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
   }
 
-  .hero__btn--left {
-    align-self: flex-start;
-  }
-
-  .hero__btn--right {
-    align-self: flex-end;
-  }
-
-  /* Scroll indicator */
   .hero__scroll {
     position: absolute;
     bottom: clamp(1rem, 3vh, 2rem);
@@ -295,161 +436,568 @@ const fmtDate = (d: string) =>
     50% { transform: translateX(-50%) translateY(12px); }
   }
 
-  /* ABOUT */
-  .about__inner { max-width: 840px; }
-  .about__title { font-size: var(--step-3); margin: 0.4em 0 0.5em; text-wrap: balance; }
-
-  /* AWARDS */
-  .awards { background: var(--wine-900); color: var(--cream-50); padding-block: clamp(2.5rem, 5vw, 4rem); }
-  .awards__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 1.4rem 2.5rem;
+  /* ════════════════════════════════════════════════════════════════ */
+  /* MANIFESTO SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .manifesto {
+    background: var(--wine-900);
+    color: var(--cream-50);
+    padding-block: clamp(3rem, 8vw, 6rem);
   }
-  .awards__item {
+
+  .manifesto__inner {
+    text-align: center;
+    max-width: 1000px;
+  }
+
+  .manifesto__title {
     font-family: var(--font-display);
-    font-size: var(--step-1);
-    line-height: 1.25;
-    position: relative;
-    padding-left: 1.3rem;
-  }
-  .awards__item::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.62em;
-    width: 0.5rem;
-    height: 0.5rem;
-    background: var(--gold);
-    border-radius: 50%;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  /* SOMMELIER */
-  .sommelier__inner {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
+  .manifesto__highlight {
+    color: var(--gold-300);
   }
-  .sommelier__media {
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius);
-    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
+
+  .manifesto__description {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    max-width: 60ch;
+    margin: 0 auto clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.7;
+    color: rgba(250, 245, 234, 0.85);
+  }
+
+  .manifesto__badges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
+    justify-items: center;
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* PROUD SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .proud {
+    background: var(--wine-900);
+    color: var(--cream-50);
+    padding-block: clamp(4rem, 8vw, 6rem);
+  }
+
+  .proud__inner {
+    text-align: center;
+    max-width: 1200px;
+  }
+
+  .proud__header {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow);
+    gap: clamp(1rem, 2vw, 2rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
-  .sommelier__media span {
+
+  .proud__title {
     font-family: var(--font-display);
-    font-size: 13rem;
-    line-height: 0;
-    margin-top: 3.5rem;
-    color: var(--gold-300);
-    opacity: 0.85;
-  }
-  .sommelier__quote {
-    font-family: var(--font-display);
-    font-size: var(--step-2);
-    line-height: 1.3;
-    font-style: italic;
-    margin: 0.4rem 0 1.2rem;
-    text-wrap: balance;
-  }
-  .sommelier__name {
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 600;
-    letter-spacing: 0.03em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    margin-bottom: 1.6rem;
-  }
-  .sommelier__name span {
-    font-weight: 400;
-    color: var(--ink-soft);
-    font-size: var(--step--1);
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
-  @media (max-width: 760px) {
-    .sommelier__inner { grid-template-columns: 1fr; }
-    .sommelier__media { display: none; }
+    margin: 0;
   }
 
-  /* SECTION HEADERS */
-  .section-head { margin-bottom: clamp(2rem, 4vw, 3.2rem); }
-  .section-head h2 { font-size: var(--step-3); margin-top: 0.15em; }
+  .proud__text {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    max-width: 80ch;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.6;
+    color: rgba(250, 245, 234, 0.85);
+    font-style: italic;
+  }
 
-  /* SERVICES */
-  .services__grid {
+  .proud__medals {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem);
+    justify-items: center;
   }
-  .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    padding: 2rem 1.8rem 2.1rem;
-    min-height: 218px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
-  .card__num { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); letter-spacing: 0.1em; }
-  .card__title { font-size: var(--step-1); }
-  .card__text { color: var(--ink-soft); flex: 1; }
-  .card__arrow { color: var(--wine-800); font-size: 1.2rem; transition: transform 0.2s ease; }
-  .card:hover .card__arrow { transform: translateX(5px); }
 
-  /* WINERIES */
-  .wineries { background: var(--cream-50); }
-  .wineries__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    column-gap: 3rem;
-    border-top: 1px solid var(--line);
+  .proud__number {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 600;
+    margin: 0;
+    color: var(--cream-50);
   }
-  .wineries__list li {
+
+  .proud__medal-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+    color: rgba(250, 245, 234, 0.8);
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* AUTHOR SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .author {
+    background: var(--wine-900);
+    color: var(--cream-50);
+    padding-block: clamp(4rem, 8vw, 6rem);
+  }
+
+  .author__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .author__header {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
-    padding: 1.1rem 0.3rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .wineries__name { font-family: var(--font-display); font-size: var(--step-1); }
-  .wineries__country {
-    font-size: var(--step--1);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
+    margin-bottom: 1.5rem;
   }
 
-  /* BLOG */
+  .author__label {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-300);
+  }
+
+  .author__quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    line-height: 1.5;
+    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem) 0;
+    color: var(--cream-50);
+  }
+
+  .author__name {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+    color: var(--cream-50);
+  }
+
+  .author__role {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-300);
+    margin: 0 0 clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .author__btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border: 2px solid var(--cream-50);
+    color: var(--cream-50);
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    text-transform: lowercase;
+    transition: all 0.3s ease;
+  }
+
+  .author__btn:hover {
+    background: var(--cream-50);
+    color: var(--wine-900);
+  }
+
+  .author__image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: linear-gradient(135deg, #7a1a2a, #5a0f18);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .author__image-placeholder {
+    text-align: center;
+    color: rgba(250, 245, 234, 0.5);
+  }
+
+  @media (max-width: 880px) {
+    .author__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* CHECKOUT SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .checkout {
+    background: var(--cream-50);
+    padding-block: clamp(4rem, 8vw, 6rem);
+  }
+
+  .checkout__inner {
+    text-align: center;
+  }
+
+  .checkout__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    color: var(--wine-900);
+    font-weight: 600;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .checkout__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .checkout__circle {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+  }
+
+  .checkout__circle-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f4ecdb, #fff8e7);
+    border: 8px solid var(--wine-900);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wine-900);
+    font-size: 1.2rem;
+  }
+
+  .checkout__features {
+    text-align: left;
+  }
+
+  .checkout__feature {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--wine-900);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 880px) {
+    .checkout__content {
+      grid-template-columns: 1fr;
+    }
+
+    .checkout__features {
+      text-align: center;
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* SERVICES SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .services {
+    background: var(--wine-900);
+    color: var(--cream-50);
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .services__inner {
+    max-width: 1000px;
+  }
+
+  .services__header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .services__label {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold-300);
+  }
+
+  .services__list {
+    display: grid;
+    gap: 0;
+  }
+
+  .service-item {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-bottom: 1px solid rgba(250, 245, 234, 0.2);
+    text-align: center;
+  }
+
+  .service-item:last-child {
+    border-bottom: none;
+  }
+
+  .service__subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-300);
+    margin: 0 0 0.8rem;
+  }
+
+  .service__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 600;
+    margin: 0;
+    color: var(--cream-50);
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* BLOG SECTION */
+  /* ════════════════════════════════════════════════════════════════ */
+  .blog {
+    background: var(--wine-900);
+    color: var(--cream-50);
+    padding-block: clamp(4rem, 8vw, 6rem);
+  }
+
+  .blog__inner {
+    max-width: 1200px;
+  }
+
+  .blog__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 2vw, 2rem);
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    text-align: center;
+  }
+
+  .blog__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin: 0;
+  }
+
   .blog__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
   }
-  .post {
-    padding: 1.8rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .post:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-  .post__date { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
-  .post__title { font-size: var(--step-1); margin: 0.5rem 0 0.6rem; line-height: 1.15; }
-  .post__excerpt { color: var(--ink-soft); }
 
-  /* CTA */
-  .cta { background: var(--wine-900); color: var(--cream-50); }
-  .cta__inner { text-align: center; max-width: 720px; margin-inline: auto; padding-block: clamp(4rem, 8vw, 7rem); }
-  .cta__title { font-size: var(--step-3); }
-  .cta__text { font-size: var(--step-1); color: rgba(250, 245, 234, 0.82); margin: 1rem 0 2rem; }
+  .blog__post {
+    text-align: center;
+  }
+
+  .blog__post-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(250, 245, 234, 0.5);
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+
+  .blog__post-date {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-300);
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog__post-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 600;
+    margin: 0 0 0.8rem;
+    line-height: 1.3;
+    color: var(--cream-50);
+  }
+
+  .blog__post-excerpt {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.3vw, 0.95rem);
+    color: rgba(250, 245, 234, 0.75);
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .blog__post-link {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+    color: var(--cream-50);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+
+  .blog__post-link:hover {
+    color: var(--gold-300);
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* FOOTER */
+  /* ════════════════════════════════════════════════════════════════ */
+  .site-footer {
+    background: var(--wine-950);
+    color: var(--cream-50);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .footer__logo {
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 25vw, 15rem);
+    font-weight: 600;
+    margin: 0;
+    color: rgba(255, 248, 231, 0.08);
+    line-height: 1;
+    letter-spacing: 0.1em;
+  }
+
+  .footer__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer__col--dogma {
+    padding-right: clamp(1rem, 2vw, 2rem);
+  }
+
+  .footer__heading {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold-300);
+    margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+    font-weight: 600;
+  }
+
+  .footer__tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    line-height: 1.4;
+    color: rgba(250, 245, 234, 0.75);
+    margin: 0;
+  }
+
+  .footer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer__list a {
+    color: rgba(250, 245, 234, 0.75);
+    text-decoration: none;
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+    transition: color 0.3s ease;
+  }
+
+  .footer__list a:hover {
+    color: var(--gold-300);
+  }
+
+  .footer__bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 1px solid rgba(250, 245, 234, 0.1);
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    color: rgba(250, 245, 234, 0.5);
+  }
+
+  .footer__bottom a {
+    color: var(--gold-300);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer__bottom a:hover {
+    color: var(--cream-50);
+  }
+
+  @media (max-width: 880px) {
+    .footer__content {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__col--dogma {
+      grid-column: 1 / -1;
+      padding-right: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer__content {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__backdrop {
+      display: none;
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════ */
+  /* GENERAL SECTION STYLES */
+  /* ════════════════════════════════════════════════════════════════ */
+  .section {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .container {
+    max-width: var(--container);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
 </style>

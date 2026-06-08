@@ -1,0 +1,455 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+import { awards, sommelier, services, wineries, posts } from "../data/home";
+
+// Hero photo (Douro Valley). TODO: localise into /public before launch.
+const heroImg =
+  "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
+
+const fmtDate = (d: string) =>
+  new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" style={`background-image:url('${heroImg}')`}></div>
+
+    <!-- Hero decorations -->
+    <div class="hero__decoration hero__decoration--top-left">
+      <span class="hero__label">SINCE {site.established}</span>
+    </div>
+    <div class="hero__decoration hero__decoration--top-right">
+      <span class="hero__label">MEMBER OF<br/>STARWINELIST</span>
+    </div>
+
+    <!-- Main content -->
+    <div class="hero__content">
+      <h1 class="hero__title">WINE BAR<br/>DOGMA</h1>
+      <p class="hero__description">{site.tagline}</p>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="hero__buttons">
+      <a class="hero__btn hero__btn--left" href={site.booking.tasting}>book a tasting</a>
+      <a class="hero__btn hero__btn--right" href={site.booking.table}>book a table</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <a class="hero__scroll" href="#about" aria-label="Scroll to content">↓</a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="container about__inner">
+      <p class="eyebrow">The house</p>
+      <h2 class="about__title">A wine paradise in the heart of Porto.</h2>
+      <p class="lead">
+        From a single idea in 2023, Dogma has become one of the city's most talked-about
+        wine bars — a place to slow down, taste widely, and let the terroir speak.
+      </p>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section class="awards">
+    <div class="container awards__grid">
+      {awards.map((a) => <p class="awards__item">{a}</p>)}
+    </div>
+  </section>
+
+  <!-- SOMMELIER -->
+  <section class="section sommelier">
+    <div class="container sommelier__inner">
+      <div class="sommelier__media" aria-hidden="true"><span>&ldquo;</span></div>
+      <div class="sommelier__body">
+        <p class="eyebrow">The sommelier</p>
+        <blockquote class="sommelier__quote">{sommelier.quote}</blockquote>
+        <p class="sommelier__name">{sommelier.name}<span>{sommelier.role}</span></p>
+        <a class="btn btn--primary" href="/sommelier">Meet Vasilii</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services" id="services">
+    <div class="container">
+      <header class="section-head center">
+        <p class="eyebrow">What we offer</p>
+        <h2>Our services</h2>
+      </header>
+      <div class="services__grid">
+        {services.map((s, i) => (
+          <a class="card" href={s.href}>
+            <span class="card__num">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="card__title">{s.title}</h3>
+            <p class="card__text">{s.text}</p>
+            <span class="card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WINERIES -->
+  <section class="section wineries">
+    <div class="container">
+      <header class="section-head center">
+        <p class="eyebrow">Hand in hand with the makers</p>
+        <h2>We cooperate</h2>
+      </header>
+      <ul class="wineries__list">
+        {wineries.map((w) => (
+          <li>
+            <span class="wineries__name">{w.name}</span>
+            <span class="wineries__country">{w.country}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section class="section blog" id="blog">
+    <div class="container">
+      <header class="section-head center">
+        <p class="eyebrow">Stories &amp; notes</p>
+        <h2>From our blog</h2>
+      </header>
+      <div class="blog__grid">
+        {posts.map((p) => (
+          <article class="post">
+            <time class="post__date" datetime={p.date}>{fmtDate(p.date)}</time>
+            <h3 class="post__title">{p.title}</h3>
+            <p class="post__excerpt">{p.excerpt}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container cta__inner">
+      <h2 class="cta__title">Want to learn about wine?</h2>
+      <p class="cta__text">
+        At Dogma you'll gain a wealth of experience in the flavours of wine and Port. Pull up a seat.
+      </p>
+      <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--cream-50);
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to top,
+      rgba(43, 10, 17, 0.92) 0%,
+      rgba(43, 10, 17, 0.4) 40%,
+      rgba(43, 10, 17, 0.3) 100%
+    );
+  }
+
+  /* Decorative labels - SINCE & MEMBER */
+  .hero__decoration {
+    position: absolute;
+    z-index: 10;
+  }
+
+  .hero__decoration--top-left {
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .hero__decoration--top-right {
+    top: 2rem;
+    right: 2rem;
+    text-align: right;
+  }
+
+  .hero__label {
+    font-family: var(--font-body);
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250, 245, 234, 0.75);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Main title - GIGANTIC */
+  .hero__content {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    max-width: 95%;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: 0.95;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero__description {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    margin-top: clamp(1.5rem, 3vh, 2.5rem);
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(250, 245, 234, 0.85);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* CTA Buttons */
+  .hero__buttons {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    bottom: clamp(2rem, 8vh, 4rem);
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.9rem, 1.5vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--cream-50);
+    color: var(--wine-900);
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 50px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero__btn--left {
+    align-self: flex-start;
+  }
+
+  .hero__btn--right {
+    align-self: flex-end;
+  }
+
+  /* Scroll indicator */
+  .hero__scroll {
+    position: absolute;
+    bottom: clamp(1rem, 3vh, 2rem);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+    color: rgba(250, 245, 234, 0.6);
+    text-decoration: none;
+    opacity: 0.8;
+    animation: bob 2.5s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(12px); }
+  }
+
+  /* ABOUT */
+  .about__inner { max-width: 840px; }
+  .about__title { font-size: var(--step-3); margin: 0.4em 0 0.5em; text-wrap: balance; }
+
+  /* AWARDS */
+  .awards { background: var(--wine-900); color: var(--cream-50); padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .awards__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.4rem 2.5rem;
+  }
+  .awards__item {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: 1.25;
+    position: relative;
+    padding-left: 1.3rem;
+  }
+  .awards__item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* SOMMELIER */
+  .sommelier__inner {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .sommelier__media {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius);
+    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+  }
+  .sommelier__media span {
+    font-family: var(--font-display);
+    font-size: 13rem;
+    line-height: 0;
+    margin-top: 3.5rem;
+    color: var(--gold-300);
+    opacity: 0.85;
+  }
+  .sommelier__quote {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.3;
+    font-style: italic;
+    margin: 0.4rem 0 1.2rem;
+    text-wrap: balance;
+  }
+  .sommelier__name {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 1.6rem;
+  }
+  .sommelier__name span {
+    font-weight: 400;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 760px) {
+    .sommelier__inner { grid-template-columns: 1fr; }
+    .sommelier__media { display: none; }
+  }
+
+  /* SECTION HEADERS */
+  .section-head { margin-bottom: clamp(2rem, 4vw, 3.2rem); }
+  .section-head h2 { font-size: var(--step-3); margin-top: 0.15em; }
+
+  /* SERVICES */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 2rem 1.8rem 2.1rem;
+    min-height: 218px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
+  .card__num { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); letter-spacing: 0.1em; }
+  .card__title { font-size: var(--step-1); }
+  .card__text { color: var(--ink-soft); flex: 1; }
+  .card__arrow { color: var(--wine-800); font-size: 1.2rem; transition: transform 0.2s ease; }
+  .card:hover .card__arrow { transform: translateX(5px); }
+
+  /* WINERIES */
+  .wineries { background: var(--cream-50); }
+  .wineries__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    column-gap: 3rem;
+    border-top: 1px solid var(--line);
+  }
+  .wineries__list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.1rem 0.3rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .wineries__name { font-family: var(--font-display); font-size: var(--step-1); }
+  .wineries__country {
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* BLOG */
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.6rem;
+  }
+  .post {
+    padding: 1.8rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .post:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .post__date { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  .post__title { font-size: var(--step-1); margin: 0.5rem 0 0.6rem; line-height: 1.15; }
+  .post__excerpt { color: var(--ink-soft); }
+
+  /* CTA */
+  .cta { background: var(--wine-900); color: var(--cream-50); }
+  .cta__inner { text-align: center; max-width: 720px; margin-inline: auto; padding-block: clamp(4rem, 8vw, 7rem); }
+  .cta__title { font-size: var(--step-3); }
+  .cta__text { font-size: var(--step-1); color: rgba(250, 245, 234, 0.82); margin: 1rem 0 2rem; }
+</style>
