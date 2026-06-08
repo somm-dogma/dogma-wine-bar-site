@@ -5,19 +5,19 @@
    ============================================================ */
 
 :root {
-  /* Palette */
-  --wine-950: #2b0a11;
-  --wine-900: #3e0f18;
-  --wine-800: #571922;
-  --wine-700: #73242f;
-  --cream:    #f4ecdb;
-  --cream-50: #faf5ea;
-  --paper:    #fffdf8;
-  --ink:      #241317;
-  --ink-soft: #6a565a;
-  --gold:     #b58a4b;
-  --gold-300: #cdab74;
-  --line:     rgba(36, 19, 23, 0.14);
+  /* Palette - Matched to original Tilda design */
+  --wine-950: #4a0711;   /* Darkest burgundy */
+  --wine-900: #6b0f1a;   /* Primary burgundy (from Tilda) */
+  --wine-800: #881220;   /* Dark burgundy */
+  --wine-700: #a20a24;   /* Medium burgundy */
+  --cream:    #fff8e7;   /* Primary cream (from Tilda) */
+  --cream-50: #fffbf0;   /* Light cream */
+  --paper:    #fffdf8;   /* Off-white */
+  --ink:      #1d1d1d;   /* Dark ink */
+  --ink-soft: #6a565a;   /* Soft gray */
+  --gold:     #c9a961;   /* Warm gold */
+  --gold-300: #e6c794;   /* Light gold */
+  --line:     rgba(107, 15, 26, 0.12);
 
   /* Type */
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;

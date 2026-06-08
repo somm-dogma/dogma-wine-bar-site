@@ -15,15 +15,28 @@ const fmtDate = (d: string) =>
   <!-- HERO -->
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`}></div>
-    <div class="container hero__content">
-      <p class="eyebrow">Wine Bar · Porto · Since {site.established}</p>
-      <h1 class="hero__title">{site.tagline}</h1>
-      <p class="hero__sub">{site.description}</p>
-      <div class="hero__cta">
-        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
-        <a class="btn btn--ghost" href={site.booking.table}>Book a table</a>
-      </div>
+
+    <!-- Hero decorations -->
+    <div class="hero__decoration hero__decoration--top-left">
+      <span class="hero__label">SINCE {site.established}</span>
     </div>
+    <div class="hero__decoration hero__decoration--top-right">
+      <span class="hero__label">MEMBER OF<br/>STARWINELIST</span>
+    </div>
+
+    <!-- Main content -->
+    <div class="hero__content">
+      <h1 class="hero__title">WINE BAR<br/>DOGMA</h1>
+      <p class="hero__description">{site.tagline}</p>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="hero__buttons">
+      <a class="hero__btn hero__btn--left" href={site.booking.tasting}>book a tasting</a>
+      <a class="hero__btn hero__btn--right" href={site.booking.table}>book a table</a>
+    </div>
+
+    <!-- Scroll indicator -->
     <a class="hero__scroll" href="#about" aria-label="Scroll to content">↓</a>
   </section>
 
@@ -132,21 +145,25 @@ const fmtDate = (d: string) =>
   /* HERO */
   .hero {
     position: relative;
-    min-height: 100svh;
+    height: 100vh;
+    width: 100%;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: var(--cream-50);
-    padding-block: clamp(8rem, 16vh, 12rem) clamp(3rem, 9vh, 6rem);
     overflow: hidden;
   }
+
   .hero__bg {
     position: absolute;
     inset: 0;
     z-index: -2;
     background-size: cover;
     background-position: center;
-    transform: scale(1.04);
+    background-repeat: no-repeat;
   }
+
   .hero::after {
     content: "";
     position: absolute;
@@ -154,37 +171,128 @@ const fmtDate = (d: string) =>
     z-index: -1;
     background: linear-gradient(
       to top,
-      rgba(43, 10, 17, 0.88) 0%,
-      rgba(43, 10, 17, 0.32) 48%,
-      rgba(43, 10, 17, 0.55) 100%
+      rgba(43, 10, 17, 0.92) 0%,
+      rgba(43, 10, 17, 0.4) 40%,
+      rgba(43, 10, 17, 0.3) 100%
     );
   }
-  .hero__content { max-width: 900px; }
-  .hero .eyebrow { color: var(--gold-300); }
+
+  /* Decorative labels - SINCE & MEMBER */
+  .hero__decoration {
+    position: absolute;
+    z-index: 10;
+  }
+
+  .hero__decoration--top-left {
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .hero__decoration--top-right {
+    top: 2rem;
+    right: 2rem;
+    text-align: right;
+  }
+
+  .hero__label {
+    font-family: var(--font-body);
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250, 245, 234, 0.75);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Main title - GIGANTIC */
+  .hero__content {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    max-width: 95%;
+  }
+
   .hero__title {
-    font-size: var(--step-4);
-    margin-block: 0.35em 0.45em;
-    max-width: 18ch;
-    text-wrap: balance;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: 0.95;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
   }
-  .hero__sub {
-    font-size: var(--step-1);
-    max-width: 54ch;
-    color: rgba(250, 245, 234, 0.88);
+
+  .hero__description {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    margin-top: clamp(1.5rem, 3vh, 2.5rem);
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(250, 245, 234, 0.85);
+    font-weight: 300;
+    line-height: 1.6;
   }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.1rem; }
+
+  /* CTA Buttons */
+  .hero__buttons {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    bottom: clamp(2rem, 8vh, 4rem);
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.9rem, 1.5vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--cream-50);
+    color: var(--wine-900);
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 50px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero__btn--left {
+    align-self: flex-start;
+  }
+
+  .hero__btn--right {
+    align-self: flex-end;
+  }
+
+  /* Scroll indicator */
   .hero__scroll {
     position: absolute;
-    bottom: 1.5rem;
+    bottom: clamp(1rem, 3vh, 2rem);
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.4rem;
-    opacity: 0.7;
-    animation: bob 2.2s ease-in-out infinite;
+    font-size: 1.8rem;
+    color: rgba(250, 245, 234, 0.6);
+    text-decoration: none;
+    opacity: 0.8;
+    animation: bob 2.5s ease-in-out infinite;
   }
+
   @keyframes bob {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 8px); }
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(12px); }
   }
 
   /* ABOUT */
