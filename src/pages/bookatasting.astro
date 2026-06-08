@@ -1,0 +1,297 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Book a Tasting" description="Reserve your wine tasting experience at Dogma with Portugal's first Master of Port Wine." headerSolid>
+  <PageHeader
+    title="Wine Tasting Experience"
+    subtitle="Guided by Vasilii, Portugal's first Master of Port Wine"
+  />
+
+  <section class="section tasting">
+    <div class="container tasting__inner">
+      <div class="tasting__intro">
+        <h2>Discover the World of Wine</h2>
+        <p class="lead">
+          Our tasting experiences are tailored to your interests and level of expertise.
+          Whether you're exploring Portuguese wines for the first time or seeking rare Port wines,
+          we'll guide you through a curated selection paired with insights into terroir, production,
+          and the stories behind each bottle.
+        </p>
+      </div>
+
+      <div class="tasting__options">
+        <div class="tasting-card">
+          <h3>Portuguese Wine Tasting</h3>
+          <p class="price">€45 per person</p>
+          <p class="duration">90 minutes</p>
+          <ul>
+            <li>5–6 carefully selected Portuguese wines</li>
+            <li>Expert guidance from our sommelier team</li>
+            <li>Learn about Portuguese terroirs and winemaking</li>
+            <li>Complimentary water and light snacks</li>
+          </ul>
+          <a class="btn btn--primary" href={site.booking.tasting} target="_blank" rel="noopener">Reserve now</a>
+        </div>
+
+        <div class="tasting-card">
+          <h3>Port Wine Master Class</h3>
+          <p class="price">€65 per person</p>
+          <p class="duration">120 minutes</p>
+          <ul>
+            <li>6–8 premium Port wines (vintage, tawny, white)</li>
+            <li>Guided by a Master of Port Wine</li>
+            <li>Deep dive into Port production and aging</li>
+            <li>Exclusive access to rare selections</li>
+            <li>Complimentary snacks and accompaniments</li>
+          </ul>
+          <a class="btn btn--primary" href={site.booking.tasting} target="_blank" rel="noopener">Reserve now</a>
+        </div>
+
+        <div class="tasting-card">
+          <h3>Private Group Tasting</h3>
+          <p class="price">€55 per person (min. 4 people)</p>
+          <p class="duration">Customizable</p>
+          <ul>
+            <li>Tailored selection based on your group's interests</li>
+            <li>Private tasting room experience</li>
+            <li>Extended time for questions and exploration</li>
+            <li>Food pairings available (additional cost)</li>
+            <li>Perfect for celebrations or team events</li>
+          </ul>
+          <a class="btn btn--primary" href={site.booking.tasting} target="_blank" rel="noopener">Reserve now</a>
+        </div>
+      </div>
+
+      <div class="tasting__info">
+        <h3>Before You Visit</h3>
+        <div class="info-grid">
+          <div>
+            <h4>📍 Location</h4>
+            <p>{site.contact.address}<br />{site.contact.postalCode} {site.contact.city}</p>
+          </div>
+          <div>
+            <h4>⏰ Hours</h4>
+            <p>Monday–Saturday: 4:00 PM – 10:00 PM<br />Sunday: Closed</p>
+          </div>
+          <div>
+            <h4>📞 Contact</h4>
+            <p><a href={site.contact.phoneHref}>{site.contact.phone}</a><br /><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+          </div>
+          <div>
+            <h4>✨ Group Events</h4>
+            <p>Corporate tastings, celebrations, and private events available. Contact us for details.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tasting__faq">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-item">
+          <h4>What should I wear?</h4>
+          <p>Dress comfortably; there's no dress code. We recommend avoiding strong perfumes or colognes.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do I need wine experience?</h4>
+          <p>No! Our tastings are designed for all levels, from curious beginners to seasoned enthusiasts.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I bring guests who don't drink?</h4>
+          <p>Absolutely. We offer non-alcoholic alternatives and welcome all guests regardless of whether they taste.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I book?</h4>
+          <p>Click "Reserve now" on any tasting option, or contact us directly at {site.contact.email}.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I buy wine after tasting?</h4>
+          <p>Yes! We offer bottles from our tastings for take-home. Pricing available upon request.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What's your cancellation policy?</h4>
+          <p>Free cancellation up to 48 hours before your reservation. Contact us for details.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tasting {
+    background: var(--cream-50);
+  }
+
+  .tasting__inner {
+    max-width: 1000px;
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .tasting__intro h2 {
+    font-size: var(--step-3);
+    margin-bottom: 1.2rem;
+  }
+
+  .tasting__intro p.lead {
+    font-size: var(--step-1);
+    color: var(--ink);
+    max-width: 70ch;
+  }
+
+  .tasting__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .tasting-card {
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tasting-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
+
+  .tasting-card h3 {
+    font-size: var(--step-1);
+    color: var(--wine-900);
+  }
+
+  .tasting-card .price {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .tasting-card .duration {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .tasting-card ul {
+    list-style: none;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tasting-card li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  .tasting-card li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+  }
+
+  .tasting-card .btn {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .tasting__info {
+    padding: 2.5rem;
+    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
+    color: var(--cream-50);
+    border-radius: var(--radius);
+  }
+
+  .tasting__info h3 {
+    font-size: var(--step-2);
+    margin-bottom: 2rem;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .info-grid h4 {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    margin-bottom: 0.6rem;
+    color: var(--gold-300);
+  }
+
+  .info-grid p {
+    color: rgba(250, 245, 234, 0.88);
+    font-size: var(--step--1);
+    line-height: 1.6;
+  }
+
+  .info-grid a {
+    color: var(--gold-300);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .info-grid a:hover {
+    opacity: 0.8;
+  }
+
+  .tasting__faq {
+    max-width: 800px;
+  }
+
+  .tasting__faq h3 {
+    font-size: var(--step-2);
+    margin-bottom: 2rem;
+  }
+
+  .faq-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .faq-item h4 {
+    font-size: var(--step-0);
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  .faq-item p {
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 760px) {
+    .tasting__options {
+      grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

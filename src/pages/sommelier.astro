@@ -1,0 +1,126 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { sommelier } from "../data/home";
+import { site } from "../data/site";
+---
+
+<Base title="Sommelier" description="Meet Vasilii Grebencea, owner and Portugal's first Master of Port Wine." headerSolid>
+  <PageHeader title="Vasilii Grebencea" subtitle="Owner & Head Sommelier" />
+
+  <section class="section sommelier-page">
+    <div class="container sommelier-page__inner">
+      <div class="sommelier-page__bio">
+        <h2>A Master of Port Wine</h2>
+        <p class="lead">
+          Vasilii is Portugal's first Master of Port Wine and one of the country's top three sommeliers.
+          With decades of experience in the wine industry, he has built Dogma into a destination for
+          wine lovers seeking authentic experiences and rare finds.
+        </p>
+        <p>
+          His philosophy is simple: wine should be accessible, educational, and above all, enjoyable.
+          At Dogma, every tasting is a conversation — an opportunity to discover new terroirs,
+          understand production methods, and connect with the stories behind the bottles.
+        </p>
+      </div>
+
+      <div class="sommelier-page__highlights">
+        <div class="highlight">
+          <h3>Master of Port Wine</h3>
+          <p>First and only Master of Port Wine in Portugal, a prestigious certification awarded by the Institute of Port Wine.</p>
+        </div>
+        <div class="highlight">
+          <h3>Top 3 Sommelier</h3>
+          <p>Among Portugal's top three sommeliers, recognized for expertise, passion, and commitment to wine education.</p>
+        </div>
+        <div class="highlight">
+          <h3>Award-Winning Venue</h3>
+          <p>Built Dogma into one of the world's top 6 wine bars as a startup, featured in international wine guides.</p>
+        </div>
+      </div>
+
+      <div class="sommelier-page__cta">
+        <h3>Experience a Tasting</h3>
+        <p>Join Vasilii for a guided tasting experience tailored to your preferences and discovery goals.</p>
+        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sommelier-page {
+    background: var(--cream-50);
+  }
+
+  .sommelier-page__inner {
+    max-width: 840px;
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .sommelier-page__bio h2 {
+    font-size: var(--step-3);
+    margin-bottom: 1.2rem;
+  }
+
+  .sommelier-page__bio p {
+    margin-bottom: 1rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .sommelier-page__bio p.lead {
+    color: var(--ink);
+    font-size: var(--step-1);
+    margin-bottom: 1.6rem;
+  }
+
+  .sommelier-page__highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.6rem;
+    padding: clamp(2rem, 4vw, 3rem);
+    background: var(--paper);
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+
+  .highlight h3 {
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+  }
+
+  .highlight p {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .sommelier-page__cta {
+    text-align: center;
+    padding: clamp(2.5rem, 5vw, 4rem);
+    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
+    color: var(--cream-50);
+    border-radius: var(--radius);
+  }
+
+  .sommelier-page__cta h3 {
+    font-size: var(--step-2);
+    margin-bottom: 0.8rem;
+  }
+
+  .sommelier-page__cta p {
+    max-width: 60ch;
+    margin: 0 auto 1.6rem;
+    color: rgba(250, 245, 234, 0.88);
+    font-size: var(--step-0);
+  }
+
+  @media (max-width: 760px) {
+    .sommelier-page__highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

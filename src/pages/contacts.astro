@@ -1,0 +1,248 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Contact Us" description="Get in touch with Dogma Wine Bar in Porto. Visit us or send a message." headerSolid>
+  <PageHeader title="Get In Touch" subtitle="We'd love to hear from you" />
+
+  <section class="section contacts">
+    <div class="container contacts__inner">
+      <div class="contacts__content">
+        <div class="contacts__info">
+          <div class="contact-block">
+            <h3>📍 Visit Us</h3>
+            <p>
+              {site.contact.address}<br />
+              {site.contact.postalCode} {site.contact.city}, {site.contact.country}
+            </p>
+            <a href="https://maps.google.com/?q=Rua+dos+Caldeireiros+238+Porto" target="_blank" rel="noopener" class="link-primary">
+              View on Google Maps →
+            </a>
+          </div>
+
+          <div class="contact-block">
+            <h3>📞 Call Us</h3>
+            <p><a href={site.contact.phoneHref}>{site.contact.phone}</a></p>
+            <p class="hint">Monday–Saturday: 4:00 PM – 10:00 PM</p>
+          </div>
+
+          <div class="contact-block">
+            <h3>✉️ Email</h3>
+            <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+            <p class="hint">We typically reply within 24 hours</p>
+          </div>
+
+          <div class="contact-block">
+            <h3>📱 Follow Us</h3>
+            {site.social.instagram && (
+              <p>
+                <a href={site.social.instagram} target="_blank" rel="noopener">
+                  {site.social.instagramHandle}
+                </a>
+              </p>
+            )}
+            <p class="hint">Share your Dogma moments with us</p>
+          </div>
+        </div>
+
+        <div class="contacts__form">
+          <h3>Send us a message</h3>
+          <form name="contact" method="POST" netlify>
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone (optional)</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">— Select a topic —</option>
+                <option value="booking">Booking enquiry</option>
+                <option value="event">Private event</option>
+                <option value="wholesale">Wholesale/business</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="contacts__map">
+        <h3>Our Location</h3>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3041.5851788887383!2d-8.629522!3d41.155906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2465c4a8b1c1d1%3A0x1234567890!2sRua%20dos%20Caldeireiros%20238%2C%204050-139%20Porto!5e0!3m2!1sen!2spt!4v1234567890"
+          width="100%"
+          height="400"
+          style="border:0; border-radius: var(--radius);"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contacts {
+    background: var(--cream-50);
+  }
+
+  .contacts__inner {
+    max-width: 1200px;
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .contacts__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .contacts__info {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .contact-block h3 {
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+  }
+
+  .contact-block p {
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-block a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .contact-block a:hover {
+    color: var(--gold-300);
+  }
+
+  .contact-block .hint {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin-top: 0.5rem;
+  }
+
+  .link-primary {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-weight: 500;
+  }
+
+  .contacts__form {
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .contacts__form h3 {
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-bottom: 1.6rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.4rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--wine-900);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: var(--step--1);
+    color: var(--ink);
+    background: var(--paper);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(181, 138, 75, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    font-family: var(--font-body);
+  }
+
+  .contacts__form button {
+    margin-top: 0.5rem;
+  }
+
+  .contacts__map {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .contacts__map h3 {
+    font-size: var(--step-2);
+    color: var(--wine-900);
+  }
+
+  .contacts__map iframe {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 880px) {
+    .contacts__content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .contacts__form {
+      padding: 1.5rem;
+    }
+
+    .contacts__map iframe {
+      height: 300px !important;
+    }
+  }
+</style>
