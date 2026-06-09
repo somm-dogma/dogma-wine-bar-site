@@ -7,7 +7,8 @@ import { Image } from "astro:assets";
 import heroDouro from "../assets/images/5091F715-C8D5-45A5-8FB5-AE0FE20F71BB.jpg";
 // Vasilii / sommelier
 import vasiliiPortrait from "../assets/images/DSC00579.jpg";
-import vasiliiCompetition from "../assets/images/DSC01200.jpg";
+import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
+import bronzeMedal from "../assets/images/award-bronze-2024.jpg";
 // Intro — storefront
 import storefront from "../assets/images/dogma-8.jpeg";
 // Master of Port — cellar
@@ -22,10 +23,9 @@ import momTerrace from "../assets/images/dogma-52.jpeg";
 import momFood from "../assets/images/dogma-55.jpeg";
 import momCheers from "../assets/images/dogma-30.jpeg";
 import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
-// Credentials & affiliations
+// Credentials & affiliations (round pin symbols)
 import credAssoc from "../assets/images/cred-assoc-escancoes.png";
 import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
-import credStarWineList from "../assets/images/cred-star-wine-list.jpg";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
@@ -150,8 +150,8 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       <div class="proud__layout">
         <figure class="media proud__media" data-reveal="left">
           <Image
-            src={vasiliiCompetition}
-            alt="Vasilii Grebencea competing at the National Sommelier Championship"
+            src={vasiliiPalmela}
+            alt="Vasilii Grebencea assessing a glass on stage at the National Sommelier Championship"
             widths={[420, 760, 1100]}
             sizes="(max-width: 1024px) 100vw, 40vw"
           />
@@ -164,47 +164,78 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
             <p class="award__text">Shortlisted worldwide for Best Newcomer — Star Wine List of the Year 2024.</p>
           </article>
           <article class="award" data-reveal style="--reveal-delay: 120ms">
-            <p class="award__figure">2×</p>
-            <p class="award__text">
-              Nominated for Wine Experience of the Year — Great Wine Capitals.
-            </p>
+            <p class="award__figure">1<sup class="award__sup">st</sup></p>
+            <p class="award__text">First wine bar in Portugal on Star Wine List — three consecutive years with a Red Star.</p>
           </article>
           <article class="award" data-reveal style="--reveal-delay: 180ms">
-            <p class="award__figure">2024–26</p>
-            <p class="award__text">Member of Star Wine List Portugal, three years running.</p>
-          </article>
-          <article class="award" data-reveal style="--reveal-delay: 240ms">
             <p class="award__figure">2025–28</p>
             <p class="award__text">Official Ambassador of Porto, Sommelier Association of Portugal.</p>
           </article>
         </div>
       </div>
 
-      <!-- Credentials & affiliations -->
+      <!-- Honours: bronze medal + Star Wine List Red Star years -->
+      <div class="honours">
+        <a
+          class="honour-medal"
+          href={bronzeMedal.src}
+          target="_blank"
+          rel="noopener"
+          data-reveal="left"
+          aria-label="Bronze Medal, 3rd best sommelier in Portugal, 2024 — open photo"
+        >
+          <figure class="honour-medal__fig media">
+            <Image
+              src={bronzeMedal}
+              alt="Bronze medal trophy — XIX Concurso Nacional de Escanções 2024"
+              widths={[360, 640, 900]}
+              sizes="(max-width: 760px) 100vw, 38vw"
+            />
+          </figure>
+          <figcaption class="honour-medal__cap">
+            <span class="honour-medal__rank">Bronze Medal · 2024</span>
+            <span class="honour-medal__desc">3rd Best Sommelier in Portugal — XIX Concurso Nacional de Escanções</span>
+          </figcaption>
+        </a>
+
+        <div class="swl" data-reveal="right">
+          <p class="swl__title">Star Wine List · Red Star</p>
+          <p class="swl__sub">Awarded a Red Star in <strong>2024, 2025 and 2026</strong> — three consecutive years among the world’s great wine lists.</p>
+          <div class="swl__row">
+            <a
+              class="swl__badge"
+              href="https://starwinelist.com/wine-place/dogma-wine-bar?utm_source=badge&utm_content=large"
+              target="_blank"
+              rel="noopener"
+              title="Star Wine List — Dogma Wine Bar, Red Star 2026"
+            >
+              <img
+                src="https://starwinelist.com/img/badges/large.png"
+                srcset="https://starwinelist.com/img/badges/large2x.png 2x, https://starwinelist.com/img/badges/large3x.png 3x"
+                width="100"
+                height="183"
+                loading="lazy"
+                alt="Star Wine List Red Star badge, Dogma Wine Bar, 2026"
+              />
+              <span class="swl__year">2026</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Credentials & affiliations — symbol pins -->
       <div class="creds" data-reveal>
         <p class="creds__title">Credentials &amp; affiliations</p>
-        <ul class="creds__row">
-          <li class="cred">
-            <span class="cred__logo">
-              <Image src={credAssoc} alt="Associação dos Escanções de Portugal seal" widths={[120, 240]} sizes="120px" />
+        <ul class="pins">
+          <li>
+            <span class="pin" title="Associação dos Escanções de Portugal" aria-label="Member, Associação dos Escanções de Portugal">
+              <Image src={credAssoc} alt="Associação dos Escanções de Portugal seal" widths={[140, 280]} sizes="110px" />
             </span>
-            <span class="cred__label">Sommelier Association<br />of Portugal</span>
           </li>
-          <li class="cred">
-            <span class="cred__logo">
-              <Image src={credCertSomm} alt="Certified sommelier venue mark" widths={[160, 320]} sizes="140px" />
+          <li>
+            <span class="pin pin--inset" title="Certified Sommelier Venue — Associação dos Escanções de Portugal" aria-label="Certified Sommelier Venue">
+              <Image src={credCertSomm} alt="Certified sommelier venue mark" widths={[160, 320]} sizes="110px" />
             </span>
-            <span class="cred__label">Certified Sommelier<br />Venue</span>
-          </li>
-          <li class="cred">
-            <span class="cred__logo">
-              <Image src={credStarWineList} alt="Star Wine List" widths={[100, 200]} sizes="80px" />
-            </span>
-            <span class="cred__label">Silver Star · Star<br />Wine List 2024</span>
-          </li>
-          <li class="cred">
-            <span class="cred__logo cred__logo--wordmark" aria-hidden="true">WSET</span>
-            <span class="cred__label">WSET · Passed<br />with Distinction</span>
           </li>
         </ul>
       </div>
@@ -628,32 +659,34 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
   .proud__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 1.1rem;
     align-content: center;
   }
   .award {
-    padding: 1.7rem 1.6rem;
+    padding: 1.7rem 1.8rem;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    align-items: baseline;
+    gap: 1.3rem;
     text-align: left;
     transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
   }
   .award:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
   .award__figure {
+    flex: 0 0 auto;
+    min-width: 4ch;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: clamp(2.2rem, 4vw, 2.9rem);
+    font-size: clamp(2.3rem, 4vw, 3rem);
     line-height: 1;
     color: var(--wine-800);
   }
-  .award__text { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.45; }
+  .award__sup { font-size: 0.5em; vertical-align: super; }
+  .award__text { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.5; align-self: center; }
 
   /* ───────── SOMMELIER ───────── */
   .somm { background: var(--wine-900); color: var(--cream-50); }
@@ -862,7 +895,60 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     object-position: center top;
     border-radius: var(--radius);
   }
-  /* ───────── CREDENTIALS & AFFILIATIONS ───────── */
+  /* ───────── HONOURS: bronze medal + Star Wine List ───────── */
+  .honours {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(1.5rem, 4vw, 3.2rem);
+    align-items: center;
+  }
+  .honour-medal { display: block; transition: transform var(--dur-mid) var(--ease-out); }
+  .honour-medal:hover { transform: translateY(-3px); }
+  .honour-medal__fig {
+    aspect-ratio: 4 / 5;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 1rem;
+  }
+  .honour-medal__fig img { object-position: center 38%; }
+  .honour-medal__cap { display: grid; gap: 0.3rem; }
+  .honour-medal__rank {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-1);
+    color: var(--wine-800);
+  }
+  .honour-medal__desc { font-size: var(--step--1); color: var(--ink-soft); line-height: 1.4; }
+
+  .swl { text-align: center; }
+  .swl__title {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--wine-700);
+  }
+  .swl__sub { color: var(--ink-soft); font-size: var(--step--1); margin: 0.4rem 0 1.7rem; }
+  .swl__row { display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.2rem); flex-wrap: wrap; }
+  .swl__badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+  .swl__badge:hover { transform: translateY(-4px); }
+  .swl__badge img { width: 92px; height: auto; filter: drop-shadow(0 6px 14px rgba(43, 10, 17, 0.18)); }
+  .swl__year {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    color: var(--wine-800);
+    letter-spacing: 0.04em;
+  }
+
+  /* ───────── CREDENTIALS & AFFILIATIONS — symbol pins ───────── */
   .creds {
     margin-top: clamp(3rem, 6vw, 5rem);
     text-align: center;
@@ -876,59 +962,33 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     color: var(--wine-700);
     margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
   }
-  .creds__row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(0.9rem, 2vw, 1.4rem);
-    align-items: stretch;
-  }
-  .cred {
+  .pins {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
-    padding: 1.7rem 1rem 1.4rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    flex-wrap: wrap;
   }
-  .cred:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-  .cred__logo {
+  .pin {
+    --pin-size: clamp(88px, 12vw, 116px);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 84px;
+    width: var(--pin-size);
+    height: var(--pin-size);
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 0 1px rgba(43, 10, 17, 0.06), var(--shadow-md);
+    overflow: hidden;
+    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
   }
-  .cred__logo img {
-    max-height: 84px;
-    max-width: 100%;
-    width: auto;
-    object-fit: contain;
-  }
-  /* Typographic stand-in for credentials without an official logo asset */
-  .cred__logo--wordmark {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.7rem, 5.5vw, 2.4rem);
-    letter-spacing: 0.1em;
-    color: var(--wine-800);
-    border: 2px solid var(--gold);
-    border-radius: 10px;
-    padding: 0.35em 0.55em;
-    line-height: 1;
-    white-space: nowrap;
-  }
-  .cred__label {
-    font-family: var(--font-body);
-    font-size: var(--step--1);
-    font-weight: 500;
-    line-height: 1.35;
-    color: var(--ink-soft);
-  }
-  /* Credentials responsive — placed after base so the override wins on source order */
-  @media (max-width: 768px) {
-    .creds__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.8rem, 3vw, 1.2rem); }
+  .pin:hover { transform: translateY(-5px) scale(1.04); box-shadow: 0 0 0 1px rgba(43, 10, 17, 0.06), var(--shadow-lg); }
+  .pin img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  /* Emblems that aren't full-bleed circular sit inset on the pin face */
+  .pin--inset img { object-fit: contain; padding: 16%; }
+
+  @media (max-width: 760px) {
+    .honours { grid-template-columns: 1fr; }
+    .honour-medal__fig { max-width: 440px; margin-inline: auto; }
   }
 </style>
