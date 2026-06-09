@@ -396,17 +396,17 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .crest {
     position: relative;
     aspect-ratio: 4 / 5;
-    border: 1px solid rgba(221, 195, 143, 0.5);
+    border: 2px solid var(--gold);
     border-radius: var(--radius);
     background:
-      radial-gradient(120% 80% at 50% 0%, rgba(221, 195, 143, 0.12), transparent 60%),
-      linear-gradient(160deg, var(--wine-700), var(--wine-950));
+      radial-gradient(circle at 50% 0%, rgba(201, 168, 106, 0.06), transparent 50%),
+      var(--cream);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    box-shadow: var(--shadow);
+    box-shadow: none;
     overflow: hidden;
   }
   .crest__monogram {
@@ -414,15 +414,15 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     font-weight: 600;
     font-size: clamp(4rem, 12vw, 7rem);
     line-height: 1;
-    color: var(--gold-300);
+    color: var(--gold);
     letter-spacing: 0.04em;
   }
-  .crest__name { font-weight: 600; letter-spacing: 0.03em; }
+  .crest__name { font-weight: 600; letter-spacing: 0.03em; color: var(--ink); }
   .crest__title {
     font-size: var(--step--1);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(251, 246, 236, 0.72);
+    color: var(--ink-soft);
   }
   .crest__star { position: absolute; top: 1rem; color: var(--gold-300); font-size: 1.1rem; }
   @media (max-width: 760px) {
