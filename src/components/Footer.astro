@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { site, nav } from "../data/site";
+import taCert from "../assets/images/tripadvisor-travellers-choice-2025.png";
 const year = new Date().getFullYear();
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -12,6 +14,26 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     <div class="footer-brand">
       <p class="brand">Dogma</p>
       <p class="footer-tag">{site.tagline}</p>
+
+      <a
+        class="ta-badge"
+        href="/certificates/tripadvisor-travellers-choice-2025.pdf"
+        target="_blank"
+        rel="noopener"
+        aria-label="Tripadvisor Travellers' Choice Awards 2025 — Top 10% worldwide. Opens the certificate PDF in a new tab."
+      >
+        <Image
+          src={taCert}
+          alt="Tripadvisor Travellers' Choice Awards 2025 certificate for Dogma Wine Bar"
+          class="ta-badge__img"
+          widths={[160, 320]}
+          sizes="150px"
+        />
+        <span class="ta-badge__meta">
+          <span class="ta-badge__title">Travellers’ Choice 2025</span>
+          <span class="ta-badge__sub">Tripadvisor · Top 10% worldwide</span>
+        </span>
+      </a>
     </div>
 
     <nav class="footer-col" aria-label="Footer navigation">
@@ -84,6 +106,39 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     transition: color 0.2s ease;
   }
   .footer-list a:hover { color: var(--gold-300); }
+
+  /* Tripadvisor Travellers' Choice — framed, clickable certificate */
+  .ta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.8rem;
+    padding: 0.7rem 0.9rem;
+    background: var(--paper);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
+  }
+  .ta-badge:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .ta-badge__img {
+    width: 64px;
+    height: auto;
+    border-radius: 6px;
+    flex: 0 0 auto;
+  }
+  .ta-badge__meta { display: grid; gap: 0.15rem; }
+  .ta-badge__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    line-height: 1.1;
+    color: var(--wine-900);
+  }
+  .ta-badge__sub {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
 
   .footer-bottom {
     display: flex;
