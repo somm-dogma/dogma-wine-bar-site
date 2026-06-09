@@ -1,0 +1,6 @@
+{
+  "files": ["src/layouts/Base.astro"],
+  "insertBefore": "</html>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}
