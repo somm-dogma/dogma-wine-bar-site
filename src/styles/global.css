@@ -36,7 +36,21 @@
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --radius: 14px;
   --header-h: 76px;
-  --shadow: 0 22px 50px -24px rgba(43, 10, 17, 0.5);
+
+  /* Elevation scale — layered, brand-tinted shadows (wine-950 base) */
+  --shadow-sm: 0 1px 2px rgba(43, 10, 17, 0.08), 0 2px 6px -2px rgba(43, 10, 17, 0.1);
+  --shadow-md: 0 4px 10px -4px rgba(43, 10, 17, 0.16), 0 12px 24px -10px rgba(43, 10, 17, 0.2);
+  --shadow-lg: 0 8px 20px -8px rgba(43, 10, 17, 0.22), 0 24px 48px -18px rgba(43, 10, 17, 0.28);
+  --shadow-xl: 0 16px 40px -12px rgba(43, 10, 17, 0.3), 0 40px 72px -24px rgba(43, 10, 17, 0.38);
+  /* Legacy alias */
+  --shadow: var(--shadow-lg);
+
+  /* Motion tokens — fluid, premium easing */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 320ms;
+  --dur-slow: 560ms;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -113,3 +127,60 @@ h1, h2, h3, h4 {
 .btn--cream:hover { background: var(--paper); }
 .btn--ghost { background: transparent; border-color: currentColor; }
 .btn--ghost:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ============================================================
+   Scroll-reveal — fade + rise as elements enter the viewport.
+   JS adds .is-visible via IntersectionObserver. Stagger via
+   inline --reveal-delay. Fully disabled under reduced-motion.
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal="scale"] {
+  transform: translateY(28px) scale(0.96);
+}
+[data-reveal="left"] {
+  transform: translateX(-32px);
+}
+[data-reveal="right"] {
+  transform: translateX(32px);
+}
+
+/* Figure with image-zoom on hover — editorial polish */
+.media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--wine-950);
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+  will-change: transform;
+}
+.media:hover img { transform: scale(1.05); }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+  .media:hover img { transform: none; }
+}

@@ -3,10 +3,26 @@ import Base from "../layouts/Base.astro";
 import { site } from "../data/site";
 import { sommelier } from "../data/home";
 import { Image } from "astro:assets";
+// Hero & landscape
 import heroDouro from "../assets/images/5091F715-C8D5-45A5-8FB5-AE0FE20F71BB.jpg";
+// Vasilii / sommelier
 import vasiliiPortrait from "../assets/images/DSC00579.jpg";
-import momentOne from "../assets/images/dogma-28.jpeg";
-import momentTwo from "../assets/images/dogma-30.jpeg";
+import vasiliiCompetition from "../assets/images/DSC01200.jpg";
+// Intro — storefront
+import storefront from "../assets/images/dogma-8.jpeg";
+// Master of Port — cellar
+import portCellar from "../assets/images/IMG_6101.jpeg";
+// Services
+import svcWineTasting from "../assets/images/dogma-47.jpeg";
+import svcPortPour from "../assets/images/DSC09701.jpeg";
+// Moments gallery
+import momInterior from "../assets/images/IMG_9010.jpeg";
+import momGroup from "../assets/images/IMG_5232.jpeg";
+import momTerrace from "../assets/images/dogma-52.jpeg";
+import momFood from "../assets/images/dogma-55.jpeg";
+import momCheers from "../assets/images/dogma-30.jpeg";
+import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
+// Credentials
 import unescoIcon from "../assets/images/IMG_0452.PNG";
 import portugueseHeraldry from "../assets/images/IMG_0457.PNG";
 
@@ -18,7 +34,13 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 <Base>
   <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
-    <Image src={heroDouro} alt="Douro Valley terraced vineyards and river" class="hero__bg-image" />
+    <Image
+      src={heroDouro}
+      alt="Douro Valley terraced vineyards and river"
+      class="hero__bg-image"
+      loading="eager"
+      fetchpriority="high"
+    />
     <div class="hero__bg"></div>
 
     <span class="hero__corner hero__corner--l">Since {site.established}</span>
@@ -41,24 +63,31 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <!-- ───────────────────────── INTRO ───────────────────────── -->
   <section class="section intro" id="intro">
     <div class="container intro__inner">
-      <p class="eyebrow eyebrow--ink">The house</p>
-      <h2 class="intro__title">A wine paradise in the heart of Porto.</h2>
-      <p class="lead">
-        Since 2023, Dogma has become one of the city’s most talked-about wine bars — a place to slow
-        down, taste widely, and let the terroir speak, every glass poured under the guidance of
-        Portugal’s first Master of Port.
-      </p>
-      <ul class="intro__facts">
-        <li>Established 2023</li>
-        <li>Member of Star Wine List, 2024–2026</li>
-        <li>Featured in <em>O Escanção</em></li>
-      </ul>
+      <div class="intro__text" data-reveal="left">
+        <p class="eyebrow eyebrow--ink">The house</p>
+        <h2 class="intro__title">A wine paradise in the heart of Porto.</h2>
+        <p class="lead">
+          Since 2023, Dogma has become one of the city’s most talked-about wine bars — a place to
+          slow down, taste widely, and let the terroir speak, every glass poured under the guidance
+          of Portugal’s first Master of Port.
+        </p>
+        <ul class="intro__facts">
+          <li>Established 2023</li>
+          <li>Member of Star Wine List, 2024–2026</li>
+          <li>Featured in <em>O Escanção</em></li>
+        </ul>
+      </div>
+      <figure class="media intro__media" data-reveal="right">
+        <Image src={storefront} alt="Vasilii at the door of Dogma, established May 2023" />
+        <figcaption class="intro__caption">Rua dos Caldeireiros 238 · Est. May 2023</figcaption>
+      </figure>
     </div>
   </section>
 
   <!-- ──────────────────── MASTER OF PORT (spine) ──────────────────── -->
   <section class="section mop">
-    <div class="container mop__inner">
+    <Image src={portCellar} alt="" class="mop__bg" aria-hidden="true" />
+    <div class="container mop__inner" data-reveal="scale">
       <div class="mop__seal" aria-hidden="true">
         <svg viewBox="0 0 200 200" role="img">
           <defs>
@@ -98,29 +127,37 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <!-- ───────────────────────── RECOGNITION ───────────────────────── -->
   <section class="section proud">
     <div class="container">
-      <header class="section-head center">
+      <header class="section-head center" data-reveal>
         <p class="eyebrow eyebrow--ink">Recognition</p>
         <h2>A young bar, already noticed.</h2>
       </header>
-      <div class="proud__grid">
-        <article class="award">
-          <p class="award__figure">Top 6</p>
-          <p class="award__text">Ranked among the world’s top 6 wine bars as a startup.</p>
-        </article>
-        <article class="award">
-          <p class="award__figure">2×</p>
-          <p class="award__text">
-            Nominated for Wine Experience of the Year — Great Wine Capitals.
-          </p>
-        </article>
-        <article class="award">
-          <p class="award__figure">2024–26</p>
-          <p class="award__text">Member of Star Wine List Portugal, three years running.</p>
-        </article>
+
+      <div class="proud__layout">
+        <figure class="media proud__media" data-reveal="left">
+          <Image src={vasiliiCompetition} alt="Vasilii Grebencea competing at the National Sommelier Championship" />
+          <figcaption class="proud__caption">Concurso Nacional de Escanções</figcaption>
+        </figure>
+
+        <div class="proud__grid" data-reveal="right">
+          <article class="award" data-reveal style="--reveal-delay: 60ms">
+            <p class="award__figure">Top 6</p>
+            <p class="award__text">Ranked among the world’s top 6 wine bars as a startup.</p>
+          </article>
+          <article class="award" data-reveal style="--reveal-delay: 120ms">
+            <p class="award__figure">2×</p>
+            <p class="award__text">
+              Nominated for Wine Experience of the Year — Great Wine Capitals.
+            </p>
+          </article>
+          <article class="award" data-reveal style="--reveal-delay: 180ms">
+            <p class="award__figure">2024–26</p>
+            <p class="award__text">Member of Star Wine List Portugal, three years running.</p>
+          </article>
+        </div>
       </div>
 
       <!-- Credential icons -->
-      <div class="proud__icons">
+      <div class="proud__icons" data-reveal>
         <div class="icon-badge">
           <Image src={unescoIcon} alt="UNESCO World Heritage seal" class="icon-badge__img" />
         </div>
@@ -134,7 +171,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <!-- ───────────────────────── SOMMELIER ───────────────────────── -->
   <section class="section somm">
     <div class="container somm__inner">
-      <div class="somm__body">
+      <div class="somm__body" data-reveal="left">
         <p class="eyebrow">Author’s note</p>
         <blockquote class="somm__quote">{sommelier.quote}</blockquote>
         <p class="somm__name">{sommelier.name}</p>
@@ -143,7 +180,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       </div>
 
       <!-- Vasilii portrait — Master of Port -->
-      <figure class="crest" aria-label="Vasilii Grebencea, Master of Port">
+      <figure class="crest" aria-label="Vasilii Grebencea, Master of Port" data-reveal="right">
         <Image src={vasiliiPortrait} alt="Vasilii Grebencea presenting at a wine event" class="crest__image" />
         <p class="crest__name">Vasilii Grebencea</p>
         <p class="crest__title">Master of Port · Porto</p>
@@ -155,29 +192,69 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <!-- ───────────────────────── SERVICES (live only) ───────────────────────── -->
   <section class="section services" id="services">
     <div class="container">
-      <header class="section-head center">
+      <header class="section-head center" data-reveal>
         <p class="eyebrow eyebrow--ink">What we offer</p>
         <h2>Two ways to taste.</h2>
       </header>
       <div class="services__grid">
-        <article class="svc">
-          <h2 class="svc__title">Wine Tasting</h2>
-          <p class="svc__text">
-            A guided flight through the best of Portugal — five or six wines, the stories behind them,
-            and the terroir in the glass.
-          </p>
-          <p class="svc__price">From €45 · 90 min</p>
-          <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+        <article class="svc" data-reveal="scale" style="--reveal-delay: 0ms">
+          <figure class="media svc__media">
+            <Image src={svcWineTasting} alt="Guests tasting Portuguese wine at Dogma" />
+          </figure>
+          <div class="svc__body">
+            <h2 class="svc__title">Wine Tasting</h2>
+            <p class="svc__text">
+              A guided flight through the best of Portugal — five or six wines, the stories behind
+              them, and the terroir in the glass.
+            </p>
+            <p class="svc__price">From €45 · 90 min</p>
+            <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+          </div>
         </article>
-        <article class="svc">
-          <h2 class="svc__title">Port Wine Tasting</h2>
-          <p class="svc__text">
-            A masterclass in Port led by a Master of Port — vintage, tawny and white, with rare
-            bottles from the cellar.
-          </p>
-          <p class="svc__price">From €65 · 120 min</p>
-          <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+        <article class="svc" data-reveal="scale" style="--reveal-delay: 120ms">
+          <figure class="media svc__media">
+            <Image src={svcPortPour} alt="Port wine being poured into a tasting glass" />
+          </figure>
+          <div class="svc__body">
+            <h2 class="svc__title">Port Wine Tasting</h2>
+            <p class="svc__text">
+              A masterclass in Port led by a Master of Port — vintage, tawny and white, with rare
+              bottles from the cellar.
+            </p>
+            <p class="svc__price">From €65 · 120 min</p>
+            <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+          </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── MOMENTS (editorial gallery) ───────────────────────── -->
+  <section class="section moments" id="moments">
+    <div class="container">
+      <header class="section-head center" data-reveal>
+        <p class="eyebrow eyebrow--ink">Moments</p>
+        <h2>An evening at Dogma.</h2>
+      </header>
+      <div class="moments__grid">
+        <figure class="media m-tall" data-reveal="scale" style="--reveal-delay: 0ms">
+          <Image src={momInterior} alt="The warm dining room of Dogma under pendant lights" />
+        </figure>
+        <figure class="media" data-reveal="scale" style="--reveal-delay: 80ms">
+          <Image src={momGroup} alt="A group toasting around a long table at Dogma" />
+        </figure>
+        <figure class="media" data-reveal="scale" style="--reveal-delay: 160ms">
+          <Image src={momFood} alt="Petiscos and wine served on the table" />
+        </figure>
+        <figure class="media m-wide" data-reveal="scale" style="--reveal-delay: 240ms">
+          <Image src={momTerrace} alt="Guests toasting on the outdoor terrace" />
+        </figure>
+        <figure class="media" data-reveal="scale" style="--reveal-delay: 320ms">
+          <Image src={momCheers} alt="A close toast of white wine glasses" />
+        </figure>
+        <figure class="media" data-reveal="scale" style="--reveal-delay: 400ms">
+          <Image src={momTram} alt="The historic Porto tram by the Douro river" />
+        </figure>
       </div>
     </div>
   </section>
@@ -185,33 +262,38 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <!-- ───────────────────────── VISIT ───────────────────────── -->
   <section class="section visit">
     <div class="container visit__inner">
-      <div class="visit__col">
-        <p class="eyebrow">Visit</p>
-        <h2 class="visit__title">Pull up a seat.</h2>
-        <p class="visit__addr">
-          {site.contact.address}<br />
-          {site.contact.postalCode} {site.contact.city}, {site.contact.country}
-        </p>
-        <a class="visit__maps" href={mapsHref} target="_blank" rel="noopener">Open in Google Maps →</a>
+      <div class="visit__info" data-reveal="left">
+        <div class="visit__col">
+          <p class="eyebrow">Visit</p>
+          <h2 class="visit__title">Pull up a seat.</h2>
+          <p class="visit__addr">
+            {site.contact.address}<br />
+            {site.contact.postalCode} {site.contact.city}, {site.contact.country}
+          </p>
+          <a class="visit__maps" href={mapsHref} target="_blank" rel="noopener">Open in Google Maps →</a>
+        </div>
+        <div class="visit__col">
+          <p class="eyebrow">Hours</p>
+          <ul class="visit__hours">
+            {site.hours.map((h) => (
+              <li><span>{h.days}</span><span>{h.time}</span></li>
+            ))}
+          </ul>
+          <p class="visit__phone">
+            <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+          </p>
+          <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
+        </div>
       </div>
-      <div class="visit__col">
-        <p class="eyebrow">Hours</p>
-        <ul class="visit__hours">
-          {site.hours.map((h) => (
-            <li><span>{h.days}</span><span>{h.time}</span></li>
-          ))}
-        </ul>
-        <p class="visit__phone">
-          <a href={site.contact.phoneHref}>{site.contact.phone}</a>
-        </p>
-        <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
-      </div>
+      <figure class="media visit__media" data-reveal="right">
+        <Image src={momInterior} alt="The dining room of Dogma, ready for the evening" />
+      </figure>
     </div>
   </section>
 
   <!-- ───────────────────────── FINAL CTA ───────────────────────── -->
   <section class="cta">
-    <div class="container cta__inner">
+    <div class="container cta__inner" data-reveal="scale">
       <h2 class="cta__title">Want to learn about wine?</h2>
       <p class="cta__text">
         Spend an evening with Portugal’s first Master of Port. Limited seats at each signature tasting.
@@ -220,6 +302,48 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     </div>
   </section>
 </Base>
+
+<script>
+  // Scroll-reveal via IntersectionObserver. Honors reduced-motion by
+  // revealing everything immediately and skipping the observer.
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+    items.forEach((el) => observer.observe(el));
+  }
+
+  // Subtle hero parallax — transform only, disabled for reduced-motion.
+  if (!prefersReduced) {
+    const heroImg = document.querySelector<HTMLElement>(".hero__bg-image");
+    if (heroImg) {
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = Math.min(window.scrollY, window.innerHeight);
+          heroImg.style.transform = `scale(1.06) translate3d(0, ${y * 0.12}px, 0)`;
+          ticking = false;
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+  }
+</script>
 
 <style>
   /* ───────── HERO ───────── */
@@ -308,7 +432,31 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
 
   /* ───────── INTRO ───────── */
-  .intro__inner { max-width: 760px; }
+  .intro__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .intro__text { max-width: 60ch; }
+  .intro__media {
+    aspect-ratio: 4 / 5;
+    box-shadow: var(--shadow-lg);
+  }
+  .intro__media img { object-position: center; }
+  .intro__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2.2rem 1.2rem 1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream-50);
+    background: linear-gradient(to top, rgba(43, 10, 17, 0.82), transparent);
+    text-align: center;
+  }
   .intro__title { font-size: var(--step-3); margin: 0.4em 0 0.5em; text-wrap: balance; }
   .intro__facts {
     display: flex;
@@ -338,7 +486,34 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .intro__facts em { font-style: italic; color: var(--ink); }
 
   /* ───────── MASTER OF PORT ───────── */
-  .mop { background: var(--wine-900); color: var(--cream-50); }
+  .mop {
+    position: relative;
+    background: var(--wine-900);
+    color: var(--cream-50);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .mop__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.18;
+    z-index: -2;
+  }
+  .mop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(62, 15, 24, 0.55),
+      rgba(43, 10, 17, 0.92)
+    );
+  }
   .mop__inner { max-width: 760px; margin-inline: auto; text-align: center; }
   .mop__seal { width: clamp(124px, 16vw, 168px); margin: 0 auto 1.7rem; color: var(--gold-300); }
   .mop__seal svg { width: 100%; height: auto; }
@@ -363,26 +538,59 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .section-head h2 { font-size: var(--step-3); margin-top: 0.18em; }
 
   /* ───────── RECOGNITION ───────── */
+  .proud__layout {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: stretch;
+  }
+  .proud__media {
+    aspect-ratio: 3 / 4;
+    box-shadow: var(--shadow-lg);
+  }
+  .proud__media img { object-position: center 20%; }
+  .proud__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2rem 1.2rem 1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-50);
+    background: linear-gradient(to top, rgba(43, 10, 17, 0.82), transparent);
+    text-align: center;
+  }
   .proud__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.2rem;
+    align-content: center;
   }
   .award {
-    padding: 2.2rem 1.9rem;
+    padding: 2rem 1.9rem;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    text-align: center;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    text-align: left;
+    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
   }
+  .award:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
   .award__figure {
+    flex: 0 0 auto;
+    min-width: 4.4ch;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    font-size: clamp(2.4rem, 4.5vw, 3.2rem);
     line-height: 1;
     color: var(--wine-800);
   }
-  .award__text { margin-top: 0.7rem; color: var(--ink-soft); }
+  .award__text { color: var(--ink-soft); align-self: center; }
 
   /* ───────── SOMMELIER ───────── */
   .somm { background: var(--wine-900); color: var(--cream-50); }
@@ -421,7 +629,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    box-shadow: none;
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
   .crest__monogram {
@@ -448,21 +656,32 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   /* ───────── SERVICES ───────── */
   .services__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.4rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(1.4rem, 3vw, 2rem);
   }
   .svc {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
-    padding: 2.3rem 2.1rem;
+    overflow: hidden;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
   }
-  .svc:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .svc:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .svc__media {
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+  }
+  .svc__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 2rem 2.1rem 2.2rem;
+    flex: 1;
+  }
   .svc__title { font-size: var(--step-2); }
   .svc__text { color: var(--ink-soft); flex: 1; }
   .svc__price {
@@ -472,12 +691,33 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
   .svc .btn { margin-top: 0.4rem; }
 
+  /* ───────── MOMENTS (editorial gallery) ───────── */
+  .moments__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: clamp(150px, 22vw, 240px);
+    gap: clamp(0.7rem, 1.5vw, 1.1rem);
+  }
+  .moments__grid .media { box-shadow: var(--shadow-md); }
+  .moments__grid .m-tall { grid-row: span 2; }
+  .moments__grid .m-wide { grid-column: span 2; }
+
   /* ───────── VISIT ───────── */
   .visit { background: var(--wine-900); color: var(--cream-50); }
   .visit__inner {
     display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .visit__info {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .visit__media {
+    aspect-ratio: 4 / 3;
+    box-shadow: var(--shadow-lg);
   }
   .visit__title { font-size: var(--step-3); margin: 0.2em 0 0.6em; }
   .visit__addr { font-size: var(--step-1); line-height: 1.5; color: rgba(251, 246, 236, 0.9); }
@@ -508,17 +748,26 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
   @media (max-width: 1024px) {
     .mop__seal { width: clamp(110px, 14vw, 150px); }
+    .proud__layout { grid-template-columns: 1fr; }
+    .proud__media { aspect-ratio: 16 / 10; max-height: 420px; }
+    .proud__media img { object-position: center 25%; }
+  }
+
+  @media (max-width: 880px) {
+    .intro__inner { grid-template-columns: 1fr; }
+    .intro__media { max-width: 460px; margin-inline: auto; width: 100%; }
+    .somm__inner { grid-template-columns: 1fr; }
+    .crest { max-width: 360px; margin-inline: auto; width: 100%; }
+    .visit__inner { grid-template-columns: 1fr; }
+    .visit__media { order: -1; max-height: 360px; }
   }
 
   @media (max-width: 768px) {
     .hero__corner { display: none; }
     .proud__icons { gap: 1.5rem; }
     .icon-badge { width: clamp(80px, 12vw, 140px); }
-  }
-
-  @media (max-width: 680px) {
-    .hero__corner { display: none; }
-    .visit__inner { grid-template-columns: 1fr; }
+    .moments__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(140px, 30vw, 200px); }
+    .moments__grid .m-wide { grid-column: span 2; }
   }
 
   @media (max-width: 520px) {
@@ -526,7 +775,11 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     .hero__cta .btn { width: 100%; }
     .proud__icons { flex-direction: column; gap: 1rem; margin-top: 2rem; }
     .icon-badge { width: clamp(70px, 20vw, 120px); }
-    .crest { max-width: 280px; margin-inline: auto; }
+    .crest { max-width: 280px; }
+    .visit__info { grid-template-columns: 1fr; }
+    .award { gap: 0.9rem; padding: 1.6rem 1.5rem; }
+    .moments__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: clamp(120px, 38vw, 170px); }
+    .moments__grid .m-tall { grid-row: span 1; }
   }
 
   /* ───────── ASTRO IMAGE OVERRIDES ───────── */
