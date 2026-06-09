@@ -40,6 +40,8 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       class="hero__bg-image"
       loading="eager"
       fetchpriority="high"
+      widths={[640, 1024, 1600, 2000]}
+      sizes="100vw"
     />
     <div class="hero__bg"></div>
 
@@ -78,7 +80,12 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         </ul>
       </div>
       <figure class="media intro__media" data-reveal="right">
-        <Image src={storefront} alt="Vasilii at the door of Dogma, established May 2023" />
+        <Image
+          src={storefront}
+          alt="Vasilii at the door of Dogma, established May 2023"
+          widths={[400, 700, 920]}
+          sizes="(max-width: 880px) 460px, 40vw"
+        />
         <figcaption class="intro__caption">Rua dos Caldeireiros 238 · Est. May 2023</figcaption>
       </figure>
     </div>
@@ -86,7 +93,14 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
   <!-- ──────────────────── MASTER OF PORT (spine) ──────────────────── -->
   <section class="section mop">
-    <Image src={portCellar} alt="" class="mop__bg" aria-hidden="true" />
+    <Image
+      src={portCellar}
+      alt=""
+      class="mop__bg"
+      aria-hidden="true"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+    />
     <div class="container mop__inner" data-reveal="scale">
       <div class="mop__seal" aria-hidden="true">
         <svg viewBox="0 0 200 200" role="img">
@@ -134,7 +148,12 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
       <div class="proud__layout">
         <figure class="media proud__media" data-reveal="left">
-          <Image src={vasiliiCompetition} alt="Vasilii Grebencea competing at the National Sommelier Championship" />
+          <Image
+            src={vasiliiCompetition}
+            alt="Vasilii Grebencea competing at the National Sommelier Championship"
+            widths={[420, 760, 1100]}
+            sizes="(max-width: 1024px) 100vw, 40vw"
+          />
           <figcaption class="proud__caption">Concurso Nacional de Escanções</figcaption>
         </figure>
 
@@ -162,7 +181,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
           <Image src={unescoIcon} alt="UNESCO World Heritage seal" class="icon-badge__img" />
         </div>
         <div class="icon-badge">
-          <Image src={portugueseHeraldry} alt="Portuguese coat of arms" class="icon-badge__img" />
+          <Image src={portugueseHeraldry} alt="Portuguese coat of arms" class="icon-badge__img" widths={[160, 320]} sizes="160px" />
         </div>
       </div>
     </div>
@@ -181,7 +200,13 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
       <!-- Vasilii portrait — Master of Port -->
       <figure class="crest" aria-label="Vasilii Grebencea, Master of Port" data-reveal="right">
-        <Image src={vasiliiPortrait} alt="Vasilii Grebencea presenting at a wine event" class="crest__image" />
+        <Image
+          src={vasiliiPortrait}
+          alt="Vasilii Grebencea presenting at a wine event"
+          class="crest__image"
+          widths={[400, 720, 1040]}
+          sizes="(max-width: 880px) 360px, 38vw"
+        />
         <p class="crest__name">Vasilii Grebencea</p>
         <p class="crest__title">Master of Port · Porto</p>
         <span class="crest__star" aria-hidden="true">✶</span>
@@ -199,7 +224,12 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       <div class="services__grid">
         <article class="svc" data-reveal="scale" style="--reveal-delay: 0ms">
           <figure class="media svc__media">
-            <Image src={svcWineTasting} alt="Guests tasting Portuguese wine at Dogma" />
+            <Image
+              src={svcWineTasting}
+              alt="Guests tasting Portuguese wine at Dogma"
+              widths={[400, 600, 900]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </figure>
           <div class="svc__body">
             <h2 class="svc__title">Wine Tasting</h2>
@@ -213,7 +243,12 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         </article>
         <article class="svc" data-reveal="scale" style="--reveal-delay: 120ms">
           <figure class="media svc__media">
-            <Image src={svcPortPour} alt="Port wine being poured into a tasting glass" />
+            <Image
+              src={svcPortPour}
+              alt="Port wine being poured into a tasting glass"
+              widths={[400, 600, 900]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </figure>
           <div class="svc__body">
             <h2 class="svc__title">Port Wine Tasting</h2>
@@ -238,22 +273,22 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       </header>
       <div class="moments__grid">
         <figure class="media m-tall" data-reveal="scale" style="--reveal-delay: 0ms">
-          <Image src={momInterior} alt="The warm dining room of Dogma under pendant lights" />
+          <Image src={momInterior} alt="The warm dining room of Dogma under pendant lights" widths={[400, 700, 900]} sizes="(max-width: 768px) 50vw, 33vw" />
         </figure>
         <figure class="media" data-reveal="scale" style="--reveal-delay: 80ms">
-          <Image src={momGroup} alt="A group toasting around a long table at Dogma" />
+          <Image src={momGroup} alt="A group toasting around a long table at Dogma" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
         </figure>
         <figure class="media" data-reveal="scale" style="--reveal-delay: 160ms">
-          <Image src={momFood} alt="Petiscos and wine served on the table" />
+          <Image src={momFood} alt="Petiscos and wine served on the table" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
         </figure>
         <figure class="media m-wide" data-reveal="scale" style="--reveal-delay: 240ms">
-          <Image src={momTerrace} alt="Guests toasting on the outdoor terrace" />
+          <Image src={momTerrace} alt="Guests toasting on the outdoor terrace" widths={[500, 800, 1100]} sizes="(max-width: 768px) 100vw, 66vw" />
         </figure>
         <figure class="media" data-reveal="scale" style="--reveal-delay: 320ms">
-          <Image src={momCheers} alt="A close toast of white wine glasses" />
+          <Image src={momCheers} alt="A close toast of white wine glasses" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
         </figure>
         <figure class="media" data-reveal="scale" style="--reveal-delay: 400ms">
-          <Image src={momTram} alt="The historic Porto tram by the Douro river" />
+          <Image src={momTram} alt="The historic Porto tram by the Douro river" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
         </figure>
       </div>
     </div>
@@ -286,7 +321,12 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         </div>
       </div>
       <figure class="media visit__media" data-reveal="right">
-        <Image src={momInterior} alt="The dining room of Dogma, ready for the evening" />
+        <Image
+          src={momInterior}
+          alt="The dining room of Dogma, ready for the evening"
+          widths={[500, 800, 1100]}
+          sizes="(max-width: 880px) 100vw, 48vw"
+        />
       </figure>
     </div>
   </section>
