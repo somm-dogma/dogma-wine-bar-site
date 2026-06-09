@@ -110,6 +110,6 @@ h1, h2, h3, h4 {
 .btn--primary { background: var(--wine-800); color: var(--cream-50); }
 .btn--primary:hover { background: var(--wine-700); }
 .btn--cream { background: var(--cream-50); color: var(--wine-800); }
-.btn--cream:hover { background: #fff; }
+.btn--cream:hover { background: var(--paper); }
 .btn--ghost { background: transparent; border-color: currentColor; }
 .btn--ghost:hover { background: rgba(255, 255, 255, 0.12); }
