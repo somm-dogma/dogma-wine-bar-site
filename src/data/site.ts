@@ -34,7 +34,7 @@ export const site = {
   },
 
   social: {
-    instagram: "https://instagram.com/dogma.wine.bar",
+    instagram: "https://www.instagram.com/dogma.wine.bar/",
     instagramHandle: "@dogma.wine.bar",
     facebook: "",
   },

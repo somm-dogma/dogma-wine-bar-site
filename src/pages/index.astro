@@ -54,14 +54,27 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <section class="section mop">
     <div class="container mop__inner">
       <div class="mop__seal" aria-hidden="true">
-        <svg viewBox="0 0 120 120" role="img">
-          <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.5" />
-          <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="0.75" />
+        <svg viewBox="0 0 200 200" role="img">
+          <defs>
+            <path id="seal-top" d="M100,100 m -70,0 a 70,70 0 1,1 140,0" />
+            <path id="seal-bot" d="M100,100 m 70,0 a 70,70 0 1,1 -140,0" />
+          </defs>
+          <!-- double outer ring -->
+          <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" stroke-width="1.1" />
+          <circle cx="100" cy="100" r="89" fill="none" stroke="currentColor" stroke-width="0.5" />
+          <!-- circular stamp text -->
+          <text class="seal-cap"><textPath href="#seal-top" startOffset="50%" text-anchor="middle">MASTER OF PORT</textPath></text>
+          <text class="seal-cap"><textPath href="#seal-bot" startOffset="50%" text-anchor="middle">PORTUGAL · EST. 2023</textPath></text>
+          <!-- separator dots where the arcs meet -->
+          <circle cx="30" cy="100" r="1.8" fill="currentColor" />
+          <circle cx="170" cy="100" r="1.8" fill="currentColor" />
+          <!-- inner ring + 8-point star -->
+          <circle cx="100" cy="100" r="42" fill="none" stroke="currentColor" stroke-width="0.6" />
           <path
-            d="M60 30 L64 52 L86 52 L68 65 L75 87 L60 73 L45 87 L52 65 L34 52 L56 52 Z"
+            d="M100,80 L103.25,92.15 L114.14,85.86 L107.85,96.75 L120,100 L107.85,103.25 L114.14,114.14 L103.25,107.85 L100,120 L96.75,107.85 L85.86,114.14 L92.15,103.25 L80,100 L92.15,96.75 L85.86,85.86 L96.75,92.15 Z"
             fill="currentColor"
           />
-          <text x="60" y="106" text-anchor="middle" class="mop__seal-text">EST. 2023</text>
+          <circle cx="100" cy="100" r="1.6" fill="var(--wine-900)" />
         </svg>
       </div>
       <p class="eyebrow">The credential</p>
@@ -302,12 +315,13 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   /* ───────── MASTER OF PORT ───────── */
   .mop { background: var(--wine-900); color: var(--cream-50); }
   .mop__inner { max-width: 760px; margin-inline: auto; text-align: center; }
-  .mop__seal { width: clamp(86px, 12vw, 116px); margin: 0 auto 1.6rem; color: var(--gold-300); }
+  .mop__seal { width: clamp(124px, 16vw, 168px); margin: 0 auto 1.7rem; color: var(--gold-300); }
   .mop__seal svg { width: 100%; height: auto; }
-  .mop__seal-text {
+  .seal-cap {
     font-family: var(--font-body);
-    font-size: 9px;
-    letter-spacing: 0.18em;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
     fill: currentColor;
   }
   .mop__title { font-size: var(--step-3); margin: 0.35em 0 0.6em; text-wrap: balance; }
