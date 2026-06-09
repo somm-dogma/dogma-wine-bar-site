@@ -45,11 +45,10 @@ export const site = {
   },
 };
 
-// Main navigation
+// Main navigation — only real, live destinations (no "coming soon")
 export const nav = [
+  { label: "Tastings", href: "/bookatasting" },
   { label: "Menu", href: "/menu" },
   { label: "Sommelier", href: "/sommelier" },
-  { label: "Our Services", href: "/#services" },
-  { label: "Blog", href: "/#blog" },
   { label: "Contacts", href: "/contacts" },
 ];

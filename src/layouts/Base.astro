@@ -12,9 +12,44 @@ interface Props {
 }
 
 const { title, description, headerSolid = false } = Astro.props;
-const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — Wine Bar in Porto`;
+const pageTitle = title
+  ? `${title} — ${site.name}`
+  : `${site.name} — Wine Bar in Porto · Master of Port`;
 const pageDesc = description ?? site.description;
 const canonical = new URL(Astro.url.pathname, site.url).href;
+
+// LocalBusiness structured data for local search (address, hours, founder).
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["WineBar", "Restaurant", "LocalBusiness"],
+  name: site.name,
+  url: site.url,
+  telephone: site.contact.phone,
+  email: site.contact.email,
+  priceRange: "€€",
+  description: site.description,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.contact.address,
+    postalCode: site.contact.postalCode,
+    addressLocality: site.contact.city,
+    addressCountry: "PT",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "16:00",
+      closes: "22:00",
+    },
+  ],
+  sameAs: [site.social.instagram].filter(Boolean),
+  founder: {
+    "@type": "Person",
+    name: "Vasilii Grebencea",
+    jobTitle: "Master of Port · Head Sommelier",
+  },
+};
 ---
 
 <!doctype html>
@@ -27,7 +62,10 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#3e0f18" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <title>{pageTitle}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

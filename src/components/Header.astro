@@ -11,13 +11,15 @@ const { solid = false } = Astro.props;
   <div class="container header-inner">
     <a class="brand" href="/">Dogma</a>
 
+    <a class="btn btn--cream header-book" href={site.booking.tasting}>Book</a>
+
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span><span></span>
     </button>
 
     <nav class="nav" id="primary-nav" aria-label="Main navigation">
       {nav.map((item) => <a class="nav__link" href={item.href}>{item.label}</a>)}
-      <a class="btn btn--cream nav__cta" href={site.booking.table}>Book a table</a>
+      <a class="btn btn--cream nav__cta" href={site.booking.tasting}>Book a tasting</a>
     </nav>
   </div>
 </header>
@@ -87,7 +89,17 @@ const { solid = false } = Astro.props;
 
   .nav-toggle { display: none; }
 
+  /* Compact always-visible booking CTA, mobile only */
+  .header-book { display: none; }
+
   @media (max-width: 880px) {
+    .header-book {
+      display: inline-flex;
+      margin-left: auto;
+      margin-right: 0.6rem;
+      padding: 0.55em 1.1em;
+      font-size: var(--step--1);
+    }
     .nav-toggle {
       display: flex;
       flex-direction: column;

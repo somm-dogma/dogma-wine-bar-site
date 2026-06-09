@@ -1,323 +1,216 @@
 ---
 import Base from "../layouts/Base.astro";
-import OrientalArch from "../components/OrientalArch.astro";
-import SunDecorator from "../components/SunDecorator.astro";
 import { site } from "../data/site";
-import { awards, sommelier, services, wineries, posts } from "../data/home";
+import { sommelier } from "../data/home";
 
-const heroImg = "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
-const fmtDate = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+const heroImg =
+  "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
+
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
+)}`;
 ---
 
 <Base>
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- HERO SECTION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
     <div class="hero__bg" style={`background-image:url('${heroImg}')`}></div>
 
-    <div class="hero__decoration hero__decoration--top-left">
-      <span class="hero__label">SINCE {site.established}</span>
-    </div>
-    <div class="hero__decoration hero__decoration--top-right">
-      <span class="hero__label">MEMBER OF<br/>STARWINELIST</span>
-    </div>
+    <span class="hero__corner hero__corner--l">Since {site.established}</span>
+    <span class="hero__corner hero__corner--r">Member of<br />Star Wine List</span>
 
-    <div class="hero__content">
-      <h1 class="hero__title">WINE BAR<br/>DOGMA</h1>
-      <p class="hero__description">{site.tagline}</p>
-    </div>
-
-    <div class="hero__buttons">
-      <a class="hero__btn hero__btn--left" href={site.booking.tasting}>book a tasting</a>
-      <a class="hero__btn hero__btn--right" href={site.booking.table}>book a table</a>
-    </div>
-
-    <a class="hero__scroll" href="#section-manifesto" aria-label="Scroll to content">↓</a>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- MANIFESTO SECTION: "DOGMA IS VASILY'S HOME & CREATIVE STUDIO" -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <section class="section manifesto" id="section-manifesto">
-    <div class="container manifesto__inner">
-      <h2 class="manifesto__title">
-        DOGMA IS<br/>
-        <span class="manifesto__highlight">VASILY'S HOME</span><br/>
-        & CREATIVE STUDIO
-      </h2>
-
-      <p class="manifesto__description">
-        Discover the amazing world of wine at Dogma, a "wine paradise" located in the heart of Porto's historic center
-      </p>
-
-      <div class="manifesto__badges">
-        <OrientalArch
-          badge={true}
-          badgeText="STAR WINE LIST"
-          badgeYear="2024"
-          title="2024"
-        />
-        <OrientalArch
-          badge={true}
-          badgeText="STAR WINE LIST"
-          badgeYear="2025"
-          title="2025"
-        />
-        <OrientalArch
-          badge={true}
-          badgeText="STAR WINE LIST"
-          badgeYear="2026"
-          title="2026"
-        />
+    <div class="container hero__content">
+      <p class="hero__eyebrow">Portugal’s first Master of Port</p>
+      <h1 class="hero__title">Wine Bar<br />Dogma</h1>
+      <p class="hero__sub">{site.tagline}</p>
+      <div class="hero__cta">
+        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+        <a class="btn btn--ghost" href={site.booking.table}>Book a table</a>
       </div>
     </div>
+
+    <a class="hero__scroll" href="#intro" aria-label="Scroll to content">↓</a>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- PROUD SECTION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ───────────────────────── INTRO ───────────────────────── -->
+  <section class="section intro" id="intro">
+    <div class="container intro__inner">
+      <p class="eyebrow eyebrow--ink">The house</p>
+      <h2 class="intro__title">A wine paradise in the heart of Porto.</h2>
+      <p class="lead">
+        Since 2023, Dogma has become one of the city’s most talked-about wine bars — a place to slow
+        down, taste widely, and let the terroir speak, every glass poured under the guidance of
+        Portugal’s first Master of Port.
+      </p>
+      <ul class="intro__facts">
+        <li>Established 2023</li>
+        <li>Member of Star Wine List, 2024–2026</li>
+        <li>Featured in <em>O Escanção</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ──────────────────── MASTER OF PORT (spine) ──────────────────── -->
+  <section class="section mop">
+    <div class="container mop__inner">
+      <div class="mop__seal" aria-hidden="true">
+        <svg viewBox="0 0 120 120" role="img">
+          <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="0.75" />
+          <path
+            d="M60 30 L64 52 L86 52 L68 65 L75 87 L60 73 L45 87 L52 65 L34 52 L56 52 Z"
+            fill="currentColor"
+          />
+          <text x="60" y="106" text-anchor="middle" class="mop__seal-text">EST. 2023</text>
+        </svg>
+      </div>
+      <p class="eyebrow">The credential</p>
+      <h2 class="mop__title">The first Master of Port in Portugal.</h2>
+      <p class="mop__body">
+        The Master of Port is the highest distinction awarded for Port wine expertise. Vasilii
+        Grebencea is the first in Portugal to hold it — and one of the country’s top three
+        sommeliers. It means every tasting at Dogma is led by someone who has reached the very top of
+        his craft, and who pours it as a conversation rather than a lecture.
+      </p>
+      <a class="btn btn--cream" href={site.booking.tasting}>Taste with a Master of Port</a>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── RECOGNITION ───────────────────────── -->
   <section class="section proud">
-    <div class="container proud__inner">
-      <div class="proud__header">
-        <SunDecorator size="large" color="cream" />
-        <h2 class="proud__title">We are proud</h2>
-        <SunDecorator size="large" color="cream" />
-      </div>
-
-      <p class="proud__text">
-        In its short existence, Dogma has already achieved great success, made a name among top wine bars,
-        joined the wine community, and is talked about by wine connoisseurs.
-      </p>
-
-      <div class="proud__medals">
-        <div class="proud__medal">
-          <OrientalArch badge={true} badgeText="" badgeYear="">
-            <p class="proud__number">1</p>
-            <p class="proud__medal-text">member of the highly respected StarWineList in Portugal</p>
-          </OrientalArch>
-        </div>
-
-        <div class="proud__medal">
-          <OrientalArch badge={true} badgeText="" badgeYear="">
-            <p class="proud__number">6</p>
-            <p class="proud__medal-text">ranked among the World's top 6 winebars as a Startup</p>
-          </OrientalArch>
-        </div>
-
-        <div class="proud__medal">
-          <OrientalArch badge={true} badgeText="" badgeYear="">
-            <p class="proud__number">2</p>
-            <p class="proud__medal-text">twice nominated for "Wine experience" of the year by Great Wine Capitals</p>
-          </OrientalArch>
-        </div>
+    <div class="container">
+      <header class="section-head center">
+        <p class="eyebrow eyebrow--ink">Recognition</p>
+        <h2>A young bar, already noticed.</h2>
+      </header>
+      <div class="proud__grid">
+        <article class="award">
+          <p class="award__figure">Top 6</p>
+          <p class="award__text">Ranked among the world’s top 6 wine bars as a startup.</p>
+        </article>
+        <article class="award">
+          <p class="award__figure">2×</p>
+          <p class="award__text">
+            Nominated for Wine Experience of the Year — Great Wine Capitals.
+          </p>
+        </article>
+        <article class="award">
+          <p class="award__figure">2024–26</p>
+          <p class="award__text">Member of Star Wine List Portugal, three years running.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- AUTHOR'S QUOTE: VASILII -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <section class="section author">
-    <div class="container author__inner">
-      <div class="author__content">
-        <div class="author__header">
-          <SunDecorator size="medium" color="cream" />
-          <p class="author__label">Author's quote</p>
-          <SunDecorator size="medium" color="cream" />
-        </div>
-
-        <blockquote class="author__quote">
-          Hello, I'm Vasilii, head sommelier and owner of Dogma.<br/>
-          I am the first Port Wine Master in Portugal and one of the country's top 3 sommeliers.<br/>
-          I host signature tastings in Porto.
-        </blockquote>
-
-        <p class="author__name">{sommelier.name}</p>
-        <p class="author__role">{sommelier.role}</p>
-
-        <a class="author__btn" href={site.booking.tasting}>book a tasting</a>
+  <!-- ───────────────────────── SOMMELIER ───────────────────────── -->
+  <section class="section somm">
+    <div class="container somm__inner">
+      <div class="somm__body">
+        <p class="eyebrow">Author’s note</p>
+        <blockquote class="somm__quote">{sommelier.quote}</blockquote>
+        <p class="somm__name">{sommelier.name}</p>
+        <p class="somm__role">{sommelier.role}</p>
+        <a class="btn btn--cream" href="/sommelier">Meet Vasilii</a>
       </div>
 
-      <div class="author__image">
-        <!-- Placeholder - would be Vasilii's photo -->
-        <div class="author__image-placeholder">
-          <p class="author__image-label">Vasilii's Portrait</p>
-        </div>
-      </div>
+      <!-- Intentional crest in place of a portrait until photography is shot -->
+      <figure class="crest" aria-label="Vasilii Grebencea, Master of Port">
+        <div class="crest__monogram">VG</div>
+        <p class="crest__name">Vasilii Grebencea</p>
+        <p class="crest__title">Master of Port · Porto</p>
+        <span class="crest__star" aria-hidden="true">✶</span>
+      </figure>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- CHECK IT OUT SECTION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <section class="section checkout">
-    <div class="container checkout__inner">
-      <h2 class="checkout__title">CHECK IT OUT</h2>
-
-      <div class="checkout__content">
-        <div class="checkout__circle">
-          <!-- This would be the circular image of the store -->
-          <div class="checkout__circle-placeholder">
-            <p>Store Image</p>
-          </div>
-        </div>
-
-        <div class="checkout__features">
-          <p class="checkout__feature">Personalized approach</p>
-          <p class="checkout__feature">Wine pairing</p>
-          <p class="checkout__feature">Portuguese wines</p>
-          <p class="checkout__feature">Port wines</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- SERVICES SECTION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ───────────────────────── SERVICES (live only) ───────────────────────── -->
   <section class="section services" id="services">
-    <div class="container services__inner">
-      <div class="services__header">
-        <p class="services__label">Our services</p>
-      </div>
-
-      <div class="services__list">
-        <div class="service-item">
-          <p class="service__subtitle">CAREFUL SELECTION OF "THE BEST" OF PORTUGAL</p>
-          <h3 class="service__title">WINE TASTING</h3>
-        </div>
-
-        <div class="service-item">
-          <p class="service__subtitle">BEST SELECTION FROM MASTER OF PORT</p>
-          <h3 class="service__title">PORT WINE TASTING</h3>
-        </div>
-
-        <div class="service-item">
-          <p class="service__subtitle">AUTHENTIC TREASURES</p>
-          <h3 class="service__title">WINE BOXES</h3>
-        </div>
-
-        <div class="service-item">
-          <p class="service__subtitle">WHAT COULD BE BETTER?</p>
-          <h3 class="service__title">GIFT CARDS</h3>
-        </div>
-
-        <div class="service-item">
-          <p class="service__subtitle">AN UNFORGETTABLE EXPERIENCE</p>
-          <h3 class="service__title">WINE TOURS</h3>
-        </div>
+    <div class="container">
+      <header class="section-head center">
+        <p class="eyebrow eyebrow--ink">What we offer</p>
+        <h2>Two ways to taste.</h2>
+      </header>
+      <div class="services__grid">
+        <article class="svc">
+          <h3 class="svc__title">Wine Tasting</h3>
+          <p class="svc__text">
+            A guided flight through the best of Portugal — five or six wines, the stories behind them,
+            and the terroir in the glass.
+          </p>
+          <p class="svc__price">From €45 · 90 min</p>
+          <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+        </article>
+        <article class="svc">
+          <h3 class="svc__title">Port Wine Tasting</h3>
+          <p class="svc__text">
+            A masterclass in Port led by a Master of Port — vintage, tawny and white, with rare
+            bottles from the cellar.
+          </p>
+          <p class="svc__price">From €65 · 120 min</p>
+          <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- BLOG SECTION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <section class="section blog" id="blog">
-    <div class="container blog__inner">
-      <div class="blog__header">
-        <SunDecorator size="medium" color="cream" />
-        <h2 class="blog__title">Our blog</h2>
-        <SunDecorator size="medium" color="cream" />
+  <!-- ───────────────────────── VISIT ───────────────────────── -->
+  <section class="section visit">
+    <div class="container visit__inner">
+      <div class="visit__col">
+        <p class="eyebrow">Visit</p>
+        <h2 class="visit__title">Pull up a seat.</h2>
+        <p class="visit__addr">
+          {site.contact.address}<br />
+          {site.contact.postalCode} {site.contact.city}, {site.contact.country}
+        </p>
+        <a class="visit__maps" href={mapsHref} target="_blank" rel="noopener">Open in Google Maps →</a>
       </div>
-
-      <div class="blog__grid">
-        {posts.map((post) => (
-          <div class="blog__post">
-            <OrientalArch badge={true} badgeText="">
-              <div class="blog__post-image-placeholder">
-                <p>{post.title}</p>
-              </div>
-            </OrientalArch>
-
-            <p class="blog__post-date">{fmtDate(post.date)}</p>
-            <h3 class="blog__post-title">{post.title}</h3>
-            <p class="blog__post-excerpt">{post.excerpt}</p>
-            <a class="blog__post-link" href="#">READ MORE</a>
-          </div>
-        ))}
+      <div class="visit__col">
+        <p class="eyebrow">Hours</p>
+        <ul class="visit__hours">
+          {site.hours.map((h) => (
+            <li><span>{h.days}</span><span>{h.time}</span></li>
+          ))}
+        </ul>
+        <p class="visit__phone">
+          <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+        </p>
+        <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- FOOTER -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="footer__backdrop">
-      <h2 class="footer__logo">DOGMA</h2>
+  <!-- ───────────────────────── FINAL CTA ───────────────────────── -->
+  <section class="cta">
+    <div class="container cta__inner">
+      <h2 class="cta__title">Want to learn about wine?</h2>
+      <p class="cta__text">
+        Spend an evening with Portugal’s first Master of Port. Limited seats at each signature tasting.
+      </p>
+      <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
     </div>
-
-    <div class="container footer__content">
-      <div class="footer__col footer__col--dogma">
-        <h4 class="footer__heading">DOGMA</h4>
-        <p class="footer__tagline">{site.tagline}</p>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">SERVICES</h4>
-        <ul class="footer__list">
-          <li><a href="/menu">menu</a></li>
-          <li><a href={site.booking.tasting}>wine tastings</a></li>
-          <li><a href={site.booking.tasting}>port wine tastings</a></li>
-          <li><a href="/coming">wine boxes</a></li>
-          <li><a href="/coming">wine tours</a></li>
-          <li><a href="/coming">gift cards</a></li>
-        </ul>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">COMPANY</h4>
-        <ul class="footer__list">
-          <li><a href="/#section-manifesto">about</a></li>
-          <li><a href="/sommelier">sommelier</a></li>
-          <li><a href="/#blog">blog</a></li>
-        </ul>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">CONTACTS</h4>
-        <ul class="footer__list">
-          <li><a href="https://maps.google.com/?q={site.contact.address}">{site.contact.address}</a></li>
-          <li><a href={site.contact.phoneHref}>{site.contact.phone}</a></li>
-          <li><a href="/contacts">contact us</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="container footer__bottom">
-      <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-      <p>Design by <a href={site.credits.designerUrl} target="_blank" rel="noopener">{site.credits.designer}</a></p>
-      <p><a href="/privacy">Polite privacy</a></p>
-    </div>
-  </footer>
+  </section>
 </Base>
 
 <style>
-  /* ════════════════════════════════════════════════════════════════ */
-  /* HERO */
-  /* ════════════════════════════════════════════════════════════════ */
+  /* ───────── HERO ───────── */
   .hero {
     position: relative;
-    height: 100vh;
-    width: 100%;
+    min-height: 100svh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     color: var(--cream-50);
+    padding-block: clamp(7rem, 16vh, 11rem) clamp(3rem, 9vh, 5.5rem);
     overflow: hidden;
   }
-
   .hero__bg {
     position: absolute;
     inset: 0;
     z-index: -2;
     background-size: cover;
     background-position: center;
+    transform: scale(1.04);
   }
-
   .hero::after {
     content: "";
     position: absolute;
@@ -325,679 +218,257 @@ const fmtDate = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "n
     z-index: -1;
     background: linear-gradient(
       to top,
-      rgba(107, 15, 26, 0.92) 0%,
-      rgba(107, 15, 26, 0.4) 40%,
-      rgba(107, 15, 26, 0.3) 100%
+      rgba(43, 10, 17, 0.9) 0%,
+      rgba(43, 10, 17, 0.34) 52%,
+      rgba(43, 10, 17, 0.55) 100%
     );
   }
-
-  .hero__decoration {
+  .hero__corner {
     position: absolute;
-    z-index: 10;
-  }
-
-  .hero__decoration--top-left {
-    top: 2rem;
-    left: 2rem;
-  }
-
-  .hero__decoration--top-right {
-    top: 2rem;
-    right: 2rem;
-    text-align: right;
-  }
-
-  .hero__label {
-    font-family: var(--font-body);
-    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-    letter-spacing: 0.15em;
+    top: clamp(5.5rem, 11vh, 7rem);
+    font-size: var(--step--1);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(250, 245, 234, 0.75);
-    font-weight: 400;
-    line-height: 1.4;
+    color: rgba(251, 246, 236, 0.82);
+    line-height: 1.35;
   }
-
-  .hero__content {
-    position: relative;
-    z-index: 5;
-    text-align: center;
-  }
-
-  .hero__title {
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 12vw, 12rem);
+  .hero__corner--l { left: var(--gutter); }
+  .hero__corner--r { right: var(--gutter); text-align: right; }
+  .hero__content { max-width: 900px; }
+  .hero__eyebrow {
+    font-family: var(--font-body);
     font-weight: 600;
-    letter-spacing: 0.05em;
-    line-height: 0.95;
-    margin: 0;
+    font-size: var(--step-0);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    color: var(--gold-300);
   }
-
-  .hero__description {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 2vw, 1.4rem);
-    margin-top: clamp(1.5rem, 3vh, 2.5rem);
-    max-width: 70ch;
-    margin-left: auto;
-    margin-right: auto;
-    color: rgba(250, 245, 234, 0.85);
-    font-weight: 300;
-    line-height: 1.6;
+  .hero__title {
+    font-size: var(--step-4);
+    margin-block: 0.18em 0.4em;
+    line-height: 0.95;
+    text-wrap: balance;
   }
-
-  .hero__buttons {
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 clamp(1rem, 4vw, 3rem);
-    bottom: clamp(2rem, 8vh, 4rem);
+  .hero__sub {
+    font-size: var(--step-1);
+    max-width: 48ch;
+    color: rgba(251, 246, 236, 0.9);
   }
-
-  .hero__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(0.9rem, 1.5vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
-    background: var(--cream-50);
-    color: var(--wine-900);
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 50px;
-    letter-spacing: 0.05em;
-    text-transform: lowercase;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  }
-
-  .hero__btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  }
-
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; }
   .hero__scroll {
     position: absolute;
-    bottom: clamp(1rem, 3vh, 2rem);
+    bottom: 1.4rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.8rem;
-    color: rgba(250, 245, 234, 0.6);
-    text-decoration: none;
-    opacity: 0.8;
-    animation: bob 2.5s ease-in-out infinite;
+    font-size: 1.4rem;
+    opacity: 0.7;
+    animation: bob 2.4s ease-in-out infinite;
   }
-
   @keyframes bob {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(12px); }
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
   }
 
-  /* ════════════════════════════════════════════════════════════════ */
-  /* MANIFESTO SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .manifesto {
-    background: var(--wine-900);
-    color: var(--cream-50);
-    padding-block: clamp(3rem, 8vw, 6rem);
-  }
-
-  .manifesto__inner {
-    text-align: center;
-    max-width: 1000px;
-  }
-
-  .manifesto__title {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 600;
-    line-height: 1.1;
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .manifesto__highlight {
-    color: var(--gold-300);
-  }
-
-  .manifesto__description {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    max-width: 60ch;
-    margin: 0 auto clamp(2rem, 4vw, 3.5rem);
-    line-height: 1.7;
-    color: rgba(250, 245, 234, 0.85);
-  }
-
-  .manifesto__badges {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: clamp(2rem, 4vw, 3rem);
-    justify-items: center;
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* PROUD SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .proud {
-    background: var(--wine-900);
-    color: var(--cream-50);
-    padding-block: clamp(4rem, 8vw, 6rem);
-  }
-
-  .proud__inner {
-    text-align: center;
-    max-width: 1200px;
-  }
-
-  .proud__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(1rem, 2vw, 2rem);
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .proud__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .proud__text {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-    max-width: 80ch;
-    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
-    line-height: 1.6;
-    color: rgba(250, 245, 234, 0.85);
-    font-style: italic;
-  }
-
-  .proud__medals {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(2rem, 4vw, 3.5rem);
-    justify-items: center;
-  }
-
-  .proud__number {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 600;
-    margin: 0;
-    color: var(--cream-50);
-  }
-
-  .proud__medal-text {
-    font-family: var(--font-body);
-    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-    color: rgba(250, 245, 234, 0.8);
-    line-height: 1.5;
-    margin-top: 1rem;
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* AUTHOR SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .author {
-    background: var(--wine-900);
-    color: var(--cream-50);
-    padding-block: clamp(4rem, 8vw, 6rem);
-  }
-
-  .author__inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 5rem);
-    align-items: center;
-  }
-
-  .author__header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .author__label {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--gold-300);
-  }
-
-  .author__quote {
-    font-family: var(--font-display);
-    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-    line-height: 1.5;
-    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem) 0;
-    color: var(--cream-50);
-  }
-
-  .author__name {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    font-weight: 600;
-    margin: 0 0 0.3rem;
-    color: var(--cream-50);
-  }
-
-  .author__role {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--gold-300);
-    margin: 0 0 clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .author__btn {
-    display: inline-block;
-    padding: 0.9rem 2rem;
-    border: 2px solid var(--cream-50);
-    color: var(--cream-50);
-    text-decoration: none;
-    border-radius: 50px;
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
-    text-transform: lowercase;
-    transition: all 0.3s ease;
-  }
-
-  .author__btn:hover {
-    background: var(--cream-50);
-    color: var(--wine-900);
-  }
-
-  .author__image {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background: linear-gradient(135deg, #7a1a2a, #5a0f18);
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .author__image-placeholder {
-    text-align: center;
-    color: rgba(250, 245, 234, 0.5);
-  }
-
-  @media (max-width: 880px) {
-    .author__inner {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* CHECKOUT SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .checkout {
-    background: var(--cream-50);
-    padding-block: clamp(4rem, 8vw, 6rem);
-  }
-
-  .checkout__inner {
-    text-align: center;
-  }
-
-  .checkout__title {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 5rem);
-    color: var(--wine-900);
-    font-weight: 600;
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .checkout__content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 5rem);
-    align-items: center;
-  }
-
-  .checkout__circle {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    aspect-ratio: 1;
-    margin: 0 auto;
-  }
-
-  .checkout__circle-placeholder {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f4ecdb, #fff8e7);
-    border: 8px solid var(--wine-900);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--wine-900);
-    font-size: 1.2rem;
-  }
-
-  .checkout__features {
-    text-align: left;
-  }
-
-  .checkout__feature {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    color: var(--wine-900);
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 880px) {
-    .checkout__content {
-      grid-template-columns: 1fr;
-    }
-
-    .checkout__features {
-      text-align: center;
-    }
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* SERVICES SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .services {
-    background: var(--wine-900);
-    color: var(--cream-50);
-    padding-block: clamp(3rem, 6vw, 5rem);
-  }
-
-  .services__inner {
-    max-width: 1000px;
-  }
-
-  .services__header {
-    text-align: center;
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .services__label {
-    font-family: var(--font-body);
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--gold-300);
-  }
-
-  .services__list {
-    display: grid;
-    gap: 0;
-  }
-
-  .service-item {
-    padding: clamp(2rem, 4vw, 3rem) 0;
-    border-bottom: 1px solid rgba(250, 245, 234, 0.2);
-    text-align: center;
-  }
-
-  .service-item:last-child {
-    border-bottom: none;
-  }
-
-  .service__subtitle {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--gold-300);
-    margin: 0 0 0.8rem;
-  }
-
-  .service__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4.5vw, 3.5rem);
-    font-weight: 600;
-    margin: 0;
-    color: var(--cream-50);
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* BLOG SECTION */
-  /* ════════════════════════════════════════════════════════════════ */
-  .blog {
-    background: var(--wine-900);
-    color: var(--cream-50);
-    padding-block: clamp(4rem, 8vw, 6rem);
-  }
-
-  .blog__inner {
-    max-width: 1200px;
-  }
-
-  .blog__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(1rem, 2vw, 2rem);
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-    text-align: center;
-  }
-
-  .blog__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .blog__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: clamp(2rem, 4vw, 3rem);
-  }
-
-  .blog__post {
-    text-align: center;
-  }
-
-  .blog__post-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(250, 245, 234, 0.5);
-    font-size: 0.9rem;
-    padding: 1rem;
-  }
-
-  .blog__post-date {
-    font-family: var(--font-body);
-    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--gold-300);
-    margin-top: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .blog__post-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    font-weight: 600;
-    margin: 0 0 0.8rem;
-    line-height: 1.3;
-    color: var(--cream-50);
-  }
-
-  .blog__post-excerpt {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.3vw, 0.95rem);
-    color: rgba(250, 245, 234, 0.75);
-    margin-bottom: 1.2rem;
-    line-height: 1.6;
-  }
-
-  .blog__post-link {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-    color: var(--cream-50);
-    text-decoration: underline;
-    transition: color 0.3s ease;
-  }
-
-  .blog__post-link:hover {
-    color: var(--gold-300);
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* FOOTER */
-  /* ════════════════════════════════════════════════════════════════ */
-  .site-footer {
-    background: var(--wine-950);
-    color: var(--cream-50);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .footer__backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .footer__logo {
-    font-family: var(--font-display);
-    font-size: clamp(8rem, 25vw, 15rem);
-    font-weight: 600;
-    margin: 0;
-    color: rgba(255, 248, 231, 0.08);
-    line-height: 1;
-    letter-spacing: 0.1em;
-  }
-
-  .footer__content {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: clamp(2rem, 4vw, 3.5rem);
-    padding-block: clamp(3rem, 6vw, 5rem);
-  }
-
-  .footer__col {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .footer__col--dogma {
-    padding-right: clamp(1rem, 2vw, 2rem);
-  }
-
-  .footer__heading {
-    font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--gold-300);
-    margin: 0 0 clamp(1rem, 2vw, 1.5rem);
-    font-weight: 600;
-  }
-
-  .footer__tagline {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    line-height: 1.4;
-    color: rgba(250, 245, 234, 0.75);
-    margin: 0;
-  }
-
-  .footer__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .footer__list a {
-    color: rgba(250, 245, 234, 0.75);
-    text-decoration: none;
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-    transition: color 0.3s ease;
-  }
-
-  .footer__list a:hover {
-    color: var(--gold-300);
-  }
-
-  .footer__bottom {
-    position: relative;
-    z-index: 1;
+  /* ───────── INTRO ───────── */
+  .intro__inner { max-width: 760px; }
+  .intro__title { font-size: var(--step-3); margin: 0.4em 0 0.5em; text-wrap: balance; }
+  .intro__facts {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .intro__facts li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .intro__facts li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .intro__facts em { font-style: italic; color: var(--ink); }
+
+  /* ───────── MASTER OF PORT ───────── */
+  .mop { background: var(--wine-900); color: var(--cream-50); }
+  .mop__inner { max-width: 760px; margin-inline: auto; text-align: center; }
+  .mop__seal { width: clamp(86px, 12vw, 116px); margin: 0 auto 1.6rem; color: var(--gold-300); }
+  .mop__seal svg { width: 100%; height: auto; }
+  .mop__seal-text {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    fill: currentColor;
+  }
+  .mop__title { font-size: var(--step-3); margin: 0.35em 0 0.6em; text-wrap: balance; }
+  .mop__body {
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: rgba(251, 246, 236, 0.86);
+    max-width: 60ch;
+    margin: 0 auto 2rem;
+  }
+
+  /* ───────── SECTION HEADS ───────── */
+  .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .section-head h2 { font-size: var(--step-3); margin-top: 0.18em; }
+
+  /* ───────── RECOGNITION ───────── */
+  .proud__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+  }
+  .award {
+    padding: 2.2rem 1.9rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+  .award__figure {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    line-height: 1;
+    color: var(--wine-800);
+  }
+  .award__text { margin-top: 0.7rem; color: var(--ink-soft); }
+
+  /* ───────── SOMMELIER ───────── */
+  .somm { background: var(--wine-900); color: var(--cream-50); }
+  .somm__inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .somm__quote {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.3;
+    font-style: italic;
+    margin: 0.5rem 0 1.3rem;
+    text-wrap: balance;
+  }
+  .somm__name { font-weight: 600; letter-spacing: 0.02em; }
+  .somm__role {
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 1.6rem;
+  }
+  .crest {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border: 1px solid rgba(221, 195, 143, 0.5);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(221, 195, 143, 0.12), transparent 60%),
+      linear-gradient(160deg, var(--wine-700), var(--wine-950));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .crest__monogram {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(4rem, 12vw, 7rem);
+    line-height: 1;
+    color: var(--gold-300);
+    letter-spacing: 0.04em;
+  }
+  .crest__name { font-weight: 600; letter-spacing: 0.03em; }
+  .crest__title {
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(251, 246, 236, 0.72);
+  }
+  .crest__star { position: absolute; top: 1rem; color: var(--gold-300); font-size: 1.1rem; }
+  @media (max-width: 760px) {
+    .somm__inner { grid-template-columns: 1fr; }
+    .crest { max-width: 320px; margin-inline: auto; width: 100%; }
+  }
+
+  /* ───────── SERVICES ───────── */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.4rem;
+  }
+  .svc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 2.3rem 2.1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .svc:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .svc__title { font-size: var(--step-2); }
+  .svc__text { color: var(--ink-soft); flex: 1; }
+  .svc__price {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--wine-800);
+  }
+  .svc .btn { margin-top: 0.4rem; }
+
+  /* ───────── VISIT ───────── */
+  .visit { background: var(--wine-900); color: var(--cream-50); }
+  .visit__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  .visit__title { font-size: var(--step-3); margin: 0.2em 0 0.6em; }
+  .visit__addr { font-size: var(--step-1); line-height: 1.5; color: rgba(251, 246, 236, 0.9); }
+  .visit__maps {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--gold-300);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .visit__hours { display: grid; gap: 0.5rem; margin-bottom: 1.3rem; }
+  .visit__hours li {
+    display: flex;
     justify-content: space-between;
     gap: 1rem;
-    padding-block: clamp(1.5rem, 3vw, 2.5rem);
-    border-top: 1px solid rgba(250, 245, 234, 0.1);
-    font-size: clamp(0.8rem, 1vw, 0.9rem);
-    color: rgba(250, 245, 234, 0.5);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(251, 246, 236, 0.14);
+    color: rgba(251, 246, 236, 0.9);
   }
+  .visit__phone { margin-bottom: 1.5rem; }
+  .visit__phone a { border-bottom: 1px solid var(--gold-300); padding-bottom: 2px; }
 
-  .footer__bottom a {
-    color: var(--gold-300);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
+  /* ───────── FINAL CTA ───────── */
+  .cta { background: var(--wine-950); color: var(--cream-50); }
+  .cta__inner { text-align: center; max-width: 680px; margin-inline: auto; }
+  .cta__title { font-size: var(--step-3); }
+  .cta__text { font-size: var(--step-1); color: rgba(251, 246, 236, 0.82); margin: 1rem 0 2rem; }
 
-  .footer__bottom a:hover {
-    color: var(--cream-50);
-  }
-
-  @media (max-width: 880px) {
-    .footer__content {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .footer__col--dogma {
-      grid-column: 1 / -1;
-      padding-right: 0;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .footer__content {
-      grid-template-columns: 1fr;
-    }
-
-    .footer__backdrop {
-      display: none;
-    }
-  }
-
-  /* ════════════════════════════════════════════════════════════════ */
-  /* GENERAL SECTION STYLES */
-  /* ════════════════════════════════════════════════════════════════ */
-  .section {
-    padding-block: clamp(3rem, 6vw, 5rem);
-  }
-
-  .container {
-    max-width: var(--container);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
+  @media (max-width: 680px) {
+    .hero__corner { display: none; }
+    .visit__inner { grid-template-columns: 1fr; }
   }
 </style>

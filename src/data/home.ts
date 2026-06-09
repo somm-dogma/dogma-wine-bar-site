@@ -16,12 +16,11 @@ export const sommelier = {
     "Hello, I'm Vasilii — head sommelier and owner of Dogma. I am the first Port Wine Master in Portugal and one of the country's top three sommeliers.",
 };
 
+// Live, bookable services only. Wine boxes / gift cards / tours are not live yet —
+// do not add them here until they have a real destination.
 export const services = [
   { title: "Wine Tasting", text: "A careful selection of the very best of Portugal.", href: "/bookatasting" },
   { title: "Port Wine Tasting", text: "The finest selection, guided by a Master of Port.", href: "/bookatasting" },
-  { title: "Wine Boxes", text: "Authentic treasures, curated and boxed.", href: "/coming" },
-  { title: "Gift Cards", text: "The wine lover's perfect gift.", href: "/coming" },
-  { title: "Wine Tours", text: "An unforgettable journey through wine.", href: "/coming" },
 ];
 
 export const wineries = [

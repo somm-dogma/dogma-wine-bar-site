@@ -5,19 +5,19 @@
    ============================================================ */
 
 :root {
-  /* Palette - Matched to original Tilda design */
-  --wine-950: #4a0711;   /* Darkest burgundy */
-  --wine-900: #6b0f1a;   /* Primary burgundy (from Tilda) */
-  --wine-800: #881220;   /* Dark burgundy */
-  --wine-700: #a20a24;   /* Medium burgundy */
-  --cream:    #fff8e7;   /* Primary cream (from Tilda) */
-  --cream-50: #fffbf0;   /* Light cream */
-  --paper:    #fffdf8;   /* Off-white */
-  --ink:      #1d1d1d;   /* Dark ink */
-  --ink-soft: #6a565a;   /* Soft gray */
-  --gold:     #c9a961;   /* Warm gold */
-  --gold-300: #e6c794;   /* Light gold */
-  --line:     rgba(107, 15, 26, 0.12);
+  /* Palette — deep burgundy + warm ivory + restrained gold */
+  --wine-950: #2b0a11;   /* Darkest burgundy (footer, deep panels) */
+  --wine-900: #3e0f18;   /* Primary burgundy — theme color */
+  --wine-800: #571922;   /* Raised burgundy surface */
+  --wine-700: #73242f;   /* Hover / lighter burgundy */
+  --cream:    #f7f0e1;   /* Primary ivory surface */
+  --cream-50: #fbf6ec;   /* Lighter ivory */
+  --paper:    #fffdf8;   /* Off-white card */
+  --ink:      #241317;   /* Body text on cream */
+  --ink-soft: #6a565a;   /* Muted text on cream */
+  --gold:     #c9a86a;   /* Accent gold (eyebrows, dividers) */
+  --gold-300: #ddc38f;   /* Lighter gold for text on burgundy */
+  --line:     rgba(36, 19, 23, 0.14);
 
   /* Type */
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -82,8 +82,10 @@ h1, h2, h3, h4 {
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold); /* AA on burgundy (7.4:1) */
 }
+/* Eyebrow on light/cream surfaces — gold fails contrast on cream, use wine */
+.eyebrow--ink { color: var(--wine-700); } /* AA on cream (8:1) */
 
 .lead { font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); }
 
