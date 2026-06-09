@@ -2,9 +2,13 @@
 import Base from "../layouts/Base.astro";
 import { site } from "../data/site";
 import { sommelier } from "../data/home";
-
-const heroImg =
-  "https://optim.tildacdn.net/tild3331-3832-4433-b962-656337323632/-/format/webp/dashakosha_Douro_Val.png.webp";
+import { Image } from "astro:assets";
+import heroDouro from "../assets/images/5091F715-C8D5-45A5-8FB5-AE0FE20F71BB.jpg";
+import vasiliiPortrait from "../assets/images/DSC00579.jpg";
+import momentOne from "../assets/images/dogma-28.jpeg";
+import momentTwo from "../assets/images/dogma-30.jpeg";
+import unescoIcon from "../assets/images/IMG_0452.PNG";
+import portugueseHeraldry from "../assets/images/IMG_0457.PNG";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
@@ -14,7 +18,8 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 <Base>
   <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
-    <div class="hero__bg" style={`background-image:url('${heroImg}')`}></div>
+    <Image src={heroDouro} alt="Douro Valley terraced vineyards and river" class="hero__bg-image" />
+    <div class="hero__bg"></div>
 
     <span class="hero__corner hero__corner--l">Since {site.established}</span>
     <span class="hero__corner hero__corner--r">Member of<br />Star Wine List</span>
@@ -113,6 +118,16 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
           <p class="award__text">Member of Star Wine List Portugal, three years running.</p>
         </article>
       </div>
+
+      <!-- Credential icons -->
+      <div class="proud__icons">
+        <div class="icon-badge">
+          <Image src={unescoIcon} alt="UNESCO World Heritage seal" class="icon-badge__img" />
+        </div>
+        <div class="icon-badge">
+          <Image src={portugueseHeraldry} alt="Portuguese coat of arms" class="icon-badge__img" />
+        </div>
+      </div>
     </div>
   </section>
 
@@ -127,9 +142,9 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         <a class="btn btn--cream" href="/sommelier">Meet Vasilii</a>
       </div>
 
-      <!-- Intentional crest in place of a portrait until photography is shot -->
+      <!-- Vasilii portrait — Master of Port -->
       <figure class="crest" aria-label="Vasilii Grebencea, Master of Port">
-        <div class="crest__monogram">VG</div>
+        <Image src={vasiliiPortrait} alt="Vasilii Grebencea presenting at a wine event" class="crest__image" />
         <p class="crest__name">Vasilii Grebencea</p>
         <p class="crest__title">Master of Port · Porto</p>
         <span class="crest__star" aria-hidden="true">✶</span>
@@ -494,5 +509,54 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   @media (max-width: 680px) {
     .hero__corner { display: none; }
     .visit__inner { grid-template-columns: 1fr; }
+  }
+
+  /* ───────── ASTRO IMAGE OVERRIDES ───────── */
+  .hero__bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.04);
+  }
+  .crest__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--radius);
+  }
+  .proud__icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+  .icon-badge {
+    position: relative;
+    width: clamp(100px, 14vw, 160px);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    padding: 0.8rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .icon-badge:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .icon-badge__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
 </style>
