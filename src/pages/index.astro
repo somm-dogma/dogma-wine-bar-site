@@ -26,6 +26,9 @@ import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
 // Credentials & affiliations (round pin symbols)
 import credAssoc from "../assets/images/cred-assoc-escancoes.png";
 import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
+import credAsi from "../assets/images/cred-asi.png";
+import credStarRed from "../assets/images/cred-star-red.png";
+import credStarSilver from "../assets/images/cred-star-silver.png";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
@@ -165,12 +168,19 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
           </article>
           <article class="award" data-reveal style="--reveal-delay: 120ms">
             <p class="award__figure">1<sup class="award__sup">st</sup></p>
-            <p class="award__text">First wine bar in Portugal on Star Wine List — three consecutive years with a Red Star.</p>
+            <p class="award__text">First in Portugal on Star Wine List — three consecutive years with a Red Star.</p>
           </article>
-          <article class="award" data-reveal style="--reveal-delay: 180ms">
-            <p class="award__figure">2025–28</p>
-            <p class="award__text">Official Ambassador of Porto, Sommelier Association of Portugal.</p>
-          </article>
+          <a
+            class="award award--link"
+            href="/certificates/ambassador-porto-2025-2028.pdf"
+            target="_blank"
+            rel="noopener"
+            data-reveal
+            style="--reveal-delay: 180ms"
+          >
+            <span class="award__figure">2025–28</span>
+            <span class="award__text">Official Ambassador of Porto, Sommelier Association of Portugal. <span class="award__view">View certificate →</span></span>
+          </a>
         </div>
       </div>
 
@@ -229,12 +239,34 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         <ul class="pins">
           <li>
             <span class="pin" title="Associação dos Escanções de Portugal" aria-label="Member, Associação dos Escanções de Portugal">
-              <Image src={credAssoc} alt="Associação dos Escanções de Portugal seal" widths={[140, 280]} sizes="110px" />
+              <Image src={credAssoc} alt="Associação dos Escanções de Portugal seal" widths={[140, 280]} sizes="116px" />
             </span>
           </li>
           <li>
-            <span class="pin pin--inset" title="Certified Sommelier Venue — Associação dos Escanções de Portugal" aria-label="Certified Sommelier Venue">
-              <Image src={credCertSomm} alt="Certified sommelier venue mark" widths={[160, 320]} sizes="110px" />
+            <span class="pin" title="ASI — Association de la Sommellerie Internationale (member)" aria-label="ASI — Association de la Sommellerie Internationale, member">
+              <Image src={credAsi} alt="ASI member seal" widths={[140, 280]} sizes="116px" />
+            </span>
+          </li>
+          <li>
+            <a
+              class="pin pin--inset"
+              href="/certificates/certified-sommelier-venue.pdf"
+              target="_blank"
+              rel="noopener"
+              title="Certified Sommelier Venue — Associação dos Escanções de Portugal (view plaque)"
+              aria-label="Certified Sommelier Venue — view plaque"
+            >
+              <Image src={credCertSomm} alt="Certified sommelier venue mark" widths={[160, 320]} sizes="116px" />
+            </a>
+          </li>
+          <li>
+            <span class="pin" title="Star Wine List — Red Star" aria-label="Star Wine List, Red Star">
+              <Image src={credStarRed} alt="Star Wine List red star" widths={[140, 280]} sizes="116px" />
+            </span>
+          </li>
+          <li>
+            <span class="pin" title="Silver Star — Star Wine List of the Year 2024" aria-label="Silver Star, Star Wine List of the Year 2024">
+              <Image src={credStarSilver} alt="Silver Star, Star Wine List of the Year 2024" widths={[140, 280]} sizes="116px" />
             </span>
           </li>
         </ul>
@@ -687,6 +719,14 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
   .award__sup { font-size: 0.5em; vertical-align: super; }
   .award__text { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.5; align-self: center; }
+  .award--link { cursor: pointer; }
+  .award__view {
+    display: block;
+    margin-top: 0.45rem;
+    font-weight: 600;
+    color: var(--wine-700);
+    letter-spacing: 0.01em;
+  }
 
   /* ───────── SOMMELIER ───────── */
   .somm { background: var(--wine-900); color: var(--cream-50); }
