@@ -1,6 +1,10 @@
 ---
 import { site, nav } from "../data/site";
 const year = new Date().getFullYear();
+
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
+)}`;
 ---
 
 <footer class="site-footer">
@@ -10,46 +14,32 @@ const year = new Date().getFullYear();
       <p class="footer-tag">{site.tagline}</p>
     </div>
 
-    <div class="footer-col">
-      <h4 class="footer-h">Visit</h4>
-      <p>
-        {site.contact.address}<br />
-        {site.contact.postalCode} {site.contact.city}<br />
-        {site.contact.country}
-      </p>
-      <ul class="footer-hours">
-        {site.hours.map((h) => (
-          <li><span>{h.days}</span><span>{h.time}</span></li>
-        ))}
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4 class="footer-h">Contact</h4>
-      <p><a href={site.contact.phoneHref}>{site.contact.phone}</a></p>
-      {site.contact.email && (
-        <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
-      )}
-      {site.social.instagram && (
-        <p><a href={site.social.instagram} target="_blank" rel="noopener">{site.social.instagramHandle ?? "Instagram"}</a></p>
-      )}
-      <a class="btn btn--cream footer-cta" href={site.booking.table}>Book a table</a>
-    </div>
-
-    <div class="footer-col">
+    <nav class="footer-col" aria-label="Footer navigation">
       <h4 class="footer-h">Explore</h4>
-      <ul class="footer-nav">
+      <ul class="footer-list">
         {nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h4 class="footer-h">Reach us</h4>
+      <ul class="footer-list">
+        <li><a href={mapsHref} target="_blank" rel="noopener">{site.contact.address}, {site.contact.city}</a></li>
+        <li><a href={site.contact.phoneHref}>{site.contact.phone}</a></li>
+        {site.contact.email && (
+          <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+        )}
+        {site.social.instagram && (
+          <li><a href={site.social.instagram} target="_blank" rel="noopener">{site.social.instagramHandle ?? "Instagram"}</a></li>
+        )}
       </ul>
     </div>
   </div>
 
   <div class="container footer-bottom">
     <p>© {year} {site.name}. All rights reserved.</p>
-    <p>
-      <a href="/privacy">Privacy Policy</a> · Design by
-      <a href={site.credits.designerUrl} target="_blank" rel="noopener">{site.credits.designer}</a>
-    </p>
+    <p>Design by <a href={site.credits.designerUrl} target="_blank" rel="noopener">{site.credits.designer}</a></p>
   </div>
 </footer>
 
@@ -61,8 +51,8 @@ const year = new Date().getFullYear();
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr;
-    gap: clamp(2rem, 4vw, 3.5rem);
+    grid-template-columns: 1.6fr 1fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4rem);
     padding-bottom: clamp(2.5rem, 5vw, 4rem);
   }
   .footer-brand .brand {
@@ -73,9 +63,9 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
   }
   .footer-tag {
-    margin-top: 0.8rem;
-    max-width: 28ch;
-    color: rgba(250, 245, 234, 0.72);
+    margin-top: 0.9rem;
+    max-width: 30ch;
+    color: rgba(251, 246, 236, 0.7);
     font-family: var(--font-display);
     font-size: var(--step-1);
     line-height: 1.35;
@@ -86,27 +76,14 @@ const year = new Date().getFullYear();
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--gold-300);
-    margin-bottom: 1rem;
+    margin-bottom: 1.1rem;
   }
-  .footer-col p { color: rgba(250, 245, 234, 0.82); }
-  .footer-col a:hover { color: var(--gold-300); }
-  .footer-hours {
-    margin-top: 1rem;
-    display: grid;
-    gap: 0.4rem;
+  .footer-list { display: grid; gap: 0.6rem; }
+  .footer-list a {
+    color: rgba(251, 246, 236, 0.82);
+    transition: color 0.2s ease;
   }
-  .footer-hours li {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-size: var(--step--1);
-    color: rgba(250, 245, 234, 0.82);
-    border-bottom: 1px solid rgba(250, 245, 234, 0.12);
-    padding-bottom: 0.4rem;
-  }
-  .footer-cta { margin-top: 1.3rem; }
-  .footer-nav { display: grid; gap: 0.6rem; }
-  .footer-nav a { color: rgba(250, 245, 234, 0.82); }
+  .footer-list a:hover { color: var(--gold-300); }
 
   .footer-bottom {
     display: flex;
@@ -114,16 +91,18 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 0.6rem;
     padding-block: 1.5rem;
-    border-top: 1px solid rgba(250, 245, 234, 0.12);
+    border-top: 1px solid rgba(251, 246, 236, 0.12);
     font-size: var(--step--1);
-    color: rgba(250, 245, 234, 0.6);
+    color: rgba(251, 246, 236, 0.55);
   }
   .footer-bottom a { color: var(--gold-300); }
+  .footer-bottom a:hover { color: var(--cream-50); }
 
-  @media (max-width: 880px) {
+  @media (max-width: 760px) {
     .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 460px) {
     .footer-grid { grid-template-columns: 1fr; }
   }
 </style>
