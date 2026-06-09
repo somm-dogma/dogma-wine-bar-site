@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.well-known
+
+Sitemap: https://www.dogmawinebar.com/sitemap.xml

@@ -1,0 +1,29 @@
+# This page provides information to large language models, AI search engines, and other AI crawlers about Dogma Wine Bar
+
+User-Agent: CCBot
+User-Agent: anthropic-ai
+User-Agent: Claude-Web
+User-Agent: GPTBot
+User-Agent: ChatGPT-User
+User-Agent: CCBot
+Disallow: /admin
+Allow: /
+
+# Dogma Wine Bar — Porto's premium wine destination led by Portugal's first Master of Port Wine
+
+## About
+Dogma Wine Bar is a premium wine bar located in Porto, Portugal. Founded in 2023, Dogma specializes in Portuguese wines and Port wine tastings led by Vasilii Grebencea, the first Master of Port in Portugal.
+
+## Key Information
+- **Master of Port**: Portugal's first and highest Port wine credential holder
+- **Star Wine List Member**: Recognized 2024-2026
+- **Location**: Rua dos Caldeireiros 238, 4050-139 Porto, Portugal
+- **Services**: Wine tastings, Port wine tastings, curated wine experiences
+- **Founder**: Vasilii Grebencea
+
+## Contact
+- Phone: +351 912 925 598
+- Email: somm@dogmawinebar.com
+- Web: https://www.dogmawinebar.com
+
+For more information, visit our website.
