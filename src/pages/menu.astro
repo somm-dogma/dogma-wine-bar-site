@@ -6,7 +6,7 @@ import { menuSections } from "../data/menu";
 
 <Base
   title="Menu"
-  description="Dogma Wine Bar's menus — tastings, food, wines by the glass and bottle, and Port & other drinks."
+  description="Dogma Wine Bar's menus in Porto — tastings, food, wines by the glass and bottle, Port and other drinks. Guided by Portugal's first Master of Port."
   headerSolid={true}
 >
   <PageHeader
@@ -22,10 +22,11 @@ import { menuSections } from "../data/menu";
           <button
             class="menu-tab"
             role="tab"
-            id={`tab-${i}`}
-            data-target={`panel-${i}`}
-            aria-controls={`panel-${i}`}
+            id={`tab-${s.id}`}
+            data-target={`panel-${s.id}`}
+            aria-controls={`panel-${s.id}`}
             aria-selected={i === 0 ? "true" : "false"}
+            tabindex={i === 0 ? "0" : "-1"}
           >
             {s.label}
           </button>
@@ -34,30 +35,59 @@ import { menuSections } from "../data/menu";
 
       <div class="menu-panels">
         {menuSections.map((s, i) => (
-          <div
+          <article
             class="menu-panel"
             role="tabpanel"
-            id={`panel-${i}`}
-            aria-labelledby={`tab-${i}`}
+            id={`panel-${s.id}`}
+            aria-labelledby={`tab-${s.id}`}
             hidden={i !== 0}
           >
-            <div class="menu-frame">
-              <iframe
-                src={`https://drive.google.com/file/d/${s.fileId}/preview`}
-                title={`${s.label} menu`}
-                loading="lazy"
-                allow="autoplay"
-              ></iframe>
-            </div>
-            <a
-              class="menu-open"
-              href={`https://drive.google.com/file/d/${s.fileId}/view`}
-              target="_blank"
-              rel="noopener"
-            >
-              Open {s.label} in a new tab ↗
-            </a>
-          </div>
+            <header class="menu-sec__head">
+              <h2 class="menu-sec__title">
+                {s.title}
+                {s.titlePt && <span class="menu-sec__pt">{s.titlePt}</span>}
+              </h2>
+              {s.intro && <p class="menu-sec__intro">{s.intro}</p>}
+            </header>
+
+            {s.groups.map((g) => (
+              <div class="menu-group">
+                {g.title && (
+                  <h3 class="menu-group__title">
+                    {g.title}
+                    {g.titlePt && <span class="menu-group__pt">{g.titlePt}</span>}
+                  </h3>
+                )}
+                {g.note && <p class="menu-group__note">{g.note}</p>}
+
+                <ul class="menu-list">
+                  {g.items.map((item) => (
+                    <li class="m-item">
+                      <div class="m-item__text">
+                        <p class="m-item__name">{item.name}</p>
+                        {item.desc && <p class="m-item__desc">{item.desc}</p>}
+                        {item.meta && <p class="m-item__meta">{item.meta}</p>}
+                      </div>
+                      {item.price && <span class="m-item__price">{item.price}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            {s.notes && s.notes.length > 0 && (
+              <footer class="menu-sec__foot">
+                {s.notes.map((n) => (
+                  <p class="menu-sec__note">{n}</p>
+                ))}
+                {s.pdf && (
+                  <a class="menu-sec__pdf" href={s.pdf} target="_blank" rel="noopener">
+                    Download the {s.label} menu (PDF) ↓
+                  </a>
+                )}
+              </footer>
+            )}
+          </article>
         ))}
       </div>
     </div>
@@ -65,14 +95,17 @@ import { menuSections } from "../data/menu";
 </Base>
 
 <style>
+  /* ---------- Tabs ---------- */
   .menu-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    margin-bottom: 2rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--line);
   }
   .menu-tab {
-    padding: 0.7em 1.3em;
+    padding: 0.65em 1.25em;
     border-radius: 999px;
     border: 1px solid var(--line);
     background: var(--paper);
@@ -91,42 +124,179 @@ import { menuSections } from "../data/menu";
     border-color: var(--wine-800);
   }
 
+  /* ---------- Panel ---------- */
   .menu-panel[hidden] { display: none; }
-  .menu-frame {
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    background: #fff;
+  .menu-panel {
+    max-width: 760px;
+    margin-inline: auto;
   }
-  .menu-frame iframe {
-    width: 100%;
-    height: min(82vh, 920px);
-    border: 0;
+
+  .menu-sec__head {
+    text-align: center;
+    margin-bottom: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  .menu-sec__title {
+    font-size: var(--step-3);
+    line-height: 1.05;
+  }
+  .menu-sec__pt {
     display: block;
+    margin-top: 0.15em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.5em;
+    color: var(--ink-soft);
   }
-  .menu-open {
+  .menu-sec__intro {
+    margin-top: 1rem;
+    max-width: 52ch;
+    margin-inline: auto;
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+
+  /* ---------- Group ---------- */
+  .menu-group { margin-bottom: clamp(2rem, 4vw, 2.8rem); }
+  .menu-group:last-of-type { margin-bottom: 0; }
+
+  .menu-group__title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: var(--step-2);
+    color: var(--wine-900);
+    padding-bottom: 0.7rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 2px solid var(--gold);
+  }
+  .menu-group__pt {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.62em;
+    color: var(--ink-soft);
+  }
+  .menu-group__note {
+    margin: 0.9rem 0 0.2rem;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--wine-700);
+  }
+
+  /* ---------- Items ---------- */
+  .menu-list { display: block; }
+  .m-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1.2rem;
+    align-items: baseline;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .m-item:last-child { border-bottom: 0; }
+
+  .m-item__name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step-0);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .m-item__desc {
+    margin-top: 0.15rem;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+  .m-item__meta {
+    margin-top: 0.1rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--step--1);
+    line-height: 1.4;
+    color: var(--ink-soft);
+  }
+  .m-item__price {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-1);
+    color: var(--wine-800);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .m-item__price::before {
+    content: "€";
+    font-size: 0.7em;
+    margin-right: 0.12em;
+    color: var(--gold);
+    vertical-align: 0.08em;
+  }
+
+  /* ---------- Footnotes + PDF ---------- */
+  .menu-sec__foot {
+    margin-top: clamp(2rem, 4vw, 2.8rem);
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .menu-sec__note {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .menu-sec__pdf {
     display: inline-block;
     margin-top: 1rem;
     font-size: var(--step--1);
     letter-spacing: 0.04em;
     color: var(--wine-800);
-    border-bottom: 1px solid currentColor;
+    border-bottom: 1px solid var(--gold-300);
     padding-bottom: 2px;
+    transition: color 0.2s ease;
   }
-  .menu-open:hover { color: var(--gold); }
+  .menu-sec__pdf:hover { color: var(--gold); }
+
+  @media (max-width: 520px) {
+    .m-item { column-gap: 0.9rem; }
+    .menu-group__title { font-size: var(--step-1); }
+  }
 </style>
 
 <script>
   const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".menu-tab"));
   const panels = Array.from(document.querySelectorAll<HTMLElement>(".menu-panel"));
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = tab.getAttribute("data-target");
-      tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
-      panels.forEach((p) => {
-        p.hidden = p.id !== target;
-      });
+
+  function select(tab: HTMLButtonElement) {
+    const target = tab.getAttribute("data-target");
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((p) => {
+      p.hidden = p.id !== target;
+    });
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => select(tab));
+    // Roving keyboard navigation across the tablist
+    tab.addEventListener("keydown", (e) => {
+      let next = -1;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % tabs.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = tabs.length - 1;
+      if (next >= 0) {
+        e.preventDefault();
+        select(tabs[next]);
+        tabs[next].focus();
+      }
     });
   });
 </script>
