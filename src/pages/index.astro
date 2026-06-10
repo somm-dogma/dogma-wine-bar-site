@@ -25,6 +25,7 @@ import momCheers from "../assets/images/dogma-30.jpeg";
 import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
 // Credentials & affiliations (round pin symbols)
 import credAssoc from "../assets/images/cred-assoc-escancoes.png";
+import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
 import credAsi from "../assets/images/cred-asi.png";
 import credStarRed from "../assets/images/cred-star-red.png";
 import credStarSilver from "../assets/images/cred-star-silver.png";
@@ -220,15 +221,17 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
                 rel="noopener"
                 title={`Star Wine List — Dogma Wine Bar, Red Star ${yr}`}
               >
-                <img
-                  src="https://starwinelist.com/img/badges/large.png"
-                  srcset="https://starwinelist.com/img/badges/large2x.png 2x, https://starwinelist.com/img/badges/large3x.png 3x"
-                  width="100"
-                  height="183"
-                  loading="lazy"
-                  alt={`Star Wine List Red Star badge, Dogma Wine Bar, ${yr}`}
-                />
-                <span class="swl__year">{yr}</span>
+                <span class="swl__badgewrap">
+                  <img
+                    src="https://starwinelist.com/img/badges/large.png"
+                    srcset="https://starwinelist.com/img/badges/large2x.png 2x, https://starwinelist.com/img/badges/large3x.png 3x"
+                    width="100"
+                    height="183"
+                    loading="lazy"
+                    alt={`Star Wine List Red Star badge, Dogma Wine Bar, ${yr}`}
+                  />
+                  <span class="swl__yr">{yr}</span>
+                </span>
               </a>
             ))}
           </div>
@@ -260,6 +263,11 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
           <li>
             <span class="pin" title="ASI — Association de la Sommellerie Internationale (member)" aria-label="ASI — Association de la Sommellerie Internationale, member">
               <Image src={credAsi} alt="ASI member seal" widths={[140, 280]} sizes="116px" />
+            </span>
+          </li>
+          <li>
+            <span class="pin pin--inset" title="Certified sommelier" aria-label="Certified sommelier">
+              <Image src={credCertSomm} alt="Certified sommelier emblem" widths={[160, 320]} sizes="116px" />
             </span>
           </li>
           <li>
@@ -982,13 +990,32 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     transition: transform var(--dur-mid) var(--ease-out);
   }
   .swl__badge:hover { transform: translateY(-4px); }
-  .swl__badge img { width: clamp(66px, 7vw, 82px); height: auto; filter: drop-shadow(0 6px 14px rgba(43, 10, 17, 0.18)); }
-  .swl__year {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: var(--step-0);
-    color: var(--wine-800);
-    letter-spacing: 0.04em;
+  .swl__badgewrap {
+    position: relative;
+    display: block;
+    width: clamp(74px, 8vw, 92px);
+    container-type: inline-size;
+    filter: drop-shadow(0 6px 14px rgba(43, 10, 17, 0.18));
+  }
+  .swl__badge img { width: 100%; height: auto; display: block; }
+  /* Year painted onto the badge's white strip (covers the original 2026) */
+  .swl__yr {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", system-ui, sans-serif;
+    font-weight: 800;
+    color: #0a0a0a;
+    font-size: 15px; /* fallback if container units unsupported */
+    font-size: 19cqw;
+    letter-spacing: 0.005em;
+    line-height: 1;
   }
 
   /* ───────── CREDENTIALS & AFFILIATIONS — symbol pins ───────── */
