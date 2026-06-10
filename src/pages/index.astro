@@ -12,7 +12,8 @@ import bronzeMedal from "../assets/images/award-bronze-2024.jpg";
 // Intro — storefront
 import storefront from "../assets/images/dogma-8.jpeg";
 // Master of Port — cellar + IVDP seal
-import portCellar from "../assets/images/IMG_6101.jpeg";
+import portCellar from "../assets/images/mop-cellar-bg.jpg";
+import mopSealIvdp from "../assets/images/mop-seal-ivdp.png";
 import mopSeal from "../assets/images/mop-seal-ivdp.png";
 // Services
 import svcWineTasting from "../assets/images/dogma-47.jpeg";
@@ -76,15 +77,17 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     <div class="hero__panel">
       <div class="hero__panel-inner">
         <h1 class="hero__logo-h1">
-          <Image
-            src={dogmaLogo}
-            alt="Dogma — Wine Bar &amp; Tastings, Porto"
-            class="hero__logo"
-            widths={[320, 520, 720]}
-            sizes="(max-width: 880px) 230px, 360px"
-            loading="eager"
-            fetchpriority="high"
-          />
+          <span class="hero__seal">
+            <Image
+              src={dogmaLogo}
+              alt="Dogma — Wine Bar &amp; Tastings, Porto"
+              class="hero__logo"
+              widths={[320, 520, 720]}
+              sizes="(max-width: 880px) 200px, 280px"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </span>
         </h1>
         <span class="hero__rule" aria-hidden="true"></span>
         <p class="hero__tagline">{site.tagline}</p>
@@ -498,7 +501,26 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     max-width: 440px;
   }
   .hero__logo-h1 { margin: 0; line-height: 0; }
-  .hero__logo { width: clamp(208px, 24vw, 344px); height: auto; }
+  .hero__seal {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(248px, 30vw, 360px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    box-shadow: var(--shadow-xl);
+  }
+  /* inner concentric ring — seal detailing */
+  .hero__seal::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 106, 0.5);
+    pointer-events: none;
+  }
+  .hero__logo { width: 68%; height: auto; }
   .hero__rule {
     width: 60px;
     height: 2px;
