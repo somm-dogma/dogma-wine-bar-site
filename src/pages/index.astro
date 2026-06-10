@@ -25,10 +25,10 @@ import momCheers from "../assets/images/dogma-30.jpeg";
 import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
 // Credentials & affiliations (round pin symbols)
 import credAssoc from "../assets/images/cred-assoc-escancoes.png";
-import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
 import credAsi from "../assets/images/cred-asi.png";
 import credStarRed from "../assets/images/cred-star-red.png";
 import credStarSilver from "../assets/images/cred-star-silver.png";
+import credShield from "../assets/images/cred-sommelier-venue-shield.png";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
@@ -210,32 +210,47 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
         <div class="swl" data-reveal="right">
           <p class="swl__title">Star Wine List · Red Star</p>
-          <p class="swl__sub">Awarded a Red Star in <strong>2024, 2025 and 2026</strong> — three consecutive years among the world’s great wine lists.</p>
+          <p class="swl__sub">Red Star three consecutive years among the world’s great wine lists.</p>
           <div class="swl__row">
-            <a
-              class="swl__badge"
-              href="https://starwinelist.com/wine-place/dogma-wine-bar?utm_source=badge&utm_content=large"
-              target="_blank"
-              rel="noopener"
-              title="Star Wine List — Dogma Wine Bar, Red Star 2026"
-            >
-              <img
-                src="https://starwinelist.com/img/badges/large.png"
-                srcset="https://starwinelist.com/img/badges/large2x.png 2x, https://starwinelist.com/img/badges/large3x.png 3x"
-                width="100"
-                height="183"
-                loading="lazy"
-                alt="Star Wine List Red Star badge, Dogma Wine Bar, 2026"
-              />
-              <span class="swl__year">2026</span>
-            </a>
+            {[2024, 2025, 2026].map((yr) => (
+              <a
+                class="swl__badge"
+                href="https://starwinelist.com/wine-place/dogma-wine-bar?utm_source=badge&utm_content=large"
+                target="_blank"
+                rel="noopener"
+                title={`Star Wine List — Dogma Wine Bar, Red Star ${yr}`}
+              >
+                <img
+                  src="https://starwinelist.com/img/badges/large.png"
+                  srcset="https://starwinelist.com/img/badges/large2x.png 2x, https://starwinelist.com/img/badges/large3x.png 3x"
+                  width="100"
+                  height="183"
+                  loading="lazy"
+                  alt={`Star Wine List Red Star badge, Dogma Wine Bar, ${yr}`}
+                />
+                <span class="swl__year">{yr}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
 
-      <!-- Credentials & affiliations — symbol pins -->
+      <!-- Credentials & affiliations -->
       <div class="creds" data-reveal>
         <p class="creds__title">Credentials &amp; affiliations</p>
+
+        <!-- Flagship venue credential — its own badge -->
+        <a
+          class="venue-badge"
+          href="/certificates/certified-sommelier-venue.pdf"
+          target="_blank"
+          rel="noopener"
+          aria-label="Certified Sommelier Venue — Associação dos Escanções de Portugal · Wines of Portugal. Open the official plaque."
+        >
+          <Image src={credShield} alt="Estabelecimento com Escanção Sommelier — official certified sommelier venue plaque" widths={[260, 420]} sizes="220px" />
+          <span class="venue-badge__cap">Certified Sommelier Venue<br /><span class="venue-badge__sub">Escanções de Portugal · Wines of Portugal</span></span>
+        </a>
+
         <ul class="pins">
           <li>
             <span class="pin" title="Associação dos Escanções de Portugal" aria-label="Member, Associação dos Escanções de Portugal">
@@ -246,18 +261,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
             <span class="pin" title="ASI — Association de la Sommellerie Internationale (member)" aria-label="ASI — Association de la Sommellerie Internationale, member">
               <Image src={credAsi} alt="ASI member seal" widths={[140, 280]} sizes="116px" />
             </span>
-          </li>
-          <li>
-            <a
-              class="pin pin--inset"
-              href="/certificates/certified-sommelier-venue.pdf"
-              target="_blank"
-              rel="noopener"
-              title="Certified Sommelier Venue — Associação dos Escanções de Portugal (view plaque)"
-              aria-label="Certified Sommelier Venue — view plaque"
-            >
-              <Image src={credCertSomm} alt="Certified sommelier venue mark" widths={[160, 320]} sizes="116px" />
-            </a>
           </li>
           <li>
             <span class="pin" title="Star Wine List — Red Star" aria-label="Star Wine List, Red Star">
@@ -970,16 +973,16 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     color: var(--wine-700);
   }
   .swl__sub { color: var(--ink-soft); font-size: var(--step--1); margin: 0.4rem 0 1.7rem; }
-  .swl__row { display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.2rem); flex-wrap: wrap; }
+  .swl__row { display: flex; justify-content: center; gap: clamp(0.8rem, 2vw, 1.6rem); flex-wrap: wrap; }
   .swl__badge {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.6rem;
     transition: transform var(--dur-mid) var(--ease-out);
   }
   .swl__badge:hover { transform: translateY(-4px); }
-  .swl__badge img { width: 92px; height: auto; filter: drop-shadow(0 6px 14px rgba(43, 10, 17, 0.18)); }
+  .swl__badge img { width: clamp(66px, 7vw, 82px); height: auto; filter: drop-shadow(0 6px 14px rgba(43, 10, 17, 0.18)); }
   .swl__year {
     font-family: var(--font-display);
     font-weight: 600;
@@ -1001,6 +1004,35 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     text-transform: uppercase;
     color: var(--wine-700);
     margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  }
+  /* Flagship venue credential — standalone badge */
+  .venue-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: clamp(2.2rem, 4.5vw, 3.4rem);
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+  .venue-badge:hover { transform: translateY(-4px); }
+  .venue-badge img {
+    width: clamp(150px, 22vw, 208px);
+    height: auto;
+    filter: drop-shadow(0 12px 24px rgba(43, 10, 17, 0.16));
+  }
+  .venue-badge__cap {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-1);
+    line-height: 1.2;
+    color: var(--wine-800);
+  }
+  .venue-badge__sub {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
   }
   .pins {
     display: flex;
