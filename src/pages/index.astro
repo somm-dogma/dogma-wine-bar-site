@@ -74,6 +74,19 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 <Base>
   <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
+    <!-- full-bleed background photo -->
+    <figure class="hero__photo" aria-hidden="true">
+      <Image
+        src={storefront}
+        alt=""
+        widths={[800, 1300, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <!-- content panel floats above with gradient veil -->
     <div class="hero__panel">
       <div class="hero__panel-inner">
         <h1 class="hero__logo-h1">
@@ -85,7 +98,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
               widths={[320, 520, 720]}
               sizes="(max-width: 880px) 200px, 280px"
               loading="eager"
-              fetchpriority="high"
             />
           </span>
         </h1>
@@ -98,17 +110,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         <p class="hero__place">Rua dos Caldeireiros 238 · Porto</p>
       </div>
     </div>
-
-    <figure class="hero__photo">
-      <Image
-        src={storefront}
-        alt="Vasilii at the door of Dogma, established May 2023"
-        widths={[600, 900, 1300]}
-        sizes="(max-width: 880px) 100vw, 56vw"
-        loading="eager"
-      />
-      <figcaption class="hero__photo-cap">Est. May 2023</figcaption>
-    </figure>
 
     <a class="hero__scroll" href="#intro" aria-label="Scroll to content">↓</a>
   </section>
@@ -481,31 +482,54 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .hero {
     position: relative;
     min-height: 100svh;
-    display: grid;
-    grid-template-columns: 44% 56%;
     overflow: hidden;
+    display: flex;
+    align-items: stretch;
   }
+  /* full-bleed background photo */
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  /* content panel — left half, gradient veil fading to transparent right */
   .hero__panel {
-    background: var(--wine-950);
-    color: var(--cream-50);
+    position: relative;
+    z-index: 1;
+    width: clamp(320px, 46vw, 580px);
+    min-height: 100svh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: clamp(2rem, 5vw, 4rem);
+    justify-content: flex-start;
+    padding: clamp(2rem, 5vw, 4rem) clamp(2rem, 5vw, 5rem);
+    background: linear-gradient(
+      to right,
+      rgba(43, 10, 17, 0.96) 0%,
+      rgba(43, 10, 17, 0.88) 55%,
+      rgba(43, 10, 17, 0.4) 82%,
+      transparent 100%
+    );
+    color: var(--cream-50);
   }
   .hero__panel-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    max-width: 440px;
+    max-width: 400px;
   }
   .hero__logo-h1 { margin: 0; line-height: 0; }
   .hero__seal {
     position: relative;
     display: grid;
     place-items: center;
-    width: clamp(248px, 30vw, 360px);
+    width: clamp(220px, 26vw, 340px);
     aspect-ratio: 1;
     border-radius: 50%;
     border: 1.5px solid var(--gold);
@@ -550,25 +574,11 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     text-transform: uppercase;
     color: rgba(251, 246, 236, 0.5);
   }
-  .hero__photo { position: relative; overflow: hidden; background: var(--wine-950); }
-  .hero__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
-  .hero__photo-cap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 2.5rem 1.2rem 1.2rem;
-    text-align: center;
-    font-size: var(--step--1);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cream-50);
-    background: linear-gradient(to top, rgba(20, 6, 10, 0.72), transparent);
-  }
   .hero__scroll {
     position: absolute;
+    z-index: 2;
     bottom: 1.4rem;
-    left: 22%;
+    left: 50%;
     transform: translateX(-50%);
     font-size: 1.4rem;
     color: var(--cream-50);
@@ -580,12 +590,21 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     50% { transform: translate(-50%, 8px); }
   }
   @media (max-width: 880px) {
-    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero { min-height: 100svh; }
     .hero__panel {
+      width: 100%;
+      min-height: 100svh;
+      justify-content: center;
       padding-top: calc(var(--header-h) + clamp(1.5rem, 6vw, 3rem));
       padding-bottom: clamp(3rem, 10vw, 4.5rem);
+      background: linear-gradient(
+        to bottom,
+        rgba(43, 10, 17, 0.82) 0%,
+        rgba(43, 10, 17, 0.72) 60%,
+        rgba(43, 10, 17, 0.6) 100%
+      );
     }
-    .hero__photo { height: clamp(360px, 62vh, 560px); }
+    .hero__panel-inner { max-width: 360px; }
     .hero__scroll { display: none; }
   }
 
@@ -658,7 +677,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     height: 100%;
     object-fit: cover;
     object-position: center;
-    opacity: 0.18;
+    opacity: 0.30;
     z-index: -2;
   }
   .mop::after {
