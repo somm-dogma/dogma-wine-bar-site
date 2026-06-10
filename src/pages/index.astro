@@ -3,8 +3,8 @@ import Base from "../layouts/Base.astro";
 import { site } from "../data/site";
 import { sommelier } from "../data/home";
 import { Image } from "astro:assets";
-// Hero & landscape
-import heroDouro from "../assets/images/5091F715-C8D5-45A5-8FB5-AE0FE20F71BB.jpg";
+// Hero — brand logo + storefront
+import dogmaLogo from "../assets/images/dogma-logo.png";
 // Vasilii / sommelier
 import vasiliiPortrait from "../assets/images/DSC00579.jpg";
 import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
@@ -39,7 +39,6 @@ import gFullHouse from "../assets/images/moment-fullhouse.jpg";
 
 // Curated order for the masonry wall — alternates people / food / room, portrait / landscape
 const momentsGallery = [
-  { src: gCheers, alt: "A toast of white wine over a table of petiscos" },
   { src: gTeam, alt: "The Dogma team outside the wine bar" },
   { src: gPetiscos, alt: "A spread of petiscos — sardine toast, charcuterie and olives" },
   { src: gRoomGold, alt: "The dining room full of guests under warm pendant light" },
@@ -73,30 +72,39 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 <Base>
   <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
-    <Image
-      src={heroDouro}
-      alt="Douro Valley terraced vineyards and river"
-      class="hero__bg-image"
-      loading="eager"
-      fetchpriority="high"
-      widths={[640, 1024, 1600, 2000]}
-      sizes="100vw"
-    />
-    <div class="hero__bg"></div>
-
-    <span class="hero__corner hero__corner--l">Since {site.established}</span>
-    <span class="hero__corner hero__corner--r">Member of<br />Star Wine List</span>
-
-    <div class="container hero__content">
-      <p class="hero__eyebrow">Portugal’s first Master of Port</p>
-      <p class="hero__credential">The world’s highest Port wine credential, held by only a handful of experts globally</p>
-      <h1 class="hero__title">Wine Bar<br />Dogma</h1>
-      <p class="hero__sub">{site.tagline}</p>
-      <div class="hero__cta">
-        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
-        <a class="btn btn--ghost" href={site.booking.table}>Book a table</a>
+    <div class="hero__panel">
+      <div class="hero__panel-inner">
+        <h1 class="hero__logo-h1">
+          <Image
+            src={dogmaLogo}
+            alt="Dogma — Wine Bar &amp; Tastings, Porto"
+            class="hero__logo"
+            widths={[320, 520, 720]}
+            sizes="(max-width: 880px) 230px, 360px"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </h1>
+        <span class="hero__rule" aria-hidden="true"></span>
+        <p class="hero__tagline">{site.tagline}</p>
+        <div class="hero__cta">
+          <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+          <a class="btn btn--ghost" href={site.booking.table}>Book a table</a>
+        </div>
+        <p class="hero__place">Rua dos Caldeireiros 238 · Porto</p>
       </div>
     </div>
+
+    <figure class="hero__photo">
+      <Image
+        src={storefront}
+        alt="Vasilii at the door of Dogma, established May 2023"
+        widths={[600, 900, 1300]}
+        sizes="(max-width: 880px) 100vw, 56vw"
+        loading="eager"
+      />
+      <figcaption class="hero__photo-cap">Est. May 2023</figcaption>
+    </figure>
 
     <a class="hero__scroll" href="#intro" aria-label="Scroll to content">↓</a>
   </section>
@@ -105,27 +113,20 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   <section class="section intro" id="intro">
     <div class="container intro__inner">
       <div class="intro__text" data-reveal="left">
-        <p class="eyebrow eyebrow--ink">The house</p>
+        <p class="eyebrow eyebrow--ink">The Place</p>
         <h2 class="intro__title">A wine paradise in the heart of Porto.</h2>
         <p class="lead">
           Since 2023, Dogma has become one of the city’s most talked-about wine bars — a place to
-          slow down, taste widely, and let the terroir speak, every glass poured under the guidance
-          of Portugal’s first Master of Port.
+          slow down, taste widely, and let the terroir speak.
         </p>
-        <ul class="intro__facts">
-          <li>Established 2023</li>
-          <li>Member of Star Wine List, 2024–2026</li>
-          <li>Featured in <em>O Escanção</em></li>
-        </ul>
       </div>
       <figure class="media intro__media" data-reveal="right">
         <Image
-          src={storefront}
-          alt="Vasilii at the door of Dogma, established May 2023"
+          src={gCheers}
+          alt="Friends toasting with glasses of wine over a table of petiscos at Dogma"
           widths={[400, 700, 920]}
           sizes="(max-width: 880px) 460px, 40vw"
         />
-        <figcaption class="intro__caption">Rua dos Caldeireiros 238 · Est. May 2023</figcaption>
       </figure>
     </div>
   </section>
@@ -490,110 +491,100 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     );
     items.forEach((el) => observer.observe(el));
   }
-
-  // Subtle hero parallax — transform only, disabled for reduced-motion.
-  if (!prefersReduced) {
-    const heroImg = document.querySelector<HTMLElement>(".hero__bg-image");
-    if (heroImg) {
-      let ticking = false;
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const y = Math.min(window.scrollY, window.innerHeight);
-          heroImg.style.transform = `scale(1.06) translate3d(0, ${y * 0.12}px, 0)`;
-          ticking = false;
-        });
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-    }
-  }
 </script>
 
 <style>
-  /* ───────── HERO ───────── */
+  /* ───────── HERO (logo panel + storefront) ───────── */
   .hero {
     position: relative;
     min-height: 100svh;
-    display: flex;
-    align-items: flex-end;
-    color: var(--cream-50);
-    padding-block: clamp(7rem, 16vh, 11rem) clamp(3rem, 9vh, 5.5rem);
+    display: grid;
+    grid-template-columns: 44% 56%;
     overflow: hidden;
   }
-  .hero__bg {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    background-size: cover;
-    background-position: center;
-    transform: scale(1.04);
+  .hero__panel {
+    background: var(--wine-950);
+    color: var(--cream-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4rem);
   }
-  .hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      to top,
-      rgba(43, 10, 17, 0.9) 0%,
-      rgba(43, 10, 17, 0.34) 52%,
-      rgba(43, 10, 17, 0.55) 100%
-    );
+  .hero__panel-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 440px;
   }
-  .hero__corner {
-    position: absolute;
-    top: clamp(5.5rem, 11vh, 7rem);
-    font-size: var(--step--1);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(251, 246, 236, 0.82);
-    line-height: 1.35;
+  .hero__logo-h1 { margin: 0; line-height: 0; }
+  .hero__logo { width: clamp(208px, 24vw, 344px); height: auto; }
+  .hero__rule {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    opacity: 0.85;
+    margin: clamp(1.5rem, 3.5vw, 2.4rem) 0 clamp(1.1rem, 2.5vw, 1.6rem);
   }
-  .hero__corner--l { left: var(--gutter); }
-  .hero__corner--r { right: var(--gutter); text-align: right; }
-  .hero__content { max-width: 900px; }
-  .hero__eyebrow {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: var(--step-0);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold-300);
-  }
-  .hero__credential {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--step-0);
-    letter-spacing: 0.02em;
-    color: rgba(251, 246, 236, 0.85);
-    margin-block: 0.5em 0.3em;
-    max-width: 60ch;
-  }
-  .hero__title {
-    font-size: var(--step-4);
-    margin-block: 0.18em 0.4em;
-    line-height: 0.95;
-    text-wrap: balance;
-  }
-  .hero__sub {
+  .hero__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
     font-size: var(--step-1);
-    max-width: 48ch;
-    color: rgba(251, 246, 236, 0.9);
+    line-height: 1.4;
+    color: rgba(251, 246, 236, 0.92);
+    max-width: 26ch;
   }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    justify-content: center;
+    margin-top: clamp(1.7rem, 3.5vw, 2.4rem);
+  }
+  .hero__place {
+    margin-top: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: var(--step--1);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(251, 246, 236, 0.5);
+  }
+  .hero__photo { position: relative; overflow: hidden; background: var(--wine-950); }
+  .hero__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
+  .hero__photo-cap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2.5rem 1.2rem 1.2rem;
+    text-align: center;
+    font-size: var(--step--1);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-50);
+    background: linear-gradient(to top, rgba(20, 6, 10, 0.72), transparent);
+  }
   .hero__scroll {
     position: absolute;
     bottom: 1.4rem;
-    left: 50%;
+    left: 22%;
     transform: translateX(-50%);
     font-size: 1.4rem;
-    opacity: 0.7;
+    color: var(--cream-50);
+    opacity: 0.65;
     animation: bob 2.4s ease-in-out infinite;
   }
   @keyframes bob {
     0%, 100% { transform: translate(-50%, 0); }
     50% { transform: translate(-50%, 8px); }
+  }
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero__panel {
+      padding-top: calc(var(--header-h) + clamp(1.5rem, 6vw, 3rem));
+      padding-bottom: clamp(3rem, 10vw, 4.5rem);
+    }
+    .hero__photo { height: clamp(360px, 62vh, 560px); }
+    .hero__scroll { display: none; }
   }
 
   /* ───────── INTRO ───────── */
@@ -949,7 +940,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
 
   @media (max-width: 768px) {
-    .hero__corner { display: none; }
     .moments__wall { column-count: 2; }
   }
 
@@ -963,16 +953,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
 
   /* ───────── ASTRO IMAGE OVERRIDES ───────── */
-  .hero__bg-image {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transform: scale(1.04);
-  }
   .crest__image {
     position: absolute;
     inset: 0;
