@@ -16,13 +16,47 @@ import portCellar from "../assets/images/IMG_6101.jpeg";
 // Services
 import svcWineTasting from "../assets/images/dogma-47.jpeg";
 import svcPortPour from "../assets/images/DSC09701.jpeg";
-// Moments gallery
+// Visit section interior
 import momInterior from "../assets/images/IMG_9010.jpeg";
-import momGroup from "../assets/images/IMG_5232.jpeg";
-import momTerrace from "../assets/images/dogma-52.jpeg";
-import momFood from "../assets/images/dogma-55.jpeg";
-import momCheers from "../assets/images/dogma-30.jpeg";
-import momTram from "../assets/images/7A33A8DD-3ACE-455A-9EF0-DAEDFBD1BE21.jpg";
+// Moments gallery (editorial wall)
+import gFounders from "../assets/images/moment-founders.jpg";
+import gTeam from "../assets/images/moment-team.jpg";
+import gRoomGold from "../assets/images/moment-room-gold.jpg";
+import gPetiscos from "../assets/images/moment-petiscos.jpg";
+import gServe from "../assets/images/moment-serve.jpg";
+import gCheers from "../assets/images/moment-cheers.jpg";
+import gPolvo from "../assets/images/moment-polvo.jpg";
+import gTerrace from "../assets/images/moment-terrace.jpg";
+import gClams from "../assets/images/moment-clams-bw.jpg";
+import gBanquette from "../assets/images/moment-banquette.jpg";
+import gCommunal from "../assets/images/moment-communal.jpg";
+import gFriends from "../assets/images/moment-friends.jpg";
+import gCandid from "../assets/images/moment-candid.jpg";
+import gLongTable from "../assets/images/moment-longtable.jpg";
+import gDoorway from "../assets/images/moment-doorway.jpg";
+import gBottles from "../assets/images/moment-bottles.jpg";
+import gFullHouse from "../assets/images/moment-fullhouse.jpg";
+
+// Curated order for the masonry wall — alternates people / food / room, portrait / landscape
+const momentsGallery = [
+  { src: gCheers, alt: "A toast of white wine over a table of petiscos" },
+  { src: gTeam, alt: "The Dogma team outside the wine bar" },
+  { src: gPetiscos, alt: "A spread of petiscos — sardine toast, charcuterie and olives" },
+  { src: gRoomGold, alt: "The dining room full of guests under warm pendant light" },
+  { src: gBanquette, alt: "Friends gathered at the colourful banquette" },
+  { src: gFounders, alt: "The founders with bottles of sept by the Porto Vintage Classics mural" },
+  { src: gPolvo, alt: "A plate of octopus served at the table" },
+  { src: gFullHouse, alt: "A full house on a busy evening at Dogma" },
+  { src: gTerrace, alt: "A couple toasting at the outdoor terrace table" },
+  { src: gServe, alt: "A server pouring wine for guests" },
+  { src: gClams, alt: "Clams, bread and olives in black and white" },
+  { src: gCandid, alt: "Guests sharing wine and plates around the table" },
+  { src: gDoorway, alt: "The doorway of Dogma, established May 2023" },
+  { src: gCommunal, alt: "A communal dinner along the long table" },
+  { src: gFriends, alt: "A group of friends raising a glass together" },
+  { src: gBottles, alt: "Bottles lined along the bar above the banquette" },
+  { src: gLongTable, alt: "An evening tasting along the long communal table" },
+];
 // Credentials & affiliations (round pin symbols)
 import credAssoc from "../assets/images/cred-assoc-escancoes.png";
 import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
@@ -369,25 +403,18 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         <p class="eyebrow eyebrow--ink">Moments</p>
         <h2>An evening at Dogma.</h2>
       </header>
-      <div class="moments__grid">
-        <figure class="media m-tall" data-reveal="scale" style="--reveal-delay: 0ms">
-          <Image src={momInterior} alt="The warm dining room of Dogma under pendant lights" widths={[400, 700, 900]} sizes="(max-width: 768px) 50vw, 33vw" />
-        </figure>
-        <figure class="media" data-reveal="scale" style="--reveal-delay: 80ms">
-          <Image src={momGroup} alt="A group toasting around a long table at Dogma" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-        </figure>
-        <figure class="media" data-reveal="scale" style="--reveal-delay: 160ms">
-          <Image src={momFood} alt="Petiscos and wine served on the table" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-        </figure>
-        <figure class="media m-wide" data-reveal="scale" style="--reveal-delay: 240ms">
-          <Image src={momTerrace} alt="Guests toasting on the outdoor terrace" widths={[500, 800, 1100]} sizes="(max-width: 768px) 100vw, 66vw" />
-        </figure>
-        <figure class="media" data-reveal="scale" style="--reveal-delay: 320ms">
-          <Image src={momCheers} alt="A close toast of white wine glasses" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-        </figure>
-        <figure class="media" data-reveal="scale" style="--reveal-delay: 400ms">
-          <Image src={momTram} alt="The historic Porto tram by the Douro river" widths={[350, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-        </figure>
+      <div class="moments__wall">
+        {momentsGallery.map((m, i) => (
+          <figure class="mw__item" data-reveal="scale" style={`--reveal-delay: ${(i % 4) * 70}ms`}>
+            <Image
+              src={m.src}
+              alt={m.alt}
+              widths={[320, 540, 760]}
+              sizes="(max-width: 680px) 45vw, (max-width: 1024px) 30vw, 22vw"
+              loading="lazy"
+            />
+          </figure>
+        ))}
       </div>
     </div>
   </section>
@@ -838,16 +865,27 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   }
   .svc .btn { margin-top: 0.4rem; }
 
-  /* ───────── MOMENTS (editorial gallery) ───────── */
-  .moments__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: clamp(150px, 22vw, 240px);
-    gap: clamp(0.7rem, 1.5vw, 1.1rem);
+  /* ───────── MOMENTS (editorial masonry wall) ───────── */
+  .moments__wall {
+    column-count: 4;
+    column-gap: clamp(0.6rem, 1.4vw, 1rem);
   }
-  .moments__grid .media { box-shadow: var(--shadow-md); }
-  .moments__grid .m-tall { grid-row: span 2; }
-  .moments__grid .m-wide { grid-column: span 2; }
+  .mw__item {
+    break-inside: avoid;
+    margin: 0 0 clamp(0.6rem, 1.4vw, 1rem);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--wine-950);
+    box-shadow: var(--shadow-md);
+  }
+  .mw__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform var(--dur-slow) var(--ease-out);
+    will-change: transform;
+  }
+  .mw__item:hover img { transform: scale(1.05); }
 
   /* ───────── VISIT ───────── */
   .visit { background: var(--wine-900); color: var(--cream-50); }
@@ -898,6 +936,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     .proud__layout { grid-template-columns: 1fr; }
     .proud__media { aspect-ratio: 16 / 10; max-height: 420px; }
     .proud__media img { object-position: center 25%; }
+    .moments__wall { column-count: 3; }
   }
 
   @media (max-width: 880px) {
@@ -911,8 +950,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
   @media (max-width: 768px) {
     .hero__corner { display: none; }
-    .moments__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(140px, 30vw, 200px); }
-    .moments__grid .m-wide { grid-column: span 2; }
+    .moments__wall { column-count: 2; }
   }
 
   @media (max-width: 520px) {
@@ -922,8 +960,6 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     .crest { max-width: 280px; }
     .visit__info { grid-template-columns: 1fr; }
     .award { padding: 1.5rem 1.4rem; }
-    .moments__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: clamp(120px, 38vw, 170px); }
-    .moments__grid .m-tall { grid-row: span 1; }
   }
 
   /* ───────── ASTRO IMAGE OVERRIDES ───────── */
