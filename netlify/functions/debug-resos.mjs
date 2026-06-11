@@ -6,6 +6,7 @@
 import Stripe from "stripe";
 import { checkAvailability, createBooking, cancelBooking, listBookings } from "../lib/resos.mjs";
 import { getTasting } from "../lib/tastings.mjs";
+import { notifyTelegram } from "../lib/notify.mjs";
 
 export default async (req) => {
   const url = new URL(req.url);
@@ -16,6 +17,15 @@ export default async (req) => {
   const time = url.searchParams.get("time") || "19:00";
   const people = parseInt(url.searchParams.get("people") || "2", 10);
   const out = { date, time, people, hasKey: !!process.env.RESOS_API_KEY };
+
+  // Telegram smoke test: ?notify=1 sends a test message to the configured chat.
+  if (url.searchParams.get("notify")) {
+    out.telegram = await notifyTelegram("✅ Dogma booking bot — test notification. If you see this, Telegram is wired up.");
+    return new Response(JSON.stringify(out, null, 2), {
+      status: 200,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    });
+  }
 
   // Inspect recent Stripe Checkout sessions: did payment complete? metadata intact? refunded?
   if (url.searchParams.get("stripe") === "1") {
