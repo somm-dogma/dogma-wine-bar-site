@@ -10,6 +10,10 @@ node_modules/
 # environment variables
 .env
 .env.production
+.env.*.local
+
+# Netlify CLI / local functions runtime
+.netlify/
 
 # macOS / misc
 .DS_Store

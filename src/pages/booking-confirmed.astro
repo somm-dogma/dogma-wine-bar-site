@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+---
+
+<Base
+  title="Booking confirmed"
+  description="Your tasting at Dogma Wine Bar is confirmed."
+  headerSolid
+>
+  <PageHeader eyebrow="Payment received" title="Your tasting is booked." />
+
+  <section class="section confirmed">
+    <div class="container confirmed__inner">
+      <p class="lead">
+        Thank you — your payment went through and your tasting is confirmed. A confirmation
+        email is on its way with the details. We can’t wait to pour for you.
+      </p>
+      <p class="confirmed__meta">
+        Need to change anything, or have a question? Call us on
+        <a href={site.contact.phoneHref}>{site.contact.phone}</a> or email
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+      </p>
+      <div class="confirmed__cta">
+        <a class="btn btn--primary" href="/">Back to home</a>
+        <a class="btn btn--ghost" href="/menu">View the menu</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .confirmed { background: var(--cream-50); }
+  .confirmed__inner { max-width: 640px; }
+  .confirmed .lead { color: var(--ink); }
+  .confirmed__meta { margin-top: 1.2rem; color: var(--ink-soft); }
+  .confirmed__meta a { color: var(--wine-800); border-bottom: 1px solid var(--gold-300); padding-bottom: 1px; }
+  .confirmed__meta a:hover { color: var(--gold); }
+  .confirmed__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.2rem; }
+  .confirmed__cta .btn--ghost { color: var(--wine-800); }
+</style>
+
+<script>
+  // If Stripe didn't send a session_id, this page was reached directly — keep the
+  // message friendly but nudge them to the booking page.
+  if (!new URLSearchParams(location.search).get("session_id")) {
+    // no-op: the static message still reads fine without it.
+  }
+</script>

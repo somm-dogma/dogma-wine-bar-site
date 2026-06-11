@@ -2,6 +2,26 @@
 command = "npm run build"
 publish = "dist"
 
+# Server-side booking proxy. The RESOS_API_KEY / STRIPE_* secrets live only in
+# Netlify env vars and are used inside these functions — never in the client bundle.
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
+# Pretty paths for the booking API → the underlying functions.
+[[redirects]]
+from = "/api/check-availability"
+to = "/.netlify/functions/check-availability"
+status = 200
+force = true
+
+[[redirects]]
+from = "/api/create-checkout-session"
+to = "/.netlify/functions/create-checkout-session"
+status = 200
+force = true
+
+# SPA-style fallback for everything else (static files still take precedence).
 [[redirects]]
 from = "/*"
 to = "/index.html"

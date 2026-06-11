@@ -2,9 +2,62 @@
 import Base from "../layouts/Base.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { site } from "../data/site";
+
+// Display catalogue — keep in sync with the server-authoritative prices
+// in netlify/lib/tastings.mjs (the server is the source of truth for charging).
+const tastings = [
+  {
+    key: "wine",
+    name: "Portuguese Wine Tasting",
+    price: 45,
+    duration: "90 minutes",
+    min: 1,
+    max: 12,
+    points: [
+      "5–6 carefully selected Portuguese wines",
+      "Expert guidance from our sommelier team",
+      "Learn about Portuguese terroirs and winemaking",
+      "Complimentary water and light snacks",
+    ],
+  },
+  {
+    key: "port",
+    name: "Port Wine Master Class",
+    price: 65,
+    duration: "120 minutes",
+    min: 1,
+    max: 12,
+    points: [
+      "6–8 premium Port wines (vintage, tawny, white)",
+      "Guided by a Master of Port Wine",
+      "Deep dive into Port production and aging",
+      "Exclusive access to rare selections",
+      "Complimentary snacks and accompaniments",
+    ],
+  },
+  {
+    key: "private",
+    name: "Private Group Tasting",
+    price: 55,
+    duration: "Customizable",
+    min: 4,
+    max: 20,
+    points: [
+      "Tailored selection based on your group's interests",
+      "Private tasting room experience",
+      "Extended time for questions and exploration",
+      "Food pairings available (additional cost)",
+      "Perfect for celebrations or team events",
+    ],
+  },
+];
+
+// Reasonable starting times within opening hours (16:00–22:00). resOS is the
+// source of truth — if a time is taken, the real free slots are shown back.
+const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
 ---
 
-<Base title="Book a Tasting" description="Reserve your wine tasting experience at Dogma with Portugal's first Master of Port Wine." headerSolid>
+<Base title="Book a Tasting" description="Reserve and pay for your wine tasting experience at Dogma with Portugal's first Master of Port Wine." headerSolid>
   <PageHeader
     title="Wine Tasting Experience"
     subtitle="Guided by Vasilii, Portugal's first Master of Port Wine"
@@ -23,45 +76,110 @@ import { site } from "../data/site";
       </div>
 
       <div class="tasting__options">
-        <div class="tasting-card">
-          <h3>Portuguese Wine Tasting</h3>
-          <p class="price">€45 per person</p>
-          <p class="duration">90 minutes</p>
-          <ul>
-            <li>5–6 carefully selected Portuguese wines</li>
-            <li>Expert guidance from our sommelier team</li>
-            <li>Learn about Portuguese terroirs and winemaking</li>
-            <li>Complimentary water and light snacks</li>
-          </ul>
-          <a class="btn btn--primary" href={site.booking.table} target="_blank" rel="noopener">Reserve now</a>
+        {tastings.map((t) => (
+          <div class="tasting-card">
+            <h3>{t.name}</h3>
+            <p class="price">€{t.price} per person{t.key === "private" ? " (min. 4 people)" : ""}</p>
+            <p class="duration">{t.duration}</p>
+            <ul>
+              {t.points.map((p) => <li>{p}</li>)}
+            </ul>
+            <button class="btn btn--primary js-pick" type="button" data-tasting={t.key}>
+              Reserve now
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <!-- ───────────────── Booking + payment flow ───────────────── -->
+      <div class="booking" id="book">
+        <h3 class="booking__title">Reserve your tasting</h3>
+        <p class="booking__sub">
+          Check availability, then pay securely to confirm. Payment is handled by Stripe —
+          your card details never touch our site.
+        </p>
+
+        <p class="booking__alert" id="canceled-note" hidden>
+          Your payment was cancelled — nothing was charged. You can pick a time and try again.
+        </p>
+
+        <!-- Step 1 — choose -->
+        <div class="booking__grid">
+          <div class="field">
+            <label for="tastingType">Tasting</label>
+            <select id="tastingType">
+              {tastings.map((t) => (
+                <option value={t.key} data-min={t.min} data-max={t.max} data-price={t.price}>
+                  {t.name} — €{t.price} pp
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="date">Date</label>
+            <input type="date" id="date" />
+          </div>
+
+          <div class="field">
+            <label for="time">Time</label>
+            <select id="time">
+              {startTimes.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="partySize">Guests</label>
+            <input type="number" id="partySize" min="1" max="12" value="2" inputmode="numeric" />
+          </div>
         </div>
 
-        <div class="tasting-card">
-          <h3>Port Wine Master Class</h3>
-          <p class="price">€65 per person</p>
-          <p class="duration">120 minutes</p>
-          <ul>
-            <li>6–8 premium Port wines (vintage, tawny, white)</li>
-            <li>Guided by a Master of Port Wine</li>
-            <li>Deep dive into Port production and aging</li>
-            <li>Exclusive access to rare selections</li>
-            <li>Complimentary snacks and accompaniments</li>
-          </ul>
-          <a class="btn btn--primary" href={site.booking.table} target="_blank" rel="noopener">Reserve now</a>
+        <p class="booking__price" id="price-line" aria-live="polite"></p>
+
+        <button class="btn btn--primary" type="button" id="check-btn">Check availability</button>
+
+        <!-- availability result -->
+        <div class="booking__status" id="avail-status" role="status" aria-live="polite" hidden></div>
+        <div class="booking__slots" id="slots" hidden>
+          <p>These times are still open that day — tap one:</p>
+          <div class="slots__chips" id="slots-chips"></div>
         </div>
 
-        <div class="tasting-card">
-          <h3>Private Group Tasting</h3>
-          <p class="price">€55 per person (min. 4 people)</p>
-          <p class="duration">Customizable</p>
-          <ul>
-            <li>Tailored selection based on your group's interests</li>
-            <li>Private tasting room experience</li>
-            <li>Extended time for questions and exploration</li>
-            <li>Food pairings available (additional cost)</li>
-            <li>Perfect for celebrations or team events</li>
-          </ul>
-          <a class="btn btn--primary" href={site.booking.table} target="_blank" rel="noopener">Reserve now</a>
+        <!-- Step 2 — contact + pay (revealed when available) -->
+        <div class="booking__contact" id="contact-step" hidden>
+          <h4>Almost there — your details</h4>
+          <div class="booking__grid">
+            <div class="field field--wide">
+              <label for="name">Full name</label>
+              <input type="text" id="name" autocomplete="name" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" autocomplete="tel" />
+            </div>
+          </div>
+
+          <!-- honeypot: hidden from humans -->
+          <div class="hp" aria-hidden="true">
+            <label>Leave this empty<input type="text" id="botField" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="consent" />
+            <span>
+              I have read and accept the <a href="/privacy">Privacy Policy</a> and consent to Dogma
+              storing my details to manage this booking.
+            </span>
+          </label>
+
+          <button class="btn btn--primary" type="button" id="pay-btn">
+            <span id="pay-label">Pay &amp; confirm</span>
+          </button>
+          <p class="booking__error" id="form-error" role="alert" hidden></p>
         </div>
       </div>
 
@@ -102,8 +220,8 @@ import { site } from "../data/site";
           <p>Absolutely. We offer non-alcoholic alternatives and welcome all guests regardless of whether they taste.</p>
         </div>
         <div class="faq-item">
-          <h4>How do I book?</h4>
-          <p>Click "Reserve now" on any tasting option, or contact us directly at {site.contact.email}.</p>
+          <h4>How do I pay?</h4>
+          <p>Securely online via Stripe when you book. We never see or store your card details.</p>
         </div>
         <div class="faq-item">
           <h4>Can I buy wine after tasting?</h4>
@@ -119,33 +237,17 @@ import { site } from "../data/site";
 </Base>
 
 <style>
-  .tasting {
-    background: var(--cream-50);
-  }
+  .tasting { background: var(--cream-50); }
+  .tasting__inner { max-width: 1000px; display: grid; gap: clamp(3rem, 6vw, 5rem); }
 
-  .tasting__inner {
-    max-width: 1000px;
-    display: grid;
-    gap: clamp(3rem, 6vw, 5rem);
-  }
-
-  .tasting__intro h2 {
-    font-size: var(--step-3);
-    margin-bottom: 1.2rem;
-  }
-
-  .tasting__intro p.lead {
-    font-size: var(--step-1);
-    color: var(--ink);
-    max-width: 70ch;
-  }
+  .tasting__intro h2 { font-size: var(--step-3); margin-bottom: 1.2rem; }
+  .tasting__intro p.lead { font-size: var(--step-1); color: var(--ink); max-width: 70ch; }
 
   .tasting__options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
   }
-
   .tasting-card {
     padding: 2rem;
     background: var(--paper);
@@ -156,142 +258,349 @@ import { site } from "../data/site";
     gap: 1rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+  .tasting-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .tasting-card h3 { font-size: var(--step-1); color: var(--wine-900); }
+  .tasting-card .price { font-family: var(--font-display); font-size: var(--step-2); color: var(--gold); font-weight: 600; }
+  .tasting-card .duration { font-size: var(--step--1); color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.1em; }
+  .tasting-card ul { list-style: none; padding: 0; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+  .tasting-card li { padding-left: 1.5rem; position: relative; color: var(--ink-soft); font-size: var(--step--1); line-height: 1.5; }
+  .tasting-card li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: bold; }
+  .tasting-card .btn { margin-top: auto; align-self: flex-start; }
 
-  .tasting-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
+  /* ---------- Booking ---------- */
+  .booking {
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+  .booking__title { font-size: var(--step-2); color: var(--wine-900); }
+  .booking__sub { margin-top: 0.5rem; color: var(--ink-soft); max-width: 60ch; }
+  .booking__alert {
+    margin-top: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(201, 168, 106, 0.16);
+    border: 1px solid var(--gold);
+    color: var(--wine-800);
+    font-size: var(--step--1);
   }
 
-  .tasting-card h3 {
-    font-size: var(--step-1);
-    color: var(--wine-900);
+  .booking__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.6rem;
   }
-
-  .tasting-card .price {
-    font-family: var(--font-display);
-    font-size: var(--step-2);
-    color: var(--gold);
+  .field { display: flex; flex-direction: column; }
+  .field--wide { grid-column: 1 / -1; }
+  .field label {
+    font-size: var(--step--1);
     font-weight: 600;
+    color: var(--wine-900);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .field input,
+  .field select {
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: var(--step-0);
+    color: var(--ink);
+    background: var(--paper);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
   }
 
-  .tasting-card .duration {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .booking__price {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--wine-800);
+    min-height: 1.4em;
   }
+  .booking__price strong { font-weight: 600; }
 
-  .tasting-card ul {
-    list-style: none;
-    padding: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
+  #check-btn { margin-top: 1.2rem; }
 
-  .tasting-card li {
-    padding-left: 1.5rem;
-    position: relative;
-    color: var(--ink-soft);
-    font-size: var(--step--1);
+  .booking__status {
+    margin-top: 1.4rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 8px;
+    font-size: var(--step-0);
     line-height: 1.5;
   }
+  .booking__status.is-ok { background: rgba(76, 122, 76, 0.12); border: 1px solid #4c7a4c; color: #2f5e2f; }
+  .booking__status.is-no { background: rgba(160, 60, 60, 0.1); border: 1px solid #a14444; color: #7a2e2e; }
+  .booking__status.is-busy { background: var(--cream); border: 1px solid var(--line); color: var(--ink-soft); }
 
-  .tasting-card li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--gold);
-    font-weight: bold;
-  }
-
-  .tasting-card .btn {
-    margin-top: auto;
-    align-self: flex-start;
-  }
-
-  .tasting__info {
-    padding: 2.5rem;
-    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
-    color: var(--cream-50);
-    border-radius: var(--radius);
-  }
-
-  .tasting__info h3 {
-    font-size: var(--step-2);
-    margin-bottom: 2rem;
-  }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-  }
-
-  .info-grid h4 {
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-    margin-bottom: 0.6rem;
-    color: var(--gold-300);
-  }
-
-  .info-grid p {
-    color: rgba(250, 245, 234, 0.88);
+  .booking__slots { margin-top: 1rem; }
+  .booking__slots > p { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: 0.6rem; }
+  .slots__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .slot-chip {
+    padding: 0.5em 1em;
+    border-radius: 999px;
+    border: 1px solid var(--gold);
+    background: var(--paper);
+    color: var(--wine-800);
+    font-family: var(--font-body);
     font-size: var(--step--1);
-    line-height: 1.6;
-  }
-
-  .info-grid a {
-    color: var(--gold-300);
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-
-  .info-grid a:hover {
-    opacity: 0.8;
-  }
-
-  .tasting__faq {
-    max-width: 800px;
-  }
-
-  .tasting__faq h3 {
-    font-size: var(--step-2);
-    margin-bottom: 2rem;
-  }
-
-  .faq-item {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .faq-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .faq-item h4 {
-    font-size: var(--step-0);
-    color: var(--wine-900);
-    margin-bottom: 0.6rem;
     font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .slot-chip:hover { background: var(--wine-800); color: var(--cream-50); border-color: var(--wine-800); }
+
+  .booking__contact { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+  .booking__contact h4 { font-size: var(--step-1); color: var(--wine-900); margin-bottom: 0.3rem; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .consent { display: flex; align-items: flex-start; gap: 0.6rem; margin: 1.4rem 0; }
+  .consent input[type="checkbox"] { margin-top: 0.25rem; width: 1.05rem; height: 1.05rem; flex-shrink: 0; accent-color: var(--wine-800); cursor: pointer; }
+  .consent span { font-size: var(--step--1); line-height: 1.5; color: var(--ink-soft); }
+  .consent a { color: var(--wine-800); text-decoration: underline; text-underline-offset: 2px; }
+  .consent a:hover { color: var(--gold); }
+
+  #pay-btn[disabled], #check-btn[disabled] { opacity: 0.6; cursor: progress; transform: none; }
+
+  .booking__error {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(160, 60, 60, 0.1);
+    border: 1px solid #a14444;
+    color: #7a2e2e;
+    font-size: var(--step--1);
   }
 
-  .faq-item p {
-    color: var(--ink-soft);
-    line-height: 1.7;
-  }
+  /* ---------- Info + FAQ ---------- */
+  .tasting__info { padding: 2.5rem; background: linear-gradient(160deg, var(--wine-700), var(--wine-950)); color: var(--cream-50); border-radius: var(--radius); }
+  .tasting__info h3 { font-size: var(--step-2); margin-bottom: 2rem; }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+  .info-grid h4 { font-family: var(--font-display); font-size: var(--step-1); margin-bottom: 0.6rem; color: var(--gold-300); }
+  .info-grid p { color: rgba(250, 245, 234, 0.88); font-size: var(--step--1); line-height: 1.6; }
+  .info-grid a { color: var(--gold-300); text-decoration: none; transition: opacity 0.2s ease; }
+  .info-grid a:hover { opacity: 0.8; }
+
+  .tasting__faq { max-width: 800px; }
+  .tasting__faq h3 { font-size: var(--step-2); margin-bottom: 2rem; }
+  .faq-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .faq-item h4 { font-size: var(--step-0); color: var(--wine-900); margin-bottom: 0.6rem; font-weight: 600; }
+  .faq-item p { color: var(--ink-soft); line-height: 1.7; }
 
   @media (max-width: 760px) {
-    .tasting__options {
-      grid-template-columns: 1fr;
-    }
-
-    .info-grid {
-      grid-template-columns: 1fr;
-    }
+    .tasting__options { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  type AvailResp = { available?: boolean; slots?: string[]; error?: string; fields?: string[] };
+  type SessionResp = { url?: string; available?: boolean; slots?: string[]; error?: string };
+
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const typeEl = $<HTMLSelectElement>("tastingType");
+  const dateEl = $<HTMLInputElement>("date");
+  const timeEl = $<HTMLSelectElement>("time");
+  const partyEl = $<HTMLInputElement>("partySize");
+  const priceLine = $("price-line");
+  const checkBtn = $<HTMLButtonElement>("check-btn");
+  const availStatus = $("avail-status");
+  const slotsBox = $("slots");
+  const slotsChips = $("slots-chips");
+  const contactStep = $("contact-step");
+  const nameEl = $<HTMLInputElement>("name");
+  const emailEl = $<HTMLInputElement>("email");
+  const phoneEl = $<HTMLInputElement>("phone");
+  const botEl = $<HTMLInputElement>("botField");
+  const consentEl = $<HTMLInputElement>("consent");
+  const payBtn = $<HTMLButtonElement>("pay-btn");
+  const payLabel = $("pay-label");
+  const formError = $("form-error");
+
+  // date min = today (local)
+  const todayStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
+  dateEl.min = todayStr;
+
+  let confirmedAvailable = false;
+
+  function selectedOption() {
+    return typeEl.selectedOptions[0];
+  }
+  function updatePartyBounds() {
+    const opt = selectedOption();
+    const min = Number(opt.dataset.min || "1");
+    const max = Number(opt.dataset.max || "12");
+    partyEl.min = String(min);
+    partyEl.max = String(max);
+    if (Number(partyEl.value) < min) partyEl.value = String(min);
+    if (Number(partyEl.value) > max) partyEl.value = String(max);
+    updatePrice();
+  }
+  function updatePrice() {
+    const price = Number(selectedOption().dataset.price || "0");
+    const people = Math.max(1, Number(partyEl.value) || 0);
+    const total = price * people;
+    priceLine.innerHTML = `Total: <strong>€${total}</strong> &nbsp;·&nbsp; €${price} × ${people} guest${people > 1 ? "s" : ""}`;
+  }
+
+  function resetAvailability() {
+    confirmedAvailable = false;
+    contactStep.hidden = true;
+    slotsBox.hidden = true;
+    availStatus.hidden = true;
+    availStatus.className = "booking__status";
+  }
+
+  function setStatus(kind: "ok" | "no" | "busy", html: string) {
+    availStatus.hidden = false;
+    availStatus.className = `booking__status is-${kind}`;
+    availStatus.innerHTML = html;
+  }
+
+  function payload(extra: Record<string, unknown> = {}) {
+    return {
+      tastingType: typeEl.value,
+      date: dateEl.value,
+      time: timeEl.value,
+      partySize: Number(partyEl.value),
+      botField: botEl.value,
+      ...extra,
+    };
+  }
+
+  async function postJSON(url: string, data: unknown) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    let body: any = {};
+    try { body = await res.json(); } catch {}
+    return { ok: res.ok, status: res.status, body };
+  }
+
+  function renderSlots(slots: string[]) {
+    if (!slots || !slots.length) { slotsBox.hidden = true; return; }
+    slotsChips.innerHTML = "";
+    for (const s of slots) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "slot-chip";
+      b.textContent = s;
+      b.addEventListener("click", () => {
+        // ensure the option exists, then select + re-check
+        if (![...timeEl.options].some((o) => o.value === s)) {
+          const o = document.createElement("option");
+          o.value = s; o.textContent = s; timeEl.appendChild(o);
+        }
+        timeEl.value = s;
+        checkAvailability();
+      });
+      slotsChips.appendChild(b);
+    }
+    slotsBox.hidden = false;
+  }
+
+  async function checkAvailability() {
+    if (!dateEl.value) { setStatus("no", "Please choose a date first."); return; }
+    resetAvailability();
+    checkBtn.disabled = true;
+    setStatus("busy", "Checking availability…");
+    try {
+      const { ok, status, body } = await postJSON("/api/check-availability", payload()) as { ok: boolean; status: number; body: AvailResp };
+      if (!ok) {
+        setStatus("no", body.error || "Could not check availability. Please try again.");
+        return;
+      }
+      if (body.available) {
+        confirmedAvailable = true;
+        setStatus("ok", "✓ That slot is available. Add your details below to confirm.");
+        contactStep.hidden = false;
+        contactStep.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        setStatus("no", "That exact time isn't available. Try one of the open times below, or another day.");
+        renderSlots(body.slots || []);
+      }
+    } catch {
+      setStatus("no", "Network error. Please try again.");
+    } finally {
+      checkBtn.disabled = false;
+    }
+  }
+
+  function showError(msg: string) {
+    formError.hidden = false;
+    formError.textContent = msg;
+  }
+
+  async function pay() {
+    formError.hidden = true;
+    if (!confirmedAvailable) { showError("Please check availability first."); return; }
+    if (!nameEl.value.trim()) return showError("Please enter your name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) return showError("Please enter a valid email.");
+    if (phoneEl.value.replace(/[^\d]/g, "").length < 6) return showError("Please enter a valid phone number.");
+    if (!consentEl.checked) return showError("Please accept the Privacy Policy to continue.");
+
+    payBtn.disabled = true;
+    payLabel.textContent = "Redirecting to secure payment…";
+    try {
+      const { ok, body } = await postJSON("/api/create-checkout-session", payload({
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        phone: phoneEl.value.trim(),
+        consent: consentEl.checked,
+      })) as { ok: boolean; body: SessionResp };
+
+      if (body.url) { window.location.href = body.url; return; }
+      if (body.available === false) {
+        setStatus("no", "Sorry — that slot was just taken. Please pick another time.");
+        renderSlots(body.slots || []);
+        contactStep.hidden = true;
+        confirmedAvailable = false;
+        return;
+      }
+      showError(body.error || "Could not start checkout. Please try again.");
+    } catch {
+      showError("Network error. Please try again.");
+    } finally {
+      payBtn.disabled = false;
+      payLabel.textContent = "Pay & confirm";
+    }
+  }
+
+  // wire up
+  typeEl.addEventListener("change", () => { updatePartyBounds(); resetAvailability(); });
+  partyEl.addEventListener("input", () => { updatePrice(); resetAvailability(); });
+  [dateEl, timeEl].forEach((el) => el.addEventListener("change", resetAvailability));
+  checkBtn.addEventListener("click", checkAvailability);
+  payBtn.addEventListener("click", pay);
+
+  // tasting cards → preselect + scroll to form
+  document.querySelectorAll<HTMLButtonElement>(".js-pick").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.tasting;
+      if (key) { typeEl.value = key; updatePartyBounds(); resetAvailability(); }
+      document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  // returning from a cancelled Stripe checkout
+  if (new URLSearchParams(location.search).get("canceled") === "1") {
+    $("canceled-note").hidden = false;
+  }
+
+  updatePartyBounds();
+</script>
