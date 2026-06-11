@@ -12,11 +12,12 @@ const BASE = "https://api.resos.com/v1";
 const TZ = "Europe/Lisbon";
 
 export class ResosError extends Error {
-  constructor(message, { status, rateLimited = false } = {}) {
+  constructor(message, { status, rateLimited = false, data = null } = {}) {
     super(message);
     this.name = "ResosError";
     this.status = status;
     this.rateLimited = rateLimited;
+    this.data = data;
   }
 }
 
@@ -59,7 +60,7 @@ async function resosFetch(path, { method = "GET", body, query } = {}) {
     const msg =
       (data && (data.message || data.error || data.reason)) ||
       `resOS request failed (${res.status})`;
-    throw new ResosError(String(msg), { status: res.status });
+    throw new ResosError(String(msg), { status: res.status, data });
   }
   return data;
 }

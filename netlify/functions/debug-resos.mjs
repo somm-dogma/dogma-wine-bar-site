@@ -38,7 +38,7 @@ export default async (req) => {
       });
       out.bookingId = id;
     } catch (e) {
-      out.bookingError = { name: e.name, message: e.message, status: e.status };
+      out.bookingError = { name: e.name, message: e.message, status: e.status, data: e.data };
     }
   }
 
