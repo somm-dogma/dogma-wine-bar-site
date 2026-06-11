@@ -37,6 +37,8 @@ export const site = {
     instagram: "https://www.instagram.com/dogma.wine.bar/",
     instagramHandle: "@dogma.wine.bar",
     facebook: "",
+    tripadvisor:
+      "https://www.tripadvisor.com/Attraction_Review-g189180-d15224502-Reviews-Dogma_Wine_Bar_Tastings-Porto_Porto_District_Northern_Portugal.html",
   },
 
   credits: {
