@@ -153,4 +153,9 @@ export async function cancelBooking(id) {
   return resosFetch(`/bookings/${id}`, { method: "PUT", body: { status: "cancelled" } });
 }
 
+/** List bookings in a datetime window (UTC ISO strings). */
+export async function listBookings({ fromDateTime, toDateTime }) {
+  return resosFetch("/bookings", { query: { fromDateTime, toDateTime, limit: "50" } });
+}
+
 export { TZ };

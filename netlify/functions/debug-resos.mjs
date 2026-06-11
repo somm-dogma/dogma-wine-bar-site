@@ -3,7 +3,8 @@
    error when creating a booking, so we can see why the live booking failed.
    GET /.netlify/functions/debug-resos?token=dogma-diag-7Q2&date=2026-06-13&time=19:00&people=2&book=1
 */
-import { checkAvailability, createBooking, cancelBooking } from "../lib/resos.mjs";
+import Stripe from "stripe";
+import { checkAvailability, createBooking, cancelBooking, listBookings } from "../lib/resos.mjs";
 import { getTasting } from "../lib/tastings.mjs";
 
 export default async (req) => {
@@ -15,6 +16,56 @@ export default async (req) => {
   const time = url.searchParams.get("time") || "19:00";
   const people = parseInt(url.searchParams.get("people") || "2", 10);
   const out = { date, time, people, hasKey: !!process.env.RESOS_API_KEY };
+
+  // Inspect recent Stripe Checkout sessions: did payment complete? metadata intact? refunded?
+  if (url.searchParams.get("stripe") === "1") {
+    try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+      const sessions = await stripe.checkout.sessions.list({ limit: 6 });
+      out.recentSessions = sessions.data.map((s) => ({
+        id: s.id,
+        created: new Date(s.created * 1000).toISOString(),
+        mode: s.mode,
+        payment_status: s.payment_status,
+        amount_total: s.amount_total,
+        email: s.customer_details?.email || s.customer_email,
+        metadata: s.metadata,
+        payment_intent: typeof s.payment_intent === "string" ? s.payment_intent : null,
+      }));
+    } catch (e) {
+      out.stripeError = e.message;
+    }
+    return new Response(JSON.stringify(out, null, 2), {
+      status: 200,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    });
+  }
+
+  // List resOS bookings for a date: ?list=YYYY-MM-DD
+  const listDate = url.searchParams.get("list");
+  if (listDate) {
+    try {
+      const bookings = await listBookings({
+        fromDateTime: `${listDate}T00:00:00.000Z`,
+        toDateTime: `${listDate}T23:59:59.000Z`,
+      });
+      out.bookings = (Array.isArray(bookings) ? bookings : []).map((b) => ({
+        id: b._id,
+        date: b.date,
+        time: b.time,
+        people: b.people,
+        status: b.status,
+        name: b.guest?.name,
+        note: b.note,
+      }));
+    } catch (e) {
+      out.listError = { status: e.status, data: e.data, message: e.message };
+    }
+    return new Response(JSON.stringify(out, null, 2), {
+      status: 200,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    });
+  }
 
   // Cleanup: ?cancel=id1,id2,... cancels throwaway DIAG bookings.
   const cancelIds = url.searchParams.get("cancel");
