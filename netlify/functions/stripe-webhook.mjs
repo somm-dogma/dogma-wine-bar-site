@@ -93,7 +93,9 @@ export default async (req) => {
         2
       )} via Stripe`,
       metadata: { source: "website-tasting", tastingType: m.tastingType, stripeSessionId: session.id },
-      status: "confirmed",
+      // resOS accepts "request" (pending) or "approved" (confirmed) on insert —
+      // "confirmed" is rejected. Paid bookings go straight in as approved.
+      status: "approved",
     });
 
     // Mark as processed so retries don't double-book.

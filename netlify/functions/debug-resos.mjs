@@ -3,7 +3,7 @@
    error when creating a booking, so we can see why the live booking failed.
    GET /.netlify/functions/debug-resos?token=dogma-diag-7Q2&date=2026-06-13&time=19:00&people=2&book=1
 */
-import { checkAvailability, createBooking } from "../lib/resos.mjs";
+import { checkAvailability, createBooking, cancelBooking } from "../lib/resos.mjs";
 import { getTasting } from "../lib/tastings.mjs";
 
 export default async (req) => {
@@ -15,6 +15,24 @@ export default async (req) => {
   const time = url.searchParams.get("time") || "19:00";
   const people = parseInt(url.searchParams.get("people") || "2", 10);
   const out = { date, time, people, hasKey: !!process.env.RESOS_API_KEY };
+
+  // Cleanup: ?cancel=id1,id2,... cancels throwaway DIAG bookings.
+  const cancelIds = url.searchParams.get("cancel");
+  if (cancelIds) {
+    out.cancelled = {};
+    for (const id of cancelIds.split(",").filter(Boolean)) {
+      try {
+        await cancelBooking(id);
+        out.cancelled[id] = "cancelled";
+      } catch (e) {
+        out.cancelled[id] = { status: e.status, data: e.data };
+      }
+    }
+    return new Response(JSON.stringify(out, null, 2), {
+      status: 200,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    });
+  }
 
   try {
     out.availability = await checkAvailability({ date, time, people });

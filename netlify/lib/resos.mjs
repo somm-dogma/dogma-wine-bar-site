@@ -148,4 +148,9 @@ export async function createBooking({
   return typeof id === "string" ? id : id?._id || id?.id || null;
 }
 
+/** Cancel a booking by id (used for cleanup). */
+export async function cancelBooking(id) {
+  return resosFetch(`/bookings/${id}`, { method: "PUT", body: { status: "cancelled" } });
+}
+
 export { TZ };
