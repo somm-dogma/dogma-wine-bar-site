@@ -13,6 +13,7 @@
 import Stripe from "stripe";
 import { createBooking, checkAvailability } from "../lib/resos.mjs";
 import { getTasting } from "../lib/tastings.mjs";
+import { notifyTelegram, esc } from "../lib/notify.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
@@ -72,9 +73,17 @@ export default async (req) => {
     const avail = FORCE_CONFLICT
       ? { available: false, openingHourId: null }
       : await checkAvailability({ date: m.date, time: m.time, people });
+    const amount = `€${(session.amount_total / 100).toFixed(2)}`;
+    const guestEmail = session.customer_details?.email || session.customer_email || m.email;
+
     if (!avail.available) {
       if (piId) await stripe.refunds.create({ payment_intent: piId });
       console.error(`[stripe-webhook] slot lost after payment; refunded session ${session.id}`);
+      await notifyTelegram(
+        `⚠️ <b>Tasting payment refunded</b> — slot no longer available\n` +
+          `${esc(m.label)} · ${people} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
+          `👤 ${esc(m.name)} · 📞 ${esc(m.phone)}\n💶 ${amount} refunded`
+      );
       return new Response("refunded", { status: 200 });
     }
 
@@ -89,9 +98,7 @@ export default async (req) => {
         email: session.customer_details?.email || session.customer_email,
         phone: m.phone,
       },
-      note: `Tasting: ${m.label} — ${people} guest(s) · paid €${(session.amount_total / 100).toFixed(
-        2
-      )} via Stripe`,
+      note: `Tasting: ${m.label} — ${people} guest(s) · paid ${amount} via Stripe`,
       metadata: { source: "website-tasting", tastingType: m.tastingType, stripeSessionId: session.id },
       // resOS accepts "request" (pending) or "approved" (confirmed) on insert —
       // "confirmed" is rejected. Paid bookings go straight in as approved.
@@ -106,15 +113,31 @@ export default async (req) => {
     }
 
     console.log(`[stripe-webhook] resOS booking ${bookingId} created for session ${session.id}`);
+    await notifyTelegram(
+      `🍷 <b>New tasting booking</b>\n` +
+        `${esc(m.label)} · ${people} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
+        `👤 ${esc(m.name)}\n📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
+        `💶 ${amount} paid · resOS <code>${esc(bookingId)}</code>`
+    );
     return new Response("booked", { status: 200 });
   } catch (err) {
     console.error(`[stripe-webhook] booking failed for session ${session.id}:`, err?.message);
     // Don't leave the customer charged with no booking.
+    let refunded = false;
     try {
-      if (piId) await stripe.refunds.create({ payment_intent: piId });
+      if (piId) {
+        await stripe.refunds.create({ payment_intent: piId });
+        refunded = true;
+      }
     } catch (refundErr) {
       console.error("[stripe-webhook] refund also failed:", refundErr?.message);
     }
+    await notifyTelegram(
+      `⚠️ <b>Tasting booking FAILED after payment</b>\n` +
+        `${esc(m.label)} · ${esc(m.people)} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
+        `👤 ${esc(m.name)} · 📞 ${esc(m.phone)}\n` +
+        `${refunded ? "💶 auto-refunded" : "❗️ refund FAILED — check Stripe"} · please follow up`
+    );
     // Return 200 so Stripe doesn't retry into duplicate side-effects; handled + logged.
     return new Response("error-handled", { status: 200 });
   }
