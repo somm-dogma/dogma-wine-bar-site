@@ -23,8 +23,9 @@ export async function notifyTelegram(text) {
       }),
     });
     if (!res.ok) {
-      console.error("[notify] telegram non-OK:", res.status);
-      return { ok: false, status: res.status };
+      const body = await res.json().catch(() => null);
+      console.error("[notify] telegram non-OK:", res.status, body?.description);
+      return { ok: false, status: res.status, description: body?.description };
     }
     return { ok: true };
   } catch (e) {

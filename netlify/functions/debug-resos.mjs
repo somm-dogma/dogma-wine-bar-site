@@ -20,6 +20,17 @@ export default async (req) => {
 
   // Telegram smoke test: ?notify=1 sends a test message to the configured chat.
   if (url.searchParams.get("notify")) {
+    // Safe shape check — reveals malformed/swapped values without exposing secrets.
+    const tok = process.env.TELEGRAM_BOT_TOKEN || "";
+    const cid = process.env.TELEGRAM_CHAT_ID || "";
+    out.tokenShape = {
+      length: tok.length,
+      hasColon: tok.includes(":"),
+      looksLikeToken: /^\d{6,}:[\w-]{30,}$/.test(tok),
+      prefix: tok.slice(0, 3),
+      hasWhitespace: /\s/.test(tok),
+    };
+    out.chatShape = { value_len: cid.length, isNumeric: /^-?\d+$/.test(cid), hasWhitespace: /\s/.test(cid), preview: cid.slice(0, 4) };
     out.telegram = await notifyTelegram("✅ Dogma booking bot — test notification. If you see this, Telegram is wired up.");
     return new Response(JSON.stringify(out, null, 2), {
       status: 200,
