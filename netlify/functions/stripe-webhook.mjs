@@ -63,8 +63,15 @@ export default async (req) => {
     const people = parseInt(m.people, 10);
     const tasting = getTasting(m.tastingType);
 
+    // ⚠️ TEMP (dry-run only — REMOVE after testing): booking with the guest name
+    // "__DOGMA_REFUND_TEST__" forces the "slot lost after payment" branch so we can
+    // verify the auto-refund fires. It only ever triggers a refund (safe direction).
+    const FORCE_CONFLICT = m.name === "__DOGMA_REFUND_TEST__";
+
     // Re-check the slot is still free now that payment cleared.
-    const avail = await checkAvailability({ date: m.date, time: m.time, people });
+    const avail = FORCE_CONFLICT
+      ? { available: false, openingHourId: null }
+      : await checkAvailability({ date: m.date, time: m.time, people });
     if (!avail.available) {
       if (piId) await stripe.refunds.create({ payment_intent: piId });
       console.error(`[stripe-webhook] slot lost after payment; refunded session ${session.id}`);
