@@ -64,15 +64,9 @@ export default async (req) => {
     const people = parseInt(m.people, 10);
     const tasting = getTasting(m.tastingType);
 
-    // ⚠️ TEMP (dry-run only — REMOVE after testing): booking with the guest name
-    // "__DOGMA_REFUND_TEST__" forces the "slot lost after payment" branch so we can
-    // verify the auto-refund fires. It only ever triggers a refund (safe direction).
-    const FORCE_CONFLICT = m.name === "__DOGMA_REFUND_TEST__";
-
-    // Re-check the slot is still free now that payment cleared.
-    const avail = FORCE_CONFLICT
-      ? { available: false, openingHourId: null }
-      : await checkAvailability({ date: m.date, time: m.time, people });
+    // Re-check the slot is still free now that payment cleared (guards the rare
+    // race where the last table was taken during checkout).
+    const avail = await checkAvailability({ date: m.date, time: m.time, people });
     const amount = `€${(session.amount_total / 100).toFixed(2)}`;
     const guestEmail = session.customer_details?.email || session.customer_email || m.email;
 

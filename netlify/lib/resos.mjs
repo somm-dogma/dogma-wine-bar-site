@@ -148,14 +148,4 @@ export async function createBooking({
   return typeof id === "string" ? id : id?._id || id?.id || null;
 }
 
-/** Cancel a booking by id (used for cleanup). */
-export async function cancelBooking(id) {
-  return resosFetch(`/bookings/${id}`, { method: "PUT", body: { status: "cancelled" } });
-}
-
-/** List bookings in a datetime window (UTC ISO strings). */
-export async function listBookings({ fromDateTime, toDateTime }) {
-  return resosFetch("/bookings", { query: { fromDateTime, toDateTime, limit: "50" } });
-}
-
 export { TZ };
