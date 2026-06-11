@@ -120,14 +120,14 @@ export async function createBooking({
   comment,
   metadata,
   referrer,
-  status = "confirmed",
+  status,
 }) {
   const payload = {
     date,
     time,
     people,
     duration: durationMin,
-    status,
+    ...(status ? { status } : {}),
     source: "website",
     languageCode: "en",
     guest: {

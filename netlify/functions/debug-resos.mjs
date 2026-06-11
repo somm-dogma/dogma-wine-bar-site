@@ -24,21 +24,31 @@ export default async (req) => {
 
   if (url.searchParams.get("book") === "1") {
     const t = getTasting("wine");
-    try {
-      const id = await createBooking({
-        date,
-        time,
-        people,
-        durationMin: t.durationMin,
-        openingHourId: out.availability?.openingHourId || null,
-        guest: { name: "DIAG TEST (delete me)", email: "diag@dogmawinebar.com", phone: "+351912925598" },
-        note: "DIAG TEST booking — please delete",
-        metadata: { source: "diag" },
-        status: "confirmed",
-      });
-      out.bookingId = id;
-    } catch (e) {
-      out.bookingError = { name: e.name, message: e.message, status: e.status, data: e.data };
+    // Try candidate status values to learn which resOS accepts on insert.
+    // "omit" = send no status field (resOS default). Each successful attempt
+    // creates a real DIAG booking — they're tagged for easy deletion.
+    const candidates = (url.searchParams.get("statuses") || "omit,request,accepted,confirmed,booked,approved").split(",");
+    out.statusProbe = {};
+    let slot = 0;
+    const times = ["19:00", "19:15", "19:30", "19:45", "20:00", "20:15"];
+    for (const s of candidates) {
+      const useTime = times[slot++ % times.length];
+      try {
+        const id = await createBooking({
+          date,
+          time: useTime,
+          people,
+          durationMin: t.durationMin,
+          openingHourId: out.availability?.openingHourId || null,
+          guest: { name: `DIAG ${s} (delete me)`, email: "diag@dogmawinebar.com", phone: "+351912925598" },
+          note: `DIAG status=${s} — please delete`,
+          metadata: { source: "diag" },
+          status: s === "omit" ? undefined : s,
+        });
+        out.statusProbe[s] = { ok: true, time: useTime, bookingId: id };
+      } catch (e) {
+        out.statusProbe[s] = { ok: false, time: useTime, status: e.status, data: e.data };
+      }
     }
   }
 
