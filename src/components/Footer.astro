@@ -13,6 +13,11 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       <p class="brand">Dogma</p>
       <p class="footer-tag">{site.tagline}</p>
 
+      <div class="footer-cta">
+        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+        <a class="btn btn--ghost" href={site.booking.table} target="_blank" rel="noopener">Book a table</a>
+      </div>
+
       <p class="footer-accolade">
         <a href={site.social.tripadvisor} target="_blank" rel="noopener">
           Travellers’ Choice 2025 · Tripadvisor — Top 10% worldwide
@@ -89,6 +94,14 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     transition: color 0.2s ease;
   }
   .footer-list a:hover { color: var(--gold-300); }
+
+  .footer-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+  .footer-cta .btn--ghost { color: var(--cream-50); }
 
   /* Tripadvisor Travellers' Choice — one-line text mention */
   .footer-accolade {

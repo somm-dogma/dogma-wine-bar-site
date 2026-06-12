@@ -11,9 +11,9 @@ export const awards: string[] = [
 
 export const sommelier = {
   name: "Vasilii Grebencea",
-  role: "Owner & Head Sommelier",
+  role: "Co-owner & Head Sommelier",
   quote:
-    "Hello, I'm Vasilii — head sommelier and owner of Dogma. I am the first Port Wine Master in Portugal and one of the country's top three sommeliers.",
+    "Hello — I'm Vasilii, head sommelier and co-owner of Dogma. I'm the first Master of Port in Portugal and one of the country's leading experts in Portuguese wine. Be my guest — and enjoy the finest wines Portugal has to offer.",
 };
 
 // Live, bookable services only. Wine boxes / gift cards / tours are not live yet —
