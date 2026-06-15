@@ -5,23 +5,58 @@
    ============================================================ */
 
 :root {
-  /* Palette — deep burgundy + warm ivory + restrained gold */
-  --wine-950: #2b0a11;   /* Darkest burgundy (footer, deep panels) */
-  --wine-900: #3e0f18;   /* Primary burgundy — theme color */
-  --wine-800: #571922;   /* Raised burgundy surface */
-  --wine-700: #73242f;   /* Hover / lighter burgundy */
-  --cream:    #f7f0e1;   /* Primary ivory surface */
-  --cream-50: #fbf6ec;   /* Lighter ivory */
-  --paper:    #fffdf8;   /* Off-white card */
-  --ink:      #241317;   /* Body text on cream */
-  --ink-soft: #6a565a;   /* Muted text on cream */
-  --gold:     #c9a86a;   /* Accent gold (eyebrows, dividers) */
-  --gold-300: #ddc38f;   /* Lighter gold for text on burgundy */
-  --line:     rgba(36, 19, 23, 0.14);
+  /* ============================================================
+     Palette — Design handoff "Master of Port": parchment, oxblood,
+     candlelight brass. Exact hexes from the design-system token sheet.
+     Token names kept stable so existing components keep resolving.
+     ============================================================ */
+
+  /* Oxblood / burgundy */
+  --wine-950: #2b0a11;   /* Darkest burgundy — deep panels */
+  --wine-900: #3e0f18;   /* Brand oxblood — theme color */
+  --wine-800: #571922;   /* Raised burgundy surface / primary button */
+  --wine-700: #73242f;   /* Hover / eyebrow-on-parchment */
+
+  /* Dark bands (full-bleed sections) */
+  --hero-base:     #1a0e0a;   /* hero base under photo */
+  --credential-bg: #2a0a11;   /* credential dark band */
+  --visit-bg:      #330b12;   /* visit / footer band */
+
+  /* Parchment + paper surfaces */
+  --cream:          #f4ecda;   /* Page parchment */
+  --cream-50:       #f8f1e2;   /* Headline cream on dark */
+  --parchment-deep: #efe5ce;   /* Deeper parchment band (Moments) */
+  --paper:          #fffdf8;   /* Off-white editorial card */
+
+  /* Ink — text on parchment */
+  --ink:       #1a130d;   /* Headlines on parchment */
+  --ink-soft:  #4a3d2e;   /* Body on parchment */
+  --ink-muted: #6b5b45;   /* Tertiary on parchment */
+
+  /* Cream — text on dark */
+  --cream-body:  #e4d8c4;   /* body cream on dark */
+  --cream-soft:  #d8cdb7;   /* secondary cream on dark */
+  --cream-muted: #8a7e68;   /* muted on dark */
+
+  /* Port red accents */
+  --port:       #8b2a3a;   /* signature port red */
+  --port-deep:  #7e2230;   /* years, accents */
+  --port-hover: #9a2e3d;   /* link hover */
+
+  /* Brass / candlelight gold */
+  --brass:     #b8915b;   /* brass rules / accents */
+  --brass-mid: #9a7740;   /* overlines on parchment (AA-safe darker brass) */
+  --gold:      #c9a86a;   /* accent gold (AA on burgundy only) */
+  --gold-300:  #ddc38f;   /* lighter gold for text on burgundy */
+
+  /* Hairlines */
+  --line:      rgba(40, 25, 18, 0.14);    /* on parchment */
+  --line-dark: rgba(184, 145, 91, 0.22);  /* on dark */
 
   /* Type */
-  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Scale */
   --step--1: clamp(0.83rem, 0.78rem + 0.2vw, 0.95rem);
@@ -33,8 +68,12 @@
 
   /* Layout */
   --container: 1180px;
+  --container-wide: 1320px;   /* Home cinematic scroll */
+  --container-gallery: 1440px; /* Moments masonry */
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --radius: 14px;
+  --radius-tile: 14px;        /* gallery tiles */
+  --radius-card: 16px;        /* cards & images (Home) */
   --header-h: 76px;
 
   /* Elevation scale — layered, brand-tinted shadows (wine-950 base) */
@@ -48,9 +87,11 @@
   /* Motion tokens — fluid, premium easing */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);  /* scroll reveals (Design) */
   --dur-fast: 180ms;
   --dur-mid: 320ms;
   --dur-slow: 560ms;
+  --dur-reveal: 860ms;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

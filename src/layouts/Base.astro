@@ -3,10 +3,14 @@
 import "@fontsource/inter/latin-400.css";
 import "@fontsource/inter/latin-500.css";
 import "@fontsource/inter/latin-600.css";
-import "@fontsource/cormorant-garamond/latin-500.css";
-import "@fontsource/cormorant-garamond/latin-600.css";
-import "@fontsource/cormorant-garamond/latin-500-italic.css";
-import "@fontsource/cormorant-garamond/latin-600-italic.css";
+import "@fontsource/playfair-display/latin-500.css";
+import "@fontsource/playfair-display/latin-600.css";
+import "@fontsource/playfair-display/latin-500-italic.css";
+import "@fontsource/playfair-display/latin-600-italic.css";
+// Monospace numerals — prices and figures
+import "@fontsource/jetbrains-mono/latin-400.css";
+import "@fontsource/jetbrains-mono/latin-500.css";
+import "@fontsource/jetbrains-mono/latin-600.css";
 // Geometric numerals for the Star Wine List year badges
 import "@fontsource/montserrat/latin-800.css";
 import "../styles/global.css";
@@ -19,9 +23,11 @@ interface Props {
   description?: string;
   /** Inner pages (no dark hero) use a solid header so the nav stays readable. */
   headerSolid?: boolean;
+  /** Home merges Visit + Footer into one inline section — skip the global footer. */
+  bareFooter?: boolean;
 }
 
-const { title, description, headerSolid = false } = Astro.props;
+const { title, description, headerSolid = false, bareFooter = false } = Astro.props;
 const pageTitle = title
   ? `${title} — ${site.name}`
   : `${site.name} — Wine Bar in Porto · Master of Port`;
@@ -84,7 +90,7 @@ const schema = {
     <main class:list={[{ "main--padded": headerSolid }]}>
       <slot />
     </main>
-    <Footer />
+    {!bareFooter && <Footer />}
     <style>
       .main--padded { padding-top: var(--header-h); }
     </style>

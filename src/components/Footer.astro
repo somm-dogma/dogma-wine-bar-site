@@ -50,14 +50,21 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
   <div class="container footer-bottom">
     <p>© {year} {site.name}. All rights reserved.</p>
+    <p class="footer-credit">Designed by Freemason Hermes</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: var(--wine-950);
-    color: var(--cream-50);
+    background: var(--visit-bg);
+    color: var(--cream-body);
     padding-top: clamp(3rem, 6vw, 5rem);
+  }
+  .footer-credit {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
   }
   .footer-grid {
     display: grid;

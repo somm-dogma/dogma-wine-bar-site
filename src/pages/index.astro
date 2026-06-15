@@ -1,148 +1,107 @@
 ---
 import Base from "../layouts/Base.astro";
-import { site } from "../data/site";
-import { sommelier } from "../data/home";
 import { Image } from "astro:assets";
-// Hero — brand logo + storefront
-import dogmaLogo from "../assets/images/dogma-logo.png";
-// Vasilii / sommelier
-import vasiliiPortrait from "../assets/images/DSC00579.jpg";
-import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
-// Intro — storefront
-import storefront from "../assets/images/dogma-8.jpeg";
-// Master of Port — cellar + IVDP seal
-import portCellar from "../assets/images/mop-cellar-bg.jpg";
-import mopSealIvdp from "../assets/images/mop-seal-ivdp.png";
-import mopSeal from "../assets/images/mop-seal-ivdp.png";
-// Services
-import svcWineTasting from "../assets/images/dogma-47.jpeg";
-import svcPortPour from "../assets/images/DSC09701.jpeg";
-// Visit section interior
-import momInterior from "../assets/images/IMG_9010.jpeg";
-// Moments gallery (editorial wall)
-import gFounders from "../assets/images/moment-founders.jpg";
-import gTeam from "../assets/images/moment-team.jpg";
-import gRoomGold from "../assets/images/moment-room-gold.jpg";
-import gPetiscos from "../assets/images/moment-petiscos.jpg";
-import gServe from "../assets/images/moment-serve.jpg";
-import gCheers from "../assets/images/moment-cheers.jpg";
-import gPolvo from "../assets/images/moment-polvo.jpg";
-import gTerrace from "../assets/images/moment-terrace.jpg";
-import gClams from "../assets/images/moment-clams-bw.jpg";
-import gBanquette from "../assets/images/moment-banquette.jpg";
-import gCommunal from "../assets/images/moment-communal.jpg";
-import gFriends from "../assets/images/moment-friends.jpg";
-import gCandid from "../assets/images/moment-candid.jpg";
-import gLongTable from "../assets/images/moment-longtable.jpg";
-import gDoorway from "../assets/images/moment-doorway.jpg";
-import gBottles from "../assets/images/moment-bottles.jpg";
-import gFullHouse from "../assets/images/moment-fullhouse.jpg";
+import { site } from "../data/site";
+import { tastings } from "../data/tastings";
+import TastingCard from "../components/TastingCard.astro";
 
-// Curated order for the masonry wall — alternates people / food / room, portrait / landscape
-const momentsGallery = [
-  { src: gTeam, alt: "The Dogma team outside the wine bar" },
-  { src: gPetiscos, alt: "A spread of petiscos — sardine toast, charcuterie and olives" },
-  { src: gRoomGold, alt: "The dining room full of guests under warm pendant light" },
-  { src: gBanquette, alt: "Friends gathered at the colourful banquette" },
-  { src: gFounders, alt: "The founders with bottles of sept by the Porto Vintage Classics mural" },
-  { src: gPolvo, alt: "A plate of octopus served at the table" },
-  { src: gFullHouse, alt: "A full house on a busy evening at Dogma" },
-  { src: gTerrace, alt: "A couple toasting at the outdoor terrace table" },
-  { src: gServe, alt: "A server pouring wine for guests" },
-  { src: gClams, alt: "Clams, bread and olives in black and white" },
-  { src: gCandid, alt: "Guests sharing wine and plates around the table" },
-  { src: gDoorway, alt: "The doorway of Dogma, established May 2023" },
-  { src: gCommunal, alt: "A communal dinner along the long table" },
-  { src: gFriends, alt: "A group of friends raising a glass together" },
-  { src: gBottles, alt: "Bottles lined along the bar above the banquette" },
-  { src: gLongTable, alt: "An evening tasting along the long communal table" },
-];
-// Credentials & affiliations (round pin symbols)
-import credAssoc from "../assets/images/cred-assoc-escancoes.png";
-import credCertSomm from "../assets/images/cred-certified-sommelier.jpg";
+// Hero + section photography (Design handoff)
+import heroImg from "../assets/images/hero-dining-room.jpg";
+import placeImg from "../assets/images/moment-cheers.jpg";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+import vasiliiPort from "../assets/images/vasilii-port.jpg";
+import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
+
+// Moments gallery — 12 photos in Design's curated (non-sequential) order
+import m01 from "../assets/images/moment-01.jpg";
+import m02 from "../assets/images/moment-02.jpg";
+import m03 from "../assets/images/moment-03.jpg";
+import m04 from "../assets/images/moment-04.jpg";
+import m05 from "../assets/images/moment-05.jpg";
+import m06 from "../assets/images/moment-06.jpg";
+import m07 from "../assets/images/moment-07.jpg";
+import m08 from "../assets/images/moment-08.jpg";
+import m09 from "../assets/images/moment-09.jpg";
+import m10 from "../assets/images/moment-10.jpg";
+import m11 from "../assets/images/moment-11.jpg";
+import m12 from "../assets/images/moment-12.jpg";
+
+// Credential medallions — finished PNGs, use as-is (object-fit: contain)
+import credEscancoes from "../assets/images/cred-escancoes.png";
 import credAsi from "../assets/images/cred-asi.png";
-import credShield from "../assets/images/cred-sommelier-venue-shield.png";
+import credWset from "../assets/images/cred-wset.png";
+import credIvv from "../assets/images/cred-ivv.png";
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
 )}`;
 
-// ── Recognition — "The Ledger": one anatomy, chronological. ──
+// Recognition ledger — 5 entries. Certificate links only where the PDF exists
+// in public/certificates/; the two Star Wine List entries point to the listing.
 const SWL_URL =
   "https://starwinelist.com/wine-place/dogma-wine-bar?utm_source=badge&utm_content=large";
-const ledger = [
+const awards = [
   {
-    period: "2024",
-    entries: [
-      {
-        dist: "Top 6 · Best Newcomer, worldwide",
-        src: "Star Wine List of the Year",
-        link: { href: SWL_URL, label: "View on Star Wine List" },
-      },
-      {
-        dist: "Bronze · 3rd Best Sommelier in Portugal",
-        src: "XIX Concurso Nacional de Escanções",
-        cert: "/certificates/bronze-sommelier-2024.pdf",
-      },
-    ],
+    year: "2024",
+    dist: "Top 6 · Best Newcomer, worldwide",
+    src: "Star Wine List of the Year",
+    link: { href: SWL_URL, label: "View on Star Wine List" },
   },
   {
-    period: "2024 – 2026",
-    entries: [
-      {
-        dist: "Red Star · three consecutive years — first in Portugal",
-        src: "Star Wine List",
-        link: { href: SWL_URL, label: "View on Star Wine List" },
-      },
-    ],
+    year: "2024",
+    dist: "Bronze · 3rd Best Sommelier in Portugal",
+    src: "XIX Concurso Nacional de Escanções",
+    cert: "/certificates/bronze-sommelier-2024.pdf",
   },
   {
-    period: "2025",
-    entries: [
-      {
-        dist: "Travellers’ Choice · Top 10% worldwide",
-        src: "Tripadvisor",
-        cert: "/certificates/tripadvisor-travellers-choice-2025.pdf",
-      },
-    ],
+    year: "2024 – 26",
+    dist: "Red Star · three consecutive years — first in Portugal",
+    src: "Star Wine List",
+    link: { href: SWL_URL, label: "View on Star Wine List" },
   },
   {
-    period: "2025 – 2028",
-    entries: [
-      {
-        dist: "Official Ambassador of Porto",
-        src: "Sommelier Association of Portugal",
-        cert: "/certificates/ambassador-porto-2025-2028.pdf",
-      },
-    ],
+    year: "2025",
+    dist: "Travellers’ Choice · Top 10% worldwide",
+    src: "Tripadvisor",
+    cert: "/certificates/tripadvisor-travellers-choice-2025.pdf",
+  },
+  {
+    year: "2025 – 28",
+    dist: "Official Ambassador of Porto",
+    src: "Sommelier Association of Portugal",
+    cert: "/certificates/ambassador-porto-2025-2028.pdf",
   },
 ];
-// Flat reveal-delay counter so the ledger lines fade up in sequence.
-let _rev = 0;
-const ledgerRender = ledger.map((g) => ({
-  period: g.period,
-  yearDelay: _rev++ * 70,
-  entries: g.entries.map((e) => ({ ...e, delay: _rev++ * 70 })),
-}));
-// Static affiliations strip — uniform seals, not clickable.
-const seals = [
-  { src: credAssoc, alt: "Associação dos Escanções de Portugal — member seal" },
+
+const medallions = [
+  { src: credEscancoes, alt: "Associação dos Escanções de Portugal — member seal" },
   { src: credAsi, alt: "ASI · Association de la Sommellerie Internationale — member seal" },
-  { src: credCertSomm, alt: "Certified Sommelier emblem" },
-  {
-    src: credShield,
-    alt: "Certified Sommelier Venue plaque — Escanções de Portugal · Wines of Portugal",
-  },
+  { src: credWset, alt: "WSET — Wine & Spirit Education Trust" },
+  { src: credIvv, alt: "Estabelecimento com Escanção · Sommelier" },
+];
+
+const moments = [
+  { src: m02, alt: "Vasilii, Master of Port, at Dogma" },
+  { src: m11, alt: "Clams, bread and small plates from above, in black and white" },
+  { src: m04, alt: "A guest enjoying a glass at the colourful banquette" },
+  { src: m09, alt: "Opening a bottle for guests at the banquette" },
+  { src: m06, alt: "Red wine poured against the patterned banquette" },
+  { src: m08, alt: "The Dogma wine bar & tasting sign at number 238" },
+  { src: m12, alt: "Friends gathered for an evening of wine and food" },
+  { src: m10, alt: "Pouring wine at the bar, in black and white" },
+  { src: m03, alt: "Red wine poured into two glasses at the table" },
+  { src: m07, alt: "A couple toasting at the outdoor table on the cobbles" },
+  { src: m05, alt: "A spread of petiscos — charcuterie, cheese and crudo with wine" },
+  { src: m01, alt: "The dining room full of guests under warm pendant light" },
 ];
 ---
 
-<Base>
+<Base bareFooter>
   <!-- ───────────────────────── HERO ───────────────────────── -->
   <section class="hero">
-    <!-- full-bleed background photo -->
     <figure class="hero__photo" aria-hidden="true">
       <Image
-        src={storefront}
+        src={heroImg}
         alt=""
         widths={[800, 1300, 1920]}
         sizes="100vw"
@@ -150,151 +109,145 @@ const seals = [
         fetchpriority="high"
       />
     </figure>
+    <div class="hero__scrim" aria-hidden="true"></div>
 
-    <!-- content panel floats above with gradient veil -->
-    <div class="hero__panel">
-      <div class="hero__panel-inner">
-        <h1 class="hero__logo-h1">
-          <span class="hero__seal">
-            <Image
-              src={dogmaLogo}
-              alt="Dogma — Wine Bar &amp; Tastings, Porto"
-              class="hero__logo"
-              widths={[320, 520, 720]}
-              sizes="(max-width: 880px) 200px, 280px"
-              loading="eager"
-            />
-          </span>
-        </h1>
-        <span class="hero__rule" aria-hidden="true"></span>
-        <p class="hero__tagline">{site.tagline}</p>
-        <div class="hero__cta">
-          <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
-          <a class="btn btn--ghost" href={site.booking.table}>Book a table</a>
-        </div>
-        <p class="hero__place">Rua dos Caldeireiros 238 · Porto</p>
+    <div class="hero__inner">
+      <p class="hero__overline" style="--d: 200ms">
+        <span class="hero__rule"></span>Wine bar &amp; tastings — Porto
+      </p>
+      <h1 class="hero__headline" style="--d: 320ms">
+        The art of great winemakers, in a single glass.
+      </h1>
+      <p class="hero__subhead" style="--d: 460ms">
+        A wine paradise in the historic centre of Porto, guided by the first Master of Port in
+        Portugal.
+      </p>
+      <div class="hero__cta" style="--d: 600ms">
+        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+        <a class="btn btn--ghost" href={site.booking.table} target="_blank" rel="noopener">Book a table</a>
+        <a class="btn btn--ghost" href="/menu">Menu</a>
       </div>
+      <p class="hero__place" style="--d: 700ms">
+        Rua dos Caldeireiros 238 · 4050-139 Porto, Portugal
+      </p>
     </div>
 
-    <a class="hero__scroll" href="#intro" aria-label="Scroll to content">↓</a>
+    <a class="hero__scroll" href="#place" aria-label="Scroll to content"><span></span></a>
   </section>
 
-  <!-- ───────────────────────── INTRO ───────────────────────── -->
-  <section class="section intro" id="intro">
-    <div class="container intro__inner">
-      <div class="intro__text" data-reveal="left">
-        <p class="eyebrow eyebrow--ink">The Place</p>
-        <h2 class="intro__title">A wine paradise in the heart of Porto.</h2>
-        <p class="lead">
+  <!-- ───────────────────────── THE PLACE ───────────────────────── -->
+  <section class="section place" id="place">
+    <div class="wrap place__inner">
+      <div class="place__text" data-reveal="left">
+        <p class="overline overline--ink"><span class="overline__rule"></span>The place</p>
+        <h2 class="place__title">A wine paradise in the heart of Porto.</h2>
+        <p class="place__body">
           Since 2023, Dogma has become one of the city’s most talked-about wine bars — a place to
-          slow down, taste widely, and let the terroir speak.
+          slow down, taste widely, and let the terroir speak. A long communal table, a deep cellar,
+          and the conviction that great wine is best understood in good company.
+        </p>
+        <p class="place__stat">
+          <span class="place__year">2023</span>
+          <span class="place__divider" aria-hidden="true"></span>
+          <span class="place__statlabel">Established in the historic centre of Porto</span>
         </p>
       </div>
-      <figure class="media intro__media" data-reveal="right">
+      <figure class="place__media" data-reveal="right">
         <Image
-          src={gCheers}
-          alt="Friends toasting with glasses of wine over a table of petiscos at Dogma"
-          widths={[400, 700, 920]}
-          sizes="(max-width: 880px) 460px, 40vw"
+          src={placeImg}
+          alt="Friends toasting over a table of wine and petiscos at Dogma"
+          widths={[420, 760, 1000]}
+          sizes="(max-width: 860px) 100vw, 44vw"
         />
       </figure>
     </div>
   </section>
 
-  <!-- ──────────────────── MASTER OF PORT (spine) ──────────────────── -->
-  <section class="section mop">
+  <!-- ───────────────────── THE CREDENTIAL (dark band) ───────────────────── -->
+  <section class="section credential">
     <Image
-      src={portCellar}
+      src={cellarBg}
       alt=""
-      class="mop__bg"
+      class="credential__bg"
       aria-hidden="true"
       widths={[768, 1280, 1800]}
       sizes="100vw"
+      loading="lazy"
     />
-    <div class="container mop__inner" data-reveal="scale">
-      <figure class="mop__seal">
-        <Image src={mopSeal} alt="Douro e Porto — Garantia, since 1756 (IVDP seal)" widths={[200, 400]} sizes="180px" />
+    <div class="credential__scrim" aria-hidden="true"></div>
+    <div class="wrap credential__inner">
+      <figure class="credential__media" data-reveal="left">
+        <Image
+          src={vasiliiPort}
+          alt="Vasilii Grebencea, Master of Port, holding a glass of aged Port"
+          widths={[420, 720, 980]}
+          sizes="(max-width: 860px) 100vw, 40vw"
+        />
       </figure>
-      <p class="eyebrow">The credential</p>
-      <h2 class="mop__title">The first Master of Port in Portugal.</h2>
-      <p class="mop__body">
-        The Master of Port is the highest distinction awarded for Port wine expertise. Vasilii
-        Grebencea is the first in Portugal to hold it — and one of the country’s top three
-        sommeliers. It means every tasting at Dogma is led by someone who has reached the very top of
-        his craft, and who pours it as a conversation rather than a lecture.
-      </p>
-      <a class="btn btn--cream" href={site.booking.tasting}>Taste with a Master of Port</a>
+      <div class="credential__text" data-reveal="right">
+        <p class="overline"><span class="overline__rule overline__rule--brass"></span>The credential</p>
+        <h2 class="credential__title">The first Master of Port in Portugal.</h2>
+        <p class="credential__body">
+          The Master of Port is the highest distinction awarded for Port wine expertise. Vasilii
+          Grebencea is the first in Portugal to hold it — and one of the country’s top three
+          sommeliers. Every tasting at Dogma is led by someone who has reached the very top of his
+          craft, and who pours it as a conversation rather than a lecture.
+        </p>
+        <a class="btn btn--cream" href={`${site.booking.tasting}?tasting=dreamy-ports`}>
+          Taste with a Master of Port
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- ───────────────────────── RECOGNITION ───────────────────────── -->
-  <section class="section ledger" id="recognition">
-    <div class="container">
-      <header class="section-head center" data-reveal>
-        <p class="eyebrow eyebrow--ink">Recognition</p>
-        <h2>A young bar, already noticed.</h2>
+  <section class="section recognition" id="recognition">
+    <div class="wrap">
+      <header class="recognition__head" data-reveal>
+        <p class="overline overline--ink"><span class="overline__rule"></span>Recognition</p>
+        <h2 class="section__title">A young bar, already noticed.</h2>
       </header>
 
-      <div class="ledger__layout">
-        <ol class="ledger__list" role="list">
-          {ledgerRender.map((g) => (
-            <li class="ledger__group">
-              <p class="ledger__year" data-reveal style={`--reveal-delay: ${g.yearDelay}ms`}>
-                <span class="ledger__yr">{g.period}</span>
-              </p>
-              <ul class="ledger__entries" role="list">
-                {g.entries.map((e) => (
-                  <li class="ledger__entry" data-reveal style={`--reveal-delay: ${e.delay}ms`}>
-                    <span class="ledger__dist">{e.dist}</span>
-                    <span class="ledger__src">{e.src}</span>
-                    {e.cert && (
-                      <a
-                        class="ledger__link"
-                        href={e.cert}
-                        target="_blank"
-                        rel="noopener"
-                        aria-label={`View certificate — ${e.dist}`}
-                      >
-                        View certificate →
-                      </a>
-                    )}
-                    {e.link && (
-                      <a
-                        class="ledger__link"
-                        href={e.link.href}
-                        target="_blank"
-                        rel="noopener"
-                        aria-label={`${e.link.label} — ${e.dist}`}
-                      >
-                        {e.link.label} →
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
+      <div class="recognition__layout">
+        <ol class="awards" role="list">
+          {awards.map((a) => (
+            <li class="award" data-reveal>
+              <span class="award__year">{a.year}</span>
+              <span class="award__detail">
+                <span class="award__dist">{a.dist}</span>
+                <span class="award__src">{a.src}</span>
+                {a.cert && (
+                  <a class="award__link" href={a.cert} target="_blank" rel="noopener"
+                     aria-label={`View certificate — ${a.dist}`}>View certificate →</a>
+                )}
+                {a.link && (
+                  <a class="award__link" href={a.link.href} target="_blank" rel="noopener"
+                     aria-label={`${a.link.label} — ${a.dist}`}>{a.link.label} →</a>
+                )}
+              </span>
             </li>
           ))}
         </ol>
 
-        <figure class="ledger__photo" data-reveal="right">
-          <div class="ledger__photo-frame media">
+        <figure class="recognition__photo" data-reveal="right">
+          <div class="recognition__frame">
             <Image
               src={vasiliiPalmela}
               alt="Vasilii Grebencea assessing a glass on stage at the National Sommelier Championship"
               widths={[420, 760, 1100]}
-              sizes="(max-width: 880px) 100vw, 38vw"
+              sizes="(max-width: 860px) 100vw, 36vw"
             />
           </div>
-          <figcaption class="ledger__cap">On stage · XIX Concurso Nacional de Escanções</figcaption>
+          <figcaption class="recognition__cap">On stage · XIX Concurso Nacional de Escanções</figcaption>
         </figure>
       </div>
 
-      <div class="seals" data-reveal>
-        <p class="seals__eyebrow">Affiliations &amp; credentials</p>
-        <ul class="seals__row" role="list">
-          {seals.map((s) => (
-            <li class="seal">
-              <Image src={s.src} alt={s.alt} widths={[160, 320]} sizes="156px" />
+      <div class="affiliations" data-reveal>
+        <p class="overline overline--ink affiliations__label">Affiliations &amp; credentials</p>
+        <ul class="affiliations__row" role="list">
+          {medallions.map((m) => (
+            <li class="medallion">
+              <Image src={m.src} alt={m.alt} widths={[160, 320]} sizes="148px" loading="lazy" />
             </li>
           ))}
         </ul>
@@ -302,98 +255,38 @@ const seals = [
     </div>
   </section>
 
-  <!-- ───────────────────────── SOMMELIER ───────────────────────── -->
-  <section class="section somm">
-    <div class="container somm__inner">
-      <div class="somm__body" data-reveal="left">
-        <p class="eyebrow">Author’s note</p>
-        <blockquote class="somm__quote">{sommelier.quote}</blockquote>
-        <p class="somm__name">{sommelier.name}</p>
-        <p class="somm__role">{sommelier.role}</p>
-        <a class="btn btn--cream" href="/sommelier">Meet Vasilii</a>
-      </div>
-
-      <!-- Vasilii portrait — Master of Port -->
-      <figure class="crest" aria-label="Vasilii Grebencea, Master of Port" data-reveal="right">
-        <Image
-          src={vasiliiPortrait}
-          alt="Vasilii Grebencea presenting at a wine event"
-          class="crest__image"
-          widths={[400, 720, 1040]}
-          sizes="(max-width: 880px) 360px, 38vw"
-        />
-        <p class="crest__name">Vasilii Grebencea</p>
-        <p class="crest__title">Master of Port · Porto</p>
-        <span class="crest__star" aria-hidden="true">✶</span>
-      </figure>
-    </div>
-  </section>
-
-  <!-- ───────────────────────── SERVICES (live only) ───────────────────────── -->
-  <section class="section services" id="services">
-    <div class="container">
-      <header class="section-head center" data-reveal>
-        <p class="eyebrow eyebrow--ink">What we offer</p>
-        <h2>Two ways to taste.</h2>
+  <!-- ───────────────────── WE PROPOSE (the tastings) ───────────────────── -->
+  <section class="section propose" id="tastings">
+    <div class="wrap">
+      <header class="propose__head" data-reveal>
+        <p class="overline overline--ink"><span class="overline__rule"></span>The tastings</p>
+        <h2 class="propose__title">We propose</h2>
+        <p class="propose__sub">
+          From a bright Vinho Verde region to the rarest Ports — six guided flights, each crafted
+          with passion and dedication.
+        </p>
       </header>
-      <div class="services__grid">
-        <article class="svc" data-reveal="scale" style="--reveal-delay: 0ms">
-          <figure class="media svc__media">
-            <Image
-              src={svcWineTasting}
-              alt="Guests tasting Portuguese wine at Dogma"
-              widths={[400, 600, 900]}
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </figure>
-          <div class="svc__body">
-            <h2 class="svc__title">Wine Tasting</h2>
-            <p class="svc__text">
-              A guided flight through the best of Portugal — five or six wines, the stories behind
-              them, and the terroir in the glass.
-            </p>
-            <p class="svc__price">From €45 · 90 min</p>
-            <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
-          </div>
-        </article>
-        <article class="svc" data-reveal="scale" style="--reveal-delay: 120ms">
-          <figure class="media svc__media">
-            <Image
-              src={svcPortPour}
-              alt="Port wine being poured into a tasting glass"
-              widths={[400, 600, 900]}
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </figure>
-          <div class="svc__body">
-            <h2 class="svc__title">Port Wine Tasting</h2>
-            <p class="svc__text">
-              A masterclass in Port led by a Master of Port — vintage, tawny and white, with rare
-              bottles from the cellar.
-            </p>
-            <p class="svc__price">From €65 · 120 min</p>
-            <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
-          </div>
-        </article>
+      <div class="propose__grid" data-reveal>
+        {tastings.map((t) => <TastingCard tasting={t} />)}
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── MOMENTS (editorial gallery) ───────────────────────── -->
+  <!-- ───────────────────────── MOMENTS ───────────────────────── -->
   <section class="section moments" id="moments">
-    <div class="container">
-      <header class="section-head center" data-reveal>
-        <p class="eyebrow eyebrow--ink">Moments</p>
-        <h2>An evening at Dogma.</h2>
+    <div class="wrap wrap--gallery">
+      <header class="moments__head" data-reveal>
+        <p class="overline overline--ink"><span class="overline__rule"></span>Moments</p>
+        <h2 class="section__title">An evening at Dogma.</h2>
       </header>
       <div class="moments__wall">
-        {momentsGallery.map((m, i) => (
-          <figure class="mw__item" data-reveal="scale" style={`--reveal-delay: ${(i % 4) * 70}ms`}>
+        {moments.map((m) => (
+          <figure class="mw__item">
             <Image
               src={m.src}
               alt={m.alt}
               widths={[320, 540, 760]}
-              sizes="(max-width: 680px) 45vw, (max-width: 1024px) 30vw, 22vw"
+              sizes="(max-width: 680px) 48vw, (max-width: 1100px) 32vw, 24vw"
               loading="lazy"
             />
           </figure>
@@ -402,48 +295,54 @@ const seals = [
     </div>
   </section>
 
-  <!-- ───────────────────────── VISIT ───────────────────────── -->
-  <section class="section visit">
-    <div class="container visit__inner">
-      <div class="visit__info" data-reveal="left">
-        <div class="visit__col">
-          <p class="eyebrow">Visit</p>
-          <h2 class="visit__title">Pull up a seat.</h2>
-          <p class="visit__addr">
-            {site.contact.address}<br />
-            {site.contact.postalCode} {site.contact.city}, {site.contact.country}
-          </p>
-          <a class="visit__maps" href={mapsHref} target="_blank" rel="noopener">Open in Google Maps →</a>
-        </div>
-        <div class="visit__col">
-          <p class="eyebrow">Hours</p>
-          <ul class="visit__hours">
-            {site.hours.map((h) => (
-              <li><span>{h.days}</span><span>{h.time}</span></li>
-            ))}
-          </ul>
-          <p class="visit__phone">
-            <a href={site.contact.phoneHref}>{site.contact.phone}</a>
-          </p>
-          <a class="btn btn--cream" href={site.booking.table}>Book a table</a>
+  <!-- ─────────────────── VISIT + FOOTER (merged, Home only) ─────────────────── -->
+  <section class="visit">
+    <div class="wrap visit__inner">
+      <div class="visit__lead" data-reveal>
+        <p class="overline overline--center"><span class="overline__rule overline__rule--brass"></span>Visit<span class="overline__rule overline__rule--brass"></span></p>
+        <h2 class="visit__title">Pull up a seat.</h2>
+        <p class="visit__tag">A place where the art of great winemakers fills glasses.</p>
+        <div class="visit__cta">
+          <a class="btn btn--cream" href={site.booking.table} target="_blank" rel="noopener">Book a table</a>
+          <a class="btn btn--ghost" href={site.booking.tasting}>Book a tasting</a>
+          <a class="btn btn--ghost" href="/menu">Menu</a>
         </div>
       </div>
-      <figure class="media visit__media" data-reveal="right">
-        <Image
-          src={momInterior}
-          alt="The dining room of Dogma, ready for the evening"
-          widths={[500, 800, 1100]}
-          sizes="(max-width: 880px) 100vw, 48vw"
-        />
-      </figure>
+
+      <div class="visit__grid">
+        <div class="visit__col">
+          <h3 class="visit__h">Where</h3>
+          <p>
+            <a href={mapsHref} target="_blank" rel="noopener">
+              {site.contact.address}<br />{site.contact.postalCode} {site.contact.city}, {site.contact.country}
+            </a>
+          </p>
+        </div>
+        <div class="visit__col">
+          <h3 class="visit__h">Hours</h3>
+          <ul class="visit__hours">
+            <li><span>Mon – Sat</span><span class="visit__time">16:00 – 22:00</span></li>
+            <li><span>Sunday</span><span class="visit__closed">Closed</span></li>
+          </ul>
+        </div>
+        <div class="visit__col">
+          <h3 class="visit__h">Reach us</h3>
+          <ul class="visit__reach">
+            <li><a href={site.contact.phoneHref}><span class="visit__num">{site.contact.phone}</span></a></li>
+            <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+            <li><a href={site.social.instagram} target="_blank" rel="noopener">{site.social.instagramHandle}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="visit__credit">Designed by Freemason Hermes</p>
     </div>
   </section>
-
 </Base>
 
 <script>
-  // Scroll-reveal via IntersectionObserver. Honors reduced-motion by
-  // revealing everything immediately and skipping the observer.
+  // Scroll reveals — IntersectionObserver, reduced-motion safe, with a
+  // failsafe that reveals everything if IO never fires.
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
 
@@ -459,108 +358,151 @@ const seals = [
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -7% 0px" }
     );
     items.forEach((el) => observer.observe(el));
+    // failsafe
+    window.setTimeout(() => items.forEach((el) => el.classList.add("is-visible")), 2800);
   }
 </script>
 
 <style>
-  /* ───────── HERO (logo panel + storefront) ───────── */
+  /* ───────── shared layout helpers ───────── */
+  .wrap {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+  .wrap--gallery { max-width: var(--container-gallery); }
+  .section { padding-block: clamp(88px, 13vw, 168px); }
+  .section__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-top: 0.3em;
+    text-wrap: balance;
+  }
+
+  /* Overlines — brass rule + label */
+  .overline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+  }
+  .overline--ink { color: var(--brass-mid); }
+  .overline--center { justify-content: center; color: var(--brass); }
+  .overline__rule { width: 34px; height: 1px; background: currentColor; opacity: 0.85; }
+  .overline__rule--brass { background: var(--brass); opacity: 0.9; }
+
+  /* ───────── HERO ───────── */
   .hero {
     position: relative;
     min-height: 100svh;
-    overflow: hidden;
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    background: var(--hero-base);
+    color: var(--cream-50);
+    padding: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem)) clamp(20px, 4vw, 40px) clamp(3.5rem, 8vw, 6rem);
   }
-  /* full-bleed background photo */
-  .hero__photo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-  .hero__photo img {
+  .hero__photo { position: absolute; inset: 0; z-index: 0; margin: 0; }
+  .hero__photo :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center;
+    animation: kenburns 7200ms var(--ease-out) both;
   }
-  /* content panel — left half, gradient veil fading to transparent right */
-  .hero__panel {
-    position: relative;
+  @keyframes kenburns {
+    from { transform: scale(1.09); }
+    to { transform: scale(1); }
+  }
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
     z-index: 1;
-    width: clamp(320px, 46vw, 580px);
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: clamp(2rem, 5vw, 4rem) clamp(2rem, 5vw, 5rem);
     background: linear-gradient(
-      to right,
-      rgba(43, 10, 17, 0.96) 0%,
-      rgba(43, 10, 17, 0.88) 55%,
-      rgba(43, 10, 17, 0.4) 82%,
-      transparent 100%
+      180deg,
+      rgba(20, 12, 8, 0.55) 0%,
+      rgba(20, 12, 8, 0.12) 26%,
+      rgba(20, 12, 8, 0.18) 56%,
+      rgba(20, 12, 8, 0.86) 100%
     );
-    color: var(--cream-50);
   }
-  .hero__panel-inner {
+  .hero__inner {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    max-width: 400px;
+    gap: clamp(1.1rem, 2.4vw, 1.7rem);
+    max-width: 820px;
   }
-  .hero__logo-h1 { margin: 0; line-height: 0; }
-  .hero__seal {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: clamp(220px, 26vw, 340px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 1.5px solid var(--gold);
-    box-shadow: var(--shadow-xl);
+  .hero__overline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #e8d9be;
   }
-  /* inner concentric ring — seal detailing */
-  .hero__seal::before {
-    content: "";
-    position: absolute;
-    inset: 9px;
-    border-radius: 50%;
-    border: 1px solid rgba(201, 168, 106, 0.5);
-    pointer-events: none;
-  }
-  .hero__logo { width: 68%; height: auto; }
-  .hero__rule {
-    width: 60px;
-    height: 2px;
-    background: var(--gold);
-    opacity: 0.85;
-    margin: clamp(1.5rem, 3.5vw, 2.4rem) 0 clamp(1.1rem, 2.5vw, 1.6rem);
-  }
-  .hero__tagline {
+  .hero__rule { width: 38px; height: 1px; background: var(--brass); }
+  .hero__headline {
     font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--step-1);
-    line-height: 1.4;
-    color: rgba(251, 246, 236, 0.92);
-    max-width: 26ch;
+    font-weight: 500;
+    font-size: clamp(44px, 5.8vw, 84px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: #f8f1e2;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .hero__subhead {
+    font-family: var(--font-body);
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.7;
+    color: #e4d8c4;
+    max-width: 52ch;
   }
   .hero__cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
+    gap: 16px;
     justify-content: center;
-    margin-top: clamp(1.7rem, 3.5vw, 2.4rem);
+    margin-top: 0.4rem;
   }
   .hero__place {
-    margin-top: clamp(1.8rem, 4vw, 2.8rem);
-    font-size: var(--step--1);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(251, 246, 236, 0.5);
+    margin-top: clamp(0.8rem, 2vw, 1.4rem);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 15px;
+    color: #f8f1e2;
+  }
+  /* staggered entrance */
+  .hero__overline, .hero__headline, .hero__subhead, .hero__cta, .hero__place {
+    opacity: 0;
+    animation: heroRise 900ms var(--ease-reveal) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes heroRise {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: none; }
   }
   .hero__scroll {
     position: absolute;
@@ -568,478 +510,420 @@ const seals = [
     bottom: 1.4rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.4rem;
-    color: var(--cream-50);
-    opacity: 0.65;
-    animation: bob 2.4s ease-in-out infinite;
+    width: 1px;
+    height: 54px;
+    background: linear-gradient(to bottom, transparent, var(--brass));
+    overflow: hidden;
   }
-  @keyframes bob {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 8px); }
+  .hero__scroll span {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, var(--cream-50));
+    animation: scrollPulse 2400ms ease-in-out infinite;
   }
-  @media (max-width: 880px) {
-    .hero { min-height: 100svh; }
-    .hero__panel {
-      width: 100%;
-      min-height: 100svh;
-      justify-content: center;
-      padding-top: calc(var(--header-h) + clamp(1.5rem, 6vw, 3rem));
-      padding-bottom: clamp(3rem, 10vw, 4.5rem);
-      background: linear-gradient(
-        to bottom,
-        rgba(43, 10, 17, 0.82) 0%,
-        rgba(43, 10, 17, 0.72) 60%,
-        rgba(43, 10, 17, 0.6) 100%
-      );
-    }
-    .hero__panel-inner { max-width: 360px; }
-    .hero__scroll { display: none; }
+  @keyframes scrollPulse {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
   }
 
-  /* ───────── INTRO ───────── */
-  .intro__inner {
+  /* ───────── THE PLACE ───────── */
+  .place { background: var(--cream); }
+  .place__inner {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(40px, 6vw, 88px);
     align-items: center;
   }
-  .intro__text { max-width: 60ch; }
-  .intro__media {
-    aspect-ratio: 4 / 5;
-    box-shadow: var(--shadow-lg);
+  .place__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 4.4vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    max-width: 16ch;
+    margin: 18px 0 22px;
+    text-wrap: balance;
   }
-  .intro__media img { object-position: center; }
-  .intro__caption {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 2.2rem 1.2rem 1rem;
-    font-size: var(--step--1);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--cream-50);
-    background: linear-gradient(to top, rgba(43, 10, 17, 0.82), transparent);
-    text-align: center;
+  .place__body {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.78;
+    color: var(--ink-soft);
+    max-width: 50ch;
   }
-  .intro__title { font-size: var(--step-3); margin: 0.4em 0 0.5em; text-wrap: balance; }
-  .intro__facts {
+  .place__stat {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 1.4rem;
-    margin-top: 1.8rem;
-    padding-top: 1.5rem;
+    align-items: center;
+    gap: 20px;
+    margin-top: 34px;
+    padding-top: 28px;
     border-top: 1px solid var(--line);
   }
-  .intro__facts li {
-    position: relative;
-    padding-left: 1.1rem;
-    font-size: var(--step--1);
-    letter-spacing: 0.04em;
-    color: var(--ink-soft);
+  .place__year {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 38px;
+    color: var(--port-deep);
+    letter-spacing: 0.02em;
   }
-  .intro__facts li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.5em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
+  .place__divider { width: 1px; height: 34px; background: var(--line); }
+  .place__statlabel {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+    max-width: 22ch;
   }
-  .intro__facts em { font-style: italic; color: var(--ink); }
-
-  /* ───────── MASTER OF PORT ───────── */
-  .mop {
-    position: relative;
-    background: var(--wine-900);
-    color: var(--cream-50);
+  .place__media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
     overflow: hidden;
-    isolation: isolate;
+    border: 1px solid rgba(58, 46, 34, 0.1);
+    box-shadow: 0 26px 60px -32px rgba(42, 10, 17, 0.42);
   }
-  .mop__bg {
+  .place__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1200ms var(--ease-reveal);
+  }
+  .place__media:hover :global(img) { transform: scale(1.05); }
+
+  /* ───────── THE CREDENTIAL ───────── */
+  .credential {
+    position: relative;
+    overflow: hidden;
+    background: var(--credential-bg);
+    color: var(--cream-soft);
+  }
+  .credential__bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    opacity: 0.30;
-    z-index: -2;
+    opacity: 0.16;
+    z-index: 0;
   }
-  .mop::after {
-    content: "";
+  .credential__scrim {
     position: absolute;
     inset: 0;
-    z-index: -1;
-    background: radial-gradient(
-      ellipse at 50% 40%,
-      rgba(62, 15, 24, 0.55),
-      rgba(43, 10, 17, 0.92)
+    z-index: 1;
+    background: linear-gradient(
+      110deg,
+      rgba(42, 10, 17, 0.96),
+      rgba(42, 10, 17, 0.7) 55%,
+      rgba(42, 10, 17, 0.92)
     );
   }
-  .mop__inner { max-width: 760px; margin-inline: auto; text-align: center; }
-  .mop__seal {
-    width: clamp(132px, 17vw, 188px);
-    aspect-ratio: 1;
-    margin: 0 auto 1.8rem;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(247, 240, 225, 0.14), var(--shadow-xl);
-  }
-  .mop__seal img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .mop__title { font-size: var(--step-3); margin: 0.35em 0 0.6em; text-wrap: balance; }
-  .mop__body {
-    font-size: var(--step-1);
-    line-height: 1.6;
-    color: rgba(251, 246, 236, 0.86);
-    max-width: 60ch;
-    margin: 0 auto 2rem;
-  }
-
-  /* ───────── SECTION HEADS ───────── */
-  .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
-  .section-head h2 { font-size: var(--step-3); margin-top: 0.18em; }
-
-  /* ───────── RECOGNITION — The Ledger ───────── */
-  .ledger { background: var(--cream-50); }
-  .ledger__layout {
+  .credential__inner {
+    position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: 1.25fr 0.75fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: start;
-    margin-top: clamp(2rem, 5vw, 3.5rem);
-  }
-  .ledger__list { list-style: none; margin: 0; padding: 0; }
-  .ledger__year {
-    display: flex;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(40px, 6vw, 88px);
     align-items: center;
-    gap: 1.1rem;
-    margin: clamp(2.4rem, 5vw, 3.4rem) 0 clamp(1.3rem, 3vw, 1.9rem);
   }
-  .ledger__group:first-child .ledger__year { margin-top: 0; }
-  .ledger__yr {
-    font-family: var(--font-body);
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--wine-700);
-    white-space: nowrap;
-  }
-  .ledger__year::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-  .ledger__entries {
-    list-style: none;
+  .credential__media {
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(1.6rem, 3.5vw, 2.6rem);
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid rgba(201, 168, 106, 0.28);
+    box-shadow: 0 40px 90px -42px rgba(0, 0, 0, 0.85);
   }
-  .ledger__entry { display: flex; flex-direction: column; gap: 0.35rem; }
-  .ledger__dist {
+  .credential__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  .credential__title {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.5rem, 1.05rem + 1.7vw, 2.4rem);
-    line-height: 1.08;
+    font-weight: 500;
+    font-size: clamp(32px, 4.2vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    color: #f8f1e2;
+    margin: 18px 0 22px;
+    text-wrap: balance;
+  }
+  .credential__body {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--cream-soft);
+    max-width: 52ch;
+    margin-bottom: 32px;
+  }
+
+  /* ───────── RECOGNITION ───────── */
+  .recognition { background: var(--cream); }
+  .recognition__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .recognition__layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: start;
+  }
+  .awards { list-style: none; margin: 0; padding: 0; }
+  .award {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 8px 0;
+    padding: 26px 0;
+    border-top: 1px solid rgba(40, 25, 18, 0.14);
+  }
+  .award:first-child { border-top: 0; padding-top: 0; }
+  .award__year {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--port-deep);
+    letter-spacing: 0.04em;
+    padding-top: 4px;
+  }
+  .award__detail { display: flex; flex-direction: column; gap: 8px; }
+  .award__dist {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(20px, 2.4vw, 27px);
+    line-height: 1.18;
     color: var(--ink);
     text-wrap: balance;
   }
-  .ledger__src {
+  .award__src {
     font-family: var(--font-body);
-    font-size: var(--step--1);
     font-weight: 500;
-    letter-spacing: 0.14em;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--brass-mid);
   }
-  .ledger__link {
+  .award__link {
     align-self: flex-start;
-    margin-top: 0.3rem;
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--wine-700); /* AA on cream; gold would fail contrast */
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    text-underline-offset: 4px;
-    transition: text-decoration-color var(--dur-fast) var(--ease-out);
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--port-deep);
+    transition: color var(--dur-fast) var(--ease-out);
   }
-  .ledger__link:hover { text-decoration-color: var(--gold); }
+  .award__link:hover { color: var(--port-hover); }
 
-  /* one editorial photo — sticky beside the ledger on desktop */
-  .ledger__photo { margin: 0; }
-  .ledger__photo-frame { aspect-ratio: 3 / 4; box-shadow: var(--shadow-lg); }
-  .ledger__photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
-  .ledger__cap {
-    margin-top: 0.9rem;
-    font-size: var(--step--1);
-    letter-spacing: 0.12em;
+  .recognition__photo { margin: 0; }
+  .recognition__frame {
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: 0 30px 70px -38px rgba(42, 10, 17, 0.5);
+  }
+  .recognition__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+  .recognition__cap {
+    margin-top: 14px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-soft);
-    text-align: center;
+    color: var(--brass-mid);
   }
-  @media (min-width: 881px) {
-    .ledger__photo { position: sticky; top: calc(var(--header-h) + 1.5rem); }
+  @media (min-width: 861px) {
+    .recognition__photo { position: sticky; top: calc(var(--header-h) + 1.5rem); }
   }
 
-  /* affiliations — four identical colour medallions */
-  .seals {
+  .affiliations {
     margin-top: clamp(3.5rem, 7vw, 6rem);
     padding-top: clamp(2rem, 4vw, 3rem);
     border-top: 1px solid var(--line);
-    text-align: center;
   }
-  .seals__eyebrow {
-    font-family: var(--font-body);
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--wine-700);
-    margin-bottom: clamp(1.8rem, 3.5vw, 2.6rem);
-  }
-  .seals__row {
+  .affiliations__label { margin-bottom: clamp(1.8rem, 3.5vw, 2.6rem); }
+  .affiliations__row {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    gap: clamp(1.4rem, 4vw, 2.6rem);
+    gap: clamp(24px, 4vw, 56px);
   }
-  .seal {
-    --d: clamp(132px, 16vw, 156px);
-    width: var(--d);
-    height: var(--d);
+  .medallion {
+    width: 148px;
+    height: 148px;
     display: grid;
     place-items: center;
-    background: var(--paper);
-    border-radius: 50%;
-    border: 1px solid var(--gold);
-    box-shadow: 0 0 0 1px rgba(201, 168, 106, 0.16), var(--shadow-sm);
-    transition: transform var(--dur-mid) var(--ease-out),
-      box-shadow var(--dur-mid) var(--ease-out), border-color var(--dur-mid) var(--ease-out);
+    border-radius: 999px;
+    box-shadow: 0 18px 40px -22px rgba(42, 10, 17, 0.4);
+    transition: transform var(--dur-mid) var(--ease-out);
   }
-  .seal img { width: 72%; height: 72%; object-fit: contain; }
-  .seal:hover {
-    transform: scale(1.04);
-    border-color: var(--gold-300);
-    box-shadow: 0 0 0 2px rgba(201, 168, 106, 0.5), var(--shadow-md);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .seal { transition: none; }
-    .seal:hover { transform: none; }
-  }
-  @media (max-width: 600px) {
-    /* perfectly symmetric 2×2 on mobile */
-    .seals__row {
-      display: grid;
-      grid-template-columns: repeat(2, auto);
-      justify-content: center;
-      gap: clamp(1.2rem, 5vw, 1.8rem);
-    }
-    .seal { --d: clamp(120px, 38vw, 150px); }
-  }
+  .medallion :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .medallion:hover { transform: translateY(-6px); }
 
-  /* ───────── SOMMELIER ───────── */
-  .somm { background: var(--wine-900); color: var(--cream-50); }
-  .somm__inner {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-  }
-  .somm__quote {
+  /* ───────── WE PROPOSE ───────── */
+  .propose { background: var(--cream); }
+  .propose__head { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .propose__title {
     font-family: var(--font-display);
-    font-size: var(--step-2);
-    line-height: 1.3;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 1.8rem + 3vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-top: 0.2em;
+  }
+  .propose__sub {
+    font-family: var(--font-display);
     font-style: italic;
-    margin: 0.5rem 0 1.3rem;
-    text-wrap: balance;
+    font-size: clamp(17px, 1.8vw, 21px);
+    line-height: 1.45;
+    color: var(--ink-muted);
+    max-width: 42ch;
+    margin-top: 18px;
   }
-  .somm__name { font-weight: 600; letter-spacing: 0.02em; }
-  .somm__role {
-    font-size: var(--step--1);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold-300);
-    margin-bottom: 1.6rem;
-  }
-  .crest {
-    position: relative;
-    aspect-ratio: 4 / 5;
-    border: 2px solid var(--gold);
-    border-radius: var(--radius);
-    background:
-      radial-gradient(circle at 50% 0%, rgba(201, 168, 106, 0.06), transparent 50%),
-      var(--cream);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-  }
-  .crest__monogram {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(4rem, 12vw, 7rem);
-    line-height: 1;
-    color: var(--gold);
-    letter-spacing: 0.04em;
-  }
-  .crest__name { font-weight: 600; letter-spacing: 0.03em; color: var(--ink); }
-  .crest__title {
-    font-size: var(--step--1);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .crest__star { position: absolute; top: 1rem; color: var(--gold-300); font-size: 1.1rem; }
-  @media (max-width: 760px) {
-    .somm__inner { grid-template-columns: 1fr; }
-    .crest { max-width: 320px; margin-inline: auto; width: 100%; }
-  }
-
-  /* ───────── SERVICES ───────── */
-  .services__grid {
+  .propose__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: clamp(1.4rem, 3vw, 2rem);
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 28px);
   }
-  .svc {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
-  }
-  .svc:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-  .svc__media {
-    aspect-ratio: 16 / 10;
-    border-radius: 0;
-  }
-  .svc__body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
-    padding: 2rem 2.1rem 2.2rem;
-    flex: 1;
-  }
-  .svc__title { font-size: var(--step-2); }
-  .svc__text { color: var(--ink-soft); flex: 1; }
-  .svc__price {
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--wine-800);
-  }
-  .svc .btn { margin-top: 0.4rem; }
 
-  /* ───────── MOMENTS (editorial masonry wall) ───────── */
+  /* ───────── MOMENTS ───────── */
+  .moments { background: var(--parchment-deep); }
+  .moments__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .moments__wall {
     column-count: 4;
-    column-gap: clamp(0.6rem, 1.4vw, 1rem);
+    column-gap: clamp(12px, 1.4vw, 18px);
   }
   .mw__item {
     break-inside: avoid;
-    margin: 0 0 clamp(0.6rem, 1.4vw, 1rem);
-    border-radius: var(--radius);
+    margin: 0 0 clamp(12px, 1.4vw, 18px);
+    border-radius: var(--radius-tile);
     overflow: hidden;
-    background: var(--wine-950);
-    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(58, 46, 34, 0.08);
+    box-shadow: 0 18px 40px -26px rgba(42, 10, 17, 0.4);
   }
-  .mw__item img {
+  .mw__item :global(img) {
     width: 100%;
     height: auto;
     display: block;
-    transition: transform var(--dur-slow) var(--ease-out);
+    transition: transform 1100ms var(--ease-reveal);
     will-change: transform;
   }
-  .mw__item:hover img { transform: scale(1.05); }
+  .mw__item:hover :global(img) { transform: scale(1.05); }
 
-  /* ───────── VISIT ───────── */
-  .visit { background: var(--wine-900); color: var(--cream-50); }
-  .visit__inner {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
+  /* ───────── VISIT + FOOTER ───────── */
+  .visit {
+    background: var(--visit-bg);
+    color: var(--cream-body);
+    padding: clamp(88px, 12vw, 150px) 0 44px;
   }
-  .visit__info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(1.5rem, 4vw, 2.5rem);
+  .visit__lead { text-align: center; max-width: 640px; margin-inline: auto; }
+  .visit__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 4.6vw, 64px);
+    line-height: 1.06;
+    letter-spacing: -0.012em;
+    color: #f8f1e2;
+    margin: 16px 0 14px;
   }
-  .visit__media {
-    aspect-ratio: 4 / 3;
-    box-shadow: var(--shadow-lg);
+  .visit__tag {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(17px, 1.8vw, 20px);
+    color: var(--cream-soft);
   }
-  .visit__title { font-size: var(--step-3); margin: 0.2em 0 0.6em; }
-  .visit__addr { font-size: var(--step-1); line-height: 1.5; color: rgba(251, 246, 236, 0.9); }
-  .visit__maps {
-    display: inline-block;
-    margin-top: 1rem;
-    color: var(--gold-300);
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-  }
-  .visit__hours { display: grid; gap: 0.5rem; margin-bottom: 1.3rem; }
-  .visit__hours li {
+  .visit__cta {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(251, 246, 236, 0.14);
-    color: rgba(251, 246, 236, 0.9);
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 30px;
   }
-  .visit__phone { margin-bottom: 1.5rem; }
-  .visit__phone a { border-bottom: 1px solid var(--gold-300); padding-bottom: 2px; }
+  .visit__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: clamp(28px, 5vw, 56px);
+    margin-top: clamp(56px, 9vw, 96px);
+    padding-top: clamp(40px, 5vw, 56px);
+    border-top: 1px solid rgba(184, 145, 91, 0.22);
+  }
+  .visit__h {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 14px;
+  }
+  .visit__col p, .visit__col a { color: var(--cream-body); line-height: 1.7; }
+  .visit__col a { transition: color var(--dur-fast) var(--ease-out); }
+  .visit__col a:hover { color: #f8f1e2; }
+  .visit__hours, .visit__reach { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .visit__hours li { display: flex; justify-content: space-between; gap: 16px; max-width: 260px; }
+  .visit__time, .visit__num { font-family: var(--font-mono); font-size: 13px; }
+  .visit__closed { font-family: var(--font-mono); font-size: 13px; color: var(--brass); }
+  .visit__credit {
+    margin-top: clamp(56px, 9vw, 96px);
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--cream-muted);
+  }
 
-  @media (max-width: 1024px) {
-    .mop__seal { width: clamp(110px, 14vw, 150px); }
+  /* ───────── reveals ───────── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--dur-reveal) var(--ease-reveal), transform var(--dur-reveal) var(--ease-reveal);
+  }
+  [data-reveal="left"] { transform: translateX(-28px); }
+  [data-reveal="right"] { transform: translateX(28px); }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  /* ───────── responsive ───────── */
+  @media (max-width: 1100px) {
     .moments__wall { column-count: 3; }
   }
-
-  @media (max-width: 880px) {
-    .intro__inner { grid-template-columns: 1fr; }
-    .intro__media { max-width: 460px; margin-inline: auto; width: 100%; }
-    .somm__inner { grid-template-columns: 1fr; }
-    .crest { max-width: 360px; margin-inline: auto; width: 100%; }
-    .visit__inner { grid-template-columns: 1fr; }
-    .visit__media { order: -1; max-height: 360px; }
+  @media (max-width: 980px) {
+    .propose__grid { grid-template-columns: repeat(2, 1fr); }
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
+    .place__inner,
+    .credential__inner,
+    .recognition__layout { grid-template-columns: 1fr; }
+    .credential__media { order: -1; max-width: 460px; }
+    .place__media { max-width: 460px; }
+    .recognition__photo { max-width: 460px; }
+    .visit__grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .visit__hours li { margin-inline: auto; }
+  }
+  @media (max-width: 680px) {
     .moments__wall { column-count: 2; }
   }
-
+  @media (max-width: 620px) {
+    .propose__grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 520px) {
-    .hero__cta { flex-direction: column; gap: 0.7rem; }
-    .hero__cta .btn { width: 100%; }
-    .crest { max-width: 280px; }
-    .visit__info { grid-template-columns: 1fr; }
+    .hero__cta, .visit__cta { flex-direction: column; align-items: stretch; }
+    .award { grid-template-columns: 1fr; gap: 6px; }
+    .award__year { padding-top: 0; }
   }
 
-  /* ───────── ASTRO IMAGE OVERRIDES ───────── */
-  .crest__image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: var(--radius);
-  }
-  @media (max-width: 880px) {
-    .ledger__layout { grid-template-columns: 1fr; }
-    .ledger__photo-frame { aspect-ratio: 16 / 10; max-height: 460px; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__photo :global(img) { animation: none; }
+    .hero__overline, .hero__headline, .hero__subhead, .hero__cta, .hero__place {
+      opacity: 1; animation: none;
+    }
+    .hero__scroll span { animation: none; }
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+    .place__media:hover :global(img),
+    .mw__item:hover :global(img) { transform: none; }
+    .medallion { transition: none; }
+    .medallion:hover { transform: none; }
   }
 </style>
