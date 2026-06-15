@@ -5,10 +5,6 @@
    Prices/slugs MUST match the server-authoritative catalogue in
    netlify/lib/tastings.mjs (the server is the source of truth for what
    Stripe charges — the browser only ever sends the `slug`).
-
-   Display names, categories, durations and slugs are FINAL (Design +
-   engineering). Descriptions are Design's placeholder one-liners in the
-   brand voice — replace with Vasilii's real notes when available.
    ------------------------------------------------------------------ */
 import type { ImageMetadata } from "astro";
 
@@ -26,9 +22,11 @@ export interface Tasting {
   name: string;
   category: string;
   description: string;
+  /** What's included: samples and accompaniment. */
+  includes: string;
   /** Display price, e.g. "€51". Authoritative number lives server-side. */
   price: string;
-  /** Display duration, e.g. "90 min". */
+  /** Display duration. */
   duration: string;
   image: ImageMetadata;
   alt: string;
@@ -40,9 +38,10 @@ export const tastings: Tasting[] = [
     name: "Vinho Verde, Beyond Expectations",
     category: "White · Vinho Verde",
     description:
-      "Bright, mineral and alive — the north of Portugal, well beyond the cliché.",
+      "Often mistaken for a single style, Vinho Verde is actually a diverse region — fresh, vibrant, and surprisingly varied.",
+    includes: "Five samples: sparkling, two whites, two reds. Served with snacks of our selection.",
     price: "€51",
-    duration: "90 min",
+    duration: "90–120 min",
     image: imgVinhoVerde,
     alt: "Map of the Vinho Verde sub-regions of northern Portugal",
   },
@@ -51,9 +50,10 @@ export const tastings: Tasting[] = [
     name: "TOP Wine Tasting",
     category: "Wine flight",
     description:
-      "A sweep across the country's defining regions, poured side by side.",
+      "Portugal is producing some of the most exciting wines in Europe today. This tasting is a curated selection of truly outstanding bottles.",
+    includes: "Four samples: two whites, two reds. Served with snacks of our selection.",
     price: "€75",
-    duration: "120 min",
+    duration: "90–120 min",
     image: imgTopWine,
     alt: "A grid of wine corks from estates around the world on black",
   },
@@ -62,9 +62,10 @@ export const tastings: Tasting[] = [
     name: "Icons of Portugal",
     category: "Wine flight",
     description:
-      "The benchmark bottles every serious cellar measures itself against.",
+      "Discover the wines that shaped Portugal's reputation — bold, expressive, and deeply rooted in centuries of winemaking tradition.",
+    includes: "Four samples: two whites, two reds. Served with snacks of our selection.",
     price: "€99",
-    duration: "120 min",
+    duration: "90–120 min",
     image: imgIcons,
     alt: "Bronze statue of a Portuguese helmsman against the sky in Porto",
   },
@@ -73,9 +74,10 @@ export const tastings: Tasting[] = [
     name: "Port Introduction",
     category: "Port",
     description:
-      "Where Port begins — style, method and the first real taste of the Douro.",
+      "A guided journey through the essential styles of Port wine — from dry whites to aged tawnies and rich rubies. Built for those discovering Port for the first time, with context, contrast, and no shortcuts.",
+    includes: "Three samples, served with our cheese selection.",
     price: "€45",
-    duration: "90 min",
+    duration: "90–120 min",
     image: imgPortIntro,
     alt: "Stained-glass window glowing in a dark Porto wine lodge",
   },
@@ -84,9 +86,10 @@ export const tastings: Tasting[] = [
     name: "TOP Port Selection",
     category: "Port",
     description:
-      "A tighter, higher flight through standout Ports worth the detour.",
+      "Some Ports I keep coming back to. Not because they're expensive — because they say something. This is a small selection of bottles that earned a permanent spot on my list. Come taste them with me.",
+    includes: "Three samples, served with our cheese selection.",
     price: "€72",
-    duration: "120 min",
+    duration: "90–120 min",
     image: imgTopPort,
     alt: "Port pipes aging under a lantern in a dark cellar, black and white",
   },
@@ -95,9 +98,10 @@ export const tastings: Tasting[] = [
     name: "Ports from Heaven",
     category: "Port · rare",
     description:
-      "The rarest pours in the house — decades in wood, vintages from another era.",
+      "An extraordinary tasting of truly outstanding Ports, personally selected and presented by Portugal's 1st Master of Port.",
+    includes: "Three samples, served with our cheese selection.",
     price: "€210",
-    duration: "150 min",
+    duration: "90–120 min",
     image: imgDreamyPorts,
     alt: "Forrester's 1843 engraved Map of the Wine District of the Alto-Douro",
   },
