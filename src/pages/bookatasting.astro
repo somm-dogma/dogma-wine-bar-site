@@ -169,23 +169,26 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
       </aside>
 
       <div class="tasting__info">
-        <h3>Before You Visit</h3>
+        <header class="tasting__info-head">
+          <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>Good to know</p>
+          <h2 class="tasting__info-title">Before you visit</h2>
+        </header>
         <div class="info-grid">
-          <div>
-            <h4>📍 Location</h4>
-            <p>{site.contact.address}<br />{site.contact.postalCode} {site.contact.city}</p>
+          <div class="info-item">
+            <h3>Arrive together</h3>
+            <p>Each tasting begins as a group — please arrive a few minutes early so we can start on time.</p>
           </div>
-          <div>
-            <h4>⏰ Hours</h4>
-            <p>Monday–Saturday: 4:00 PM – 10:00 PM<br />Sunday: Closed</p>
+          <div class="info-item">
+            <h3>All levels welcome</h3>
+            <p>From the curious first-timer to the seasoned collector. No experience needed — just an open glass.</p>
           </div>
-          <div>
-            <h4>📞 Contact</h4>
-            <p><a href={site.contact.phoneHref}>{site.contact.phone}</a><br /><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+          <div class="info-item">
+            <h3>Free cancellation</h3>
+            <p>Plans change. Cancel up to <span class="info-mono">48h</span> before your reservation, no charge.</p>
           </div>
-          <div>
-            <h4>✨ Group Events</h4>
-            <p>Corporate tastings, celebrations, and private events available. Contact us for details.</p>
+          <div class="info-item">
+            <h3>Private &amp; group events</h3>
+            <p>Corporate tastings, celebrations and private flights on request — <a href="/contacts">tell us what you have in mind</a>.</p>
           </div>
         </div>
       </div>
@@ -210,7 +213,7 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
         </div>
         <div class="faq-item">
           <h4>Can I buy wine after tasting?</h4>
-          <p>Yes! We offer bottles from our tastings for take-home. Pricing available upon request.</p>
+          <p>Sometimes — we run on a small, ever-changing cellar, so take-home bottles depend on what's in stock that day. Shipping can usually be arranged. Ask us and we'll see what we can do.</p>
         </div>
         <div class="faq-item">
           <h4>What's your cancellation policy?</h4>
@@ -423,13 +426,26 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   }
 
   /* ---------- Info + FAQ ---------- */
-  .tasting__info { padding: 2.5rem; background: linear-gradient(160deg, var(--wine-700), var(--wine-950)); color: var(--cream-50); border-radius: var(--radius); }
-  .tasting__info h3 { font-size: var(--step-2); margin-bottom: 2rem; }
-  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-  .info-grid h4 { font-family: var(--font-display); font-size: var(--step-1); margin-bottom: 0.6rem; color: var(--gold-300); }
-  .info-grid p { color: rgba(250, 245, 234, 0.88); font-size: var(--step--1); line-height: 1.6; }
-  .info-grid a { color: var(--gold-300); text-decoration: none; transition: opacity 0.2s ease; }
-  .info-grid a:hover { opacity: 0.8; }
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .tasting__info .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .tasting__info-head { margin-bottom: clamp(2rem, 4vw, 2.6rem); }
+  .tasting__info-title { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); color: var(--ink); margin-top: 0.3em; }
+  .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.5rem, 3vw, 2.4rem); }
+  .info-item { padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .info-item h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-1);
+    line-height: 1.12;
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+    text-wrap: balance;
+  }
+  .info-item p { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.65; }
+  .info-item a { color: var(--port-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(126,34,48,0.3); transition: text-decoration-color 0.2s ease; }
+  .info-item a:hover { text-decoration-color: var(--port-deep); }
+  .info-mono { font-family: var(--font-mono); }
 
   .tasting__faq { max-width: 800px; }
   .tasting__faq h3 { font-size: var(--step-2); margin-bottom: 2rem; }
@@ -438,10 +454,8 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   .faq-item h4 { font-size: var(--step-0); color: var(--wine-900); margin-bottom: 0.6rem; font-weight: 600; }
   .faq-item p { color: var(--ink-soft); line-height: 1.7; }
 
-  @media (max-width: 760px) {
-    .tasting__options { grid-template-columns: 1fr; }
-    .info-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 920px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>

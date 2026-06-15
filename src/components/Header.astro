@@ -1,5 +1,7 @@
 ---
 import { site, nav } from "../data/site";
+import { Image } from "astro:assets";
+import dogmaLogo from "../assets/images/dogma-logo.png";
 
 interface Props {
   solid?: boolean;
@@ -10,7 +12,9 @@ const currentPath = Astro.url.pathname;
 
 <header class:list={["site-header", { "is-solid": solid }]} id="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/">Dogma</a>
+    <a class="brand" href="/" aria-label="Dogma — Wine Bar &amp; Tasting, home">
+      <Image src={dogmaLogo} alt="Dogma — Wine Bar &amp; Tasting" class="brand__logo" widths={[120, 200, 280]} sizes="72px" loading="eager" />
+    </a>
 
     <a class="btn btn--cream header-book" href={site.booking.tasting}>Book</a>
 
@@ -74,14 +78,26 @@ const currentPath = Astro.url.pathname;
     width: 100%;
   }
 
+  /* Brand — real logo set in a round "pin" that merges with the bar */
   .brand {
-    font-family: var(--font-display);
-    font-size: 1.7rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    padding-left: 0.3em;
+    display: grid;
+    place-items: center;
+    width: clamp(56px, 6.4vw, 66px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 106, 0.45);
+    background:
+      radial-gradient(circle at 50% 38%, rgba(62, 15, 24, 0.55), rgba(43, 10, 17, 0.78));
+    box-shadow: inset 0 0 0 1px rgba(247, 240, 225, 0.04), 0 6px 18px -10px rgba(0, 0, 0, 0.6);
+    transition: transform var(--dur-mid) var(--ease-out), border-color var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
+    flex-shrink: 0;
   }
+  .brand:hover {
+    transform: translateY(-1px);
+    border-color: var(--gold-300);
+    box-shadow: inset 0 0 0 1px rgba(247, 240, 225, 0.06), 0 0 0 3px rgba(201, 168, 106, 0.18), 0 8px 22px -10px rgba(0, 0, 0, 0.7);
+  }
+  .brand__logo { width: 80%; height: auto; }
 
   .nav {
     display: flex;
