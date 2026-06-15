@@ -47,6 +47,11 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       </div>
     </div>
 
+    <nav class="visit__legal" aria-label="Legal">
+      <a href="/privacy">Privacy</a>
+      <span aria-hidden="true">·</span>
+      <a href="/cookies">Cookie Policy</a>
+    </nav>
     <p class="visit__credit">Designed by Freemason Hermes</p>
   </div>
 </footer>
@@ -116,8 +121,19 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .visit__hours li { display: flex; justify-content: space-between; gap: 16px; max-width: 260px; }
   .visit__time, .visit__num { font-family: var(--font-mono); font-size: 13px; }
   .visit__closed { font-family: var(--font-mono); font-size: 13px; color: var(--brass); }
-  .visit__credit {
+  .visit__legal {
     margin-top: clamp(56px, 9vw, 96px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--step--1);
+    color: var(--cream-soft);
+  }
+  .visit__legal a { color: var(--cream-soft); transition: color var(--dur-fast) var(--ease-out); }
+  .visit__legal a:hover { color: #f8f1e2; }
+  .visit__credit {
+    margin-top: 14px;
     text-align: center;
     font-family: var(--font-body);
     font-size: 12px;
