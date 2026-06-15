@@ -16,18 +16,18 @@ colors:
   line: "rgba(36, 19, 23, 0.14)"
 typography:
   display:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
+    fontFamily: "Playfair Display, Georgia, serif"
     fontSize: "clamp(3rem, 2rem + 5vw, 6.5rem)"
     fontWeight: 600
     lineHeight: 1.04
     letterSpacing: "0.005em"
   headline:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
+    fontFamily: "Playfair Display, Georgia, serif"
     fontSize: "clamp(2.4rem, 1.9rem + 2.5vw, 4rem)"
     fontWeight: 600
     lineHeight: 1.04
   title:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
+    fontFamily: "Playfair Display, Georgia, serif"
     fontSize: "clamp(1.75rem, 1.5rem + 1.2vw, 2.6rem)"
     fontWeight: 600
     lineHeight: 1.04
@@ -89,7 +89,7 @@ The system rejects stuffiness (cold, gatekeeping tone), generic SaaS defaults (c
 
 **Key Characteristics:**
 - Deep burgundy (#3e0f18) as the primary theme color; cream as a breathing space.
-- Serif display (Cormorant Garamond) for authority and elegance; clean sans-serif (Inter) for approachability and readability.
+- Serif display (Playfair Display) for authority and elegance; clean sans-serif (Inter) for approachability and readability.
 - Fluid typography with `clamp()` for responsive scale without breakpoints.
 - Restrained use of gold (#c9a86a) as accent and eyebrow text on burgundy sections.
 - Soft shadows and subtle motion to add polish without distraction.
@@ -120,24 +120,24 @@ Deep burgundy carries the wine heritage and mastery; warm cream invites visitors
 
 ## 3. Typography
 
-Two-family system: Cormorant Garamond (serif, 400–600 weights) for display and hierarchy; Inter (sans-serif, 400–600 weights) for body and UI.
+Two-family system: Playfair Display (serif, 400–600 weights) for display and hierarchy; Inter (sans-serif, 400–600 weights) for body and UI.
 
 ### Display (H1)
-- **Font:** Cormorant Garamond 600
+- **Font:** Playfair Display 600
 - **Size:** `clamp(3rem, 2rem + 5vw, 6.5rem)` — scales from 48px (mobile) to 104px (desktop). Never exceeds 6.5rem to avoid shouting.
 - **Line Height:** 1.04 (tight for display elegance)
 - **Letter Spacing:** -0.005em (negative but not cramped; letters sit close without touching)
 - **Usage:** Hero title, major section headings. Must use `text-wrap: balance` to avoid orphans.
 
 ### Headline (H2, H3)
-- **Font:** Cormorant Garamond 600
+- **Font:** Playfair Display 600
 - **Size:** `clamp(2.4rem, 1.9rem + 2.5vw, 4rem)` for H2; adjust H3 down one step
 - **Line Height:** 1.04
 - **Letter Spacing:** -0.005em
 - **Usage:** Section headings, card titles. Set `text-wrap: balance`.
 
 ### Title (H4)
-- **Font:** Cormorant Garamond 600
+- **Font:** Playfair Display 600
 - **Size:** `clamp(1.75rem, 1.5rem + 1.2vw, 2.6rem)`
 - **Line Height:** 1.04
 - **Usage:** Subheadings, component titles.
@@ -227,7 +227,7 @@ Three variants, all `border-radius: 999px` (full pill):
 - ✅ Leverage the two-color system (burgundy + cream) for clean contrast and breathing room.
 - ✅ Apply the card shadow for depth; it's the only shadow in the system.
 - ✅ Use gold accents sparingly (eyebrows, dividers, icons on burgundy sections).
-- ✅ Pair Cormorant display with Inter body — serif for authority, sans for clarity.
+- ✅ Pair Playfair Display display with Inter body — serif for authority, sans for clarity.
 - ✅ Test hover states and motion on all interactive elements; smooth easing (ease-out), no bounce.
 - ✅ Respect `prefers-reduced-motion` — replace `translateY` hover with opacity fade on motion-sensitive systems.
 - ✅ Maintain WCAG AA contrast (≥4.5:1 body text, ≥3:1 large text). Use ink-soft sparingly (secondary copy only).
@@ -243,5 +243,5 @@ Three variants, all `border-radius: 999px` (full pill):
 - ❌ Ignore line length; cap body text at 65–75ch. Long lines are hard to read, no matter the color.
 - ❌ Animate layout properties (width, height, padding). Animate transform and opacity only.
 - ❌ Round corners beyond 14px on cards; the system uses 14px (`--radius`) as the max.
-- ❌ Add a third font family. Cormorant + Inter is the system; extra faces read as indecision.
+- ❌ Add a third font family. Playfair Display + Inter + JetBrains Mono (numerals) is the system; extra faces read as indecision.
 - ❌ Use the cream background on full-screen sections without a visual break. Alternate burgundy sections provide rhythm.

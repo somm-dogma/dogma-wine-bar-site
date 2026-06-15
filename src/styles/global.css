@@ -36,7 +36,7 @@
   /* Cream — text on dark */
   --cream-body:  #e4d8c4;   /* body cream on dark */
   --cream-soft:  #d8cdb7;   /* secondary cream on dark */
-  --cream-muted: #8a7e68;   /* muted on dark */
+  --cream-muted: #9d927a;   /* muted on dark — AA-safe (5.7:1 on visit-bg) */
 
   /* Port red accents */
   --port:       #8b2a3a;   /* signature port red */
@@ -44,8 +44,8 @@
   --port-hover: #9a2e3d;   /* link hover */
 
   /* Brass / candlelight gold */
-  --brass:     #b8915b;   /* brass rules / accents */
-  --brass-mid: #9a7740;   /* overlines on parchment (AA-safe darker brass) */
+  --brass:     #b8915b;   /* brass rules / accents (on dark) */
+  --brass-mid: #7a5d23;   /* overlines on parchment — AA-safe (5.2:1 on cream) */
   --gold:      #c9a86a;   /* accent gold (AA on burgundy only) */
   --gold-300:  #ddc38f;   /* lighter gold for text on burgundy */
 
@@ -126,6 +126,24 @@ h1, h2, h3, h4 {
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 
+/* Skip link — first tab stop for keyboard / screen-reader users */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 200;
+  background: var(--wine-900);
+  color: var(--cream-50);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  font-weight: 600;
+  padding: 0.7em 1.2em;
+  border-radius: 0 0 999px 999px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible { transform: translate(-50%, 0); }
+
 /* ---- Layout helpers ---- */
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: clamp(3.5rem, 7vw, 7rem); }
@@ -139,8 +157,8 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--gold); /* AA on burgundy (7.4:1) */
 }
-/* Eyebrow on light/cream surfaces — gold fails contrast on cream, use wine */
-.eyebrow--ink { color: var(--wine-700); } /* AA on cream (8:1) */
+/* Eyebrow on light/cream surfaces — AA-safe brass (matches Home overlines) */
+.eyebrow--ink { color: var(--brass-mid); } /* AA on cream (5.2:1) */
 
 .lead { font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); }
 
