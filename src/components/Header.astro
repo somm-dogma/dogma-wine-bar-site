@@ -78,50 +78,21 @@ const currentPath = Astro.url.pathname;
     width: 100%;
   }
 
-  /* Brand — bold logo medallion: the black-ground mark struck into a
-     brass-rimmed disc with an outer halo and a minted-gold gloss. */
+  /* Brand — the logo, round, on its own black. No ring, no effects.
+     object-fit:cover at native scale keeps the logo's black margin, so
+     the disc edge never touches the DOGMA lettering. */
   .brand {
-    position: relative;
     display: block;
-    width: clamp(58px, 6.6vw, 70px);
+    width: clamp(54px, 6.2vw, 64px);
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid var(--brass);
     background: #1b1b1b;
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.7),
-      0 0 0 5px rgba(201, 168, 106, 0.16),
-      0 12px 28px -10px rgba(0, 0, 0, 0.75);
-    transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out), border-color var(--dur-mid) var(--ease-out);
     flex-shrink: 0;
+    transition: transform var(--dur-mid) var(--ease-out);
   }
-  .brand__logo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.16);
-    display: block;
-  }
-  /* gloss + inner bevel */
-  .brand::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(0, 0, 0, 0.5);
-    background: radial-gradient(125% 80% at 50% 8%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 46%);
-  }
-  .brand:hover {
-    transform: translateY(-1px);
-    border-color: var(--gold-300);
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.7),
-      0 0 0 6px rgba(201, 168, 106, 0.28),
-      0 0 26px -6px rgba(201, 168, 106, 0.5),
-      0 14px 30px -10px rgba(0, 0, 0, 0.8);
-  }
+  .brand__logo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .brand:hover { transform: translateY(-1px); }
   @media (prefers-reduced-motion: reduce) {
     .brand { transition: none; }
     .brand:hover { transform: none; }
