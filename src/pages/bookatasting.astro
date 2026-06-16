@@ -660,8 +660,18 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   });
 
   // Deep-link: /bookatasting?tasting=<slug> (from Home "We propose") preselects.
+  // setTimeout(0) defers scroll to after the current task so layout is settled.
+  // "instant" avoids mobile smooth-scroll timing issues.
   const wantedTasting = new URLSearchParams(location.search).get("tasting");
-  if (wantedTasting) preselect(wantedTasting);
+  if (wantedTasting) {
+    preselect(wantedTasting, false);
+    setTimeout(() => {
+      const el = document.getElementById("book");
+      if (!el) return;
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 80;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - headerH, behavior: "instant" });
+    }, 0);
+  }
 
   // returning from a cancelled Stripe checkout
   if (new URLSearchParams(location.search).get("canceled") === "1") {
