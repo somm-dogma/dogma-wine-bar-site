@@ -8,26 +8,47 @@
    ------------------------------------------------------------------ */
 
 export const TASTINGS = {
-  wine: {
-    label: "Portuguese Wine Tasting",
-    pricePerPerson: 45, // EUR
+  "vinho-verde": {
+    label: "Vinho Verde, Beyond Expectations",
+    pricePerPerson: 51, // EUR
     minPeople: 1,
     maxPeople: 12,
     durationMin: 90,
   },
-  port: {
-    label: "Port Wine Master Class",
-    pricePerPerson: 65,
+  "top-wines": {
+    label: "TOP Wine Tasting",
+    pricePerPerson: 75,
     minPeople: 1,
     maxPeople: 12,
     durationMin: 120,
   },
-  private: {
-    label: "Private Group Tasting",
-    pricePerPerson: 55,
-    minPeople: 4,
-    maxPeople: 20,
+  icons: {
+    label: "Icons of Portugal",
+    pricePerPerson: 99,
+    minPeople: 1,
+    maxPeople: 12,
     durationMin: 120,
+  },
+  "port-intro": {
+    label: "Port Introduction",
+    pricePerPerson: 45,
+    minPeople: 1,
+    maxPeople: 12,
+    durationMin: 90,
+  },
+  "port-top": {
+    label: "TOP Port Selection",
+    pricePerPerson: 72,
+    minPeople: 1,
+    maxPeople: 12,
+    durationMin: 120,
+  },
+  "dreamy-ports": {
+    label: "Ports from Heaven",
+    pricePerPerson: 210,
+    minPeople: 1,
+    maxPeople: 12,
+    durationMin: 150,
   },
 };
 

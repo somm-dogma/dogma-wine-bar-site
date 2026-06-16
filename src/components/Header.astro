@@ -1,5 +1,7 @@
 ---
 import { site, nav } from "../data/site";
+import { Image } from "astro:assets";
+import dogmaLogo from "../assets/images/logo-medallion.jpg";
 
 interface Props {
   solid?: boolean;
@@ -10,7 +12,9 @@ const currentPath = Astro.url.pathname;
 
 <header class:list={["site-header", { "is-solid": solid }]} id="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/">Dogma</a>
+    <a class="brand" href="/" aria-label="Dogma — Wine Bar &amp; Tasting, home">
+      <Image src={dogmaLogo} alt="Dogma — Wine Bar &amp; Tasting" class="brand__logo" widths={[120, 200, 280]} sizes="72px" loading="eager" />
+    </a>
 
     <a class="btn btn--cream header-book" href={site.booking.tasting}>Book</a>
 
@@ -74,13 +78,24 @@ const currentPath = Astro.url.pathname;
     width: 100%;
   }
 
+  /* Brand — the logo, round, on its own black. No ring, no effects.
+     object-fit:cover at native scale keeps the logo's black margin, so
+     the disc edge never touches the DOGMA lettering. */
   .brand {
-    font-family: var(--font-display);
-    font-size: 1.7rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    padding-left: 0.3em;
+    display: block;
+    width: clamp(54px, 6.2vw, 64px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #1b1b1b;
+    flex-shrink: 0;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+  .brand__logo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .brand:hover { transform: translateY(-1px); }
+  @media (prefers-reduced-motion: reduce) {
+    .brand { transition: none; }
+    .brand:hover { transform: none; }
   }
 
   .nav {
@@ -124,7 +139,8 @@ const currentPath = Astro.url.pathname;
       display: inline-flex;
       margin-left: auto;
       margin-right: 0.6rem;
-      padding: 0.55em 1.1em;
+      padding: 0.6em 1.2em;
+      min-height: 44px;
       font-size: var(--step--1);
     }
     .nav-toggle {

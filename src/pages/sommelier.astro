@@ -1,126 +1,281 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHeader from "../components/PageHeader.astro";
-import { sommelier } from "../data/home";
+import { Image } from "astro:assets";
 import { site } from "../data/site";
+import vasiliiPort from "../assets/images/vasilii-port.jpg";
+import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+import credEscancoes from "../assets/images/cred-escancoes.png";
+import credAsi from "../assets/images/cred-asi.png";
+import credWset from "../assets/images/cred-wset.png";
+import credIvv from "../assets/images/cred-ivv.png";
+
+const awards = [
+  { year: "2024", title: "Top 6 · Best Newcomer, worldwide", source: "Star Wine List of the Year" },
+  { year: "2024", title: "Bronze · 3rd Best Sommelier in Portugal", source: "XIX Concurso Nacional de Escanções" },
+  { year: "2024 – 26", title: "Red Star · three consecutive years — first in Portugal", source: "Star Wine List" },
+  { year: "2025", title: "Travellers’ Choice · Top 10% worldwide", source: "Tripadvisor" },
+  { year: "2025 – 28", title: "Official Ambassador of Porto", source: "Sommelier Association of Portugal" },
+];
+const medallions = [
+  { src: credEscancoes, alt: "Associação dos Escanções de Portugal — member seal" },
+  { src: credAsi, alt: "ASI · Association de la Sommellerie Internationale — member seal" },
+  { src: credWset, alt: "WSET — Wine & Spirit Education Trust" },
+  { src: credIvv, alt: "Estabelecimento com Escanção · Sommelier" },
+];
 ---
 
-<Base title="Sommelier" description="Meet Vasilii Grebencea, owner and Portugal's first Master of Port Wine." headerSolid>
-  <PageHeader title="Vasilii Grebencea" subtitle="Owner & Head Sommelier" />
-
-  <section class="section sommelier-page">
-    <div class="container sommelier-page__inner">
-      <div class="sommelier-page__bio">
-        <h2>A Master of Port Wine</h2>
-        <p class="lead">
-          Vasilii is Portugal's first Master of Port Wine and one of the country's top three sommeliers.
-          With decades of experience in the wine industry, he has built Dogma into a destination for
-          wine lovers seeking authentic experiences and rare finds.
-        </p>
-        <p>
-          His philosophy is simple: wine should be accessible, educational, and above all, enjoyable.
-          At Dogma, every tasting is a conversation — an opportunity to discover new terroirs,
-          understand production methods, and connect with the stories behind the bottles.
-        </p>
+<Base title="Sommelier" description="Meet Vasilii Grebencea — the first Master of Port in Portugal and one of the country's top three sommeliers.">
+  <!-- ───────────── HERO (split, dark) ───────────── -->
+  <section class="shero">
+    <div class="shero__text">
+      <p class="eyebrow shero__eyebrow"><span class="shero__rule"></span>The sommelier</p>
+      <h1 class="shero__name">Vasilii Grebencea</h1>
+      <p class="shero__sub">
+        The first Master of Port in Portugal — and one of the country’s top three sommeliers.
+      </p>
+      <div class="shero__stat">
+        <span class="shero__no">№1</span>
+        <span class="shero__div" aria-hidden="true"></span>
+        <span class="shero__statlabel">Master of Port · Porto, Portugal</span>
       </div>
+    </div>
+    <figure class="shero__media">
+      <Image
+        src={vasiliiPort}
+        alt="Vasilii Grebencea, Master of Port, holding a glass of aged Port"
+        widths={[500, 900, 1200]}
+        sizes="(max-width: 860px) 100vw, 48vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <span class="shero__fade" aria-hidden="true"></span>
+    </figure>
+  </section>
 
-      <div class="sommelier-page__highlights">
-        <div class="highlight">
-          <h3>Master of Port Wine</h3>
-          <p>First and only Master of Port Wine in Portugal, a prestigious certification awarded by the Institute of Port Wine.</p>
+  <!-- ───────────── THE CRAFT ───────────── -->
+  <section class="section craft">
+    <div class="wrap craft__inner">
+      <figure class="craft__media" data-reveal>
+        <div class="craft__frame">
+          <Image
+            src={vasiliiPalmela}
+            alt="Vasilii Grebencea on stage at the XIX Concurso Nacional de Escanções"
+            widths={[420, 760, 1100]}
+            sizes="(max-width: 860px) 100vw, 40vw"
+            loading="lazy"
+          />
         </div>
-        <div class="highlight">
-          <h3>Top 3 Sommelier</h3>
-          <p>Among Portugal's top three sommeliers, recognized for expertise, passion, and commitment to wine education.</p>
-        </div>
-        <div class="highlight">
-          <h3>Award-Winning Venue</h3>
-          <p>Built Dogma into one of the world's top 6 wine bars as a startup, featured in international wine guides.</p>
-        </div>
+        <figcaption class="craft__cap">On stage · XIX Concurso Nacional de Escanções</figcaption>
+      </figure>
+      <div class="craft__text" data-reveal>
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>The craft</p>
+        <h2 class="craft__title">The highest distinction in Port, held for the first time in Portugal.</h2>
+        <p class="craft__body">
+          The Master of Port is the highest distinction awarded for Port wine expertise. Vasilii
+          Grebencea is the first in Portugal to hold it — and one of the country’s top three
+          sommeliers. Every tasting at Dogma is led by someone who has reached the very top of his
+          craft, and who pours it as a conversation rather than a lecture.
+        </p>
+        <a class="btn btn--primary" href={site.booking.tasting}>Taste with a Master of Port</a>
       </div>
+    </div>
+  </section>
 
-      <div class="sommelier-page__cta">
-        <h3>Experience a Tasting</h3>
-        <p>Join Vasilii for a guided tasting experience tailored to your preferences and discovery goals.</p>
-        <a class="btn btn--cream" href={site.booking.tasting}>Book a tasting</a>
+  <!-- ───────────── RECOGNITION ───────────── -->
+  <section class="section srec">
+    <Image src={cellarBg} class="srec__bg" alt="" aria-hidden="true" widths={[768, 1280, 1800]} sizes="100vw" loading="lazy" />
+    <div class="srec__scrim" aria-hidden="true"></div>
+    <div class="wrap srec__inner">
+      <header class="srec__head" data-reveal>
+        <p class="eyebrow"><span class="rule rule--gold"></span>Recognition</p>
+        <h2 class="srec__title">A record, in brief.</h2>
+      </header>
+
+      <ol class="srec__list" role="list" data-reveal>
+        {awards.map((a) => (
+          <li class="srec__row">
+            <span class="srec__year">{a.year}</span>
+            <span class="srec__detail">
+              <span class="srec__dist">{a.title}</span>
+              <span class="srec__src">{a.source}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <div class="srec__affil" data-reveal>
+        <p class="eyebrow srec__affil-label">Affiliations &amp; credentials</p>
+        <ul class="srec__creds" role="list">
+          {medallions.map((m) => (
+            <li class="medallion">
+              <Image src={m.src} alt={m.alt} widths={[160, 320]} sizes="148px" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── INVITATION ───────────── -->
+  <section class="section sinvite">
+    <div class="wrap sinvite__inner" data-reveal>
+      <h2 class="sinvite__title">Sit at the table. Let the wine speak.</h2>
+      <div class="sinvite__cta">
+        <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+        <a class="btn btn--ghost btn--ghost-ink" href={site.booking.table} target="_blank" rel="noopener">Book a table</a>
       </div>
     </div>
   </section>
 </Base>
 
+<script>
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); o.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: "0px 0px -7% 0px" });
+    items.forEach((el) => obs.observe(el));
+    window.setTimeout(() => items.forEach((el) => el.classList.add("is-visible")), 2800);
+  }
+</script>
+
 <style>
-  .sommelier-page {
-    background: var(--cream-50);
-  }
+  .wrap { width: 100%; max-width: var(--container-wide); margin-inline: auto; padding-inline: clamp(20px, 4vw, 40px); }
+  .section { padding-block: clamp(88px, 13vw, 168px); }
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .rule--gold { background: var(--gold); }
+  .eyebrow { display: flex; align-items: center; gap: 14px; }
 
-  .sommelier-page__inner {
-    max-width: 840px;
+  /* ── HERO ── */
+  .shero {
+    position: relative;
     display: grid;
-    gap: clamp(3rem, 6vw, 5rem);
+    grid-template-columns: 1.05fr 0.95fr;
+    min-height: 100svh;
+    background: var(--credential-bg);
+    color: var(--cream-body);
   }
-
-  .sommelier-page__bio h2 {
-    font-size: var(--step-3);
-    margin-bottom: 1.2rem;
+  .shero__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: calc(var(--header-h) + clamp(2rem, 8vw, 5rem)) clamp(24px, 4vw, 64px) clamp(56px, 8vw, 96px);
+    max-width: 680px;
   }
-
-  .sommelier-page__bio p {
-    margin-bottom: 1rem;
-    color: var(--ink-soft);
-    line-height: 1.75;
+  .shero__eyebrow { color: #e8d9be; margin-bottom: 30px; }
+  .shero__rule { width: 38px; height: 1px; background: var(--gold); }
+  .shero__name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(44px, 5.6vw, 82px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: #f8f1e2;
+    margin: 0;
+    text-wrap: balance;
   }
+  .shero__sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(19px, 2.1vw, 26px);
+    line-height: 1.45;
+    color: var(--cream-body);
+    margin: 22px 0 0;
+    max-width: 30ch;
+  }
+  .shero__stat { display: flex; align-items: center; gap: 22px; margin-top: 46px; }
+  .shero__no { font-family: var(--font-mono); font-weight: 300; font-size: 34px; color: var(--gold); }
+  .shero__div { width: 1px; height: 40px; background: rgba(201, 168, 106, 0.4); }
+  .shero__statlabel {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.55;
+    max-width: 22ch;
+  }
+  .shero__media { position: relative; margin: 0; min-height: 46vh; background: #1a0810; }
+  .shero__media :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+  .shero__fade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(42, 10, 17, 0.85) 0%, rgba(42, 10, 17, 0) 32%); }
 
-  .sommelier-page__bio p.lead {
+  /* ── THE CRAFT ── */
+  .craft { background: var(--cream); }
+  .craft__inner { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .craft__media { margin: 0; }
+  .craft__frame {
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid rgba(58, 46, 34, 0.1);
+    box-shadow: 0 26px 60px -32px rgba(42, 10, 17, 0.42);
+  }
+  .craft__frame :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 1200ms var(--ease-reveal); }
+  .craft__media:hover .craft__frame :global(img) { transform: scale(1.05); }
+  .craft__cap { margin-top: 18px; font-family: var(--font-body); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-mid); }
+  .craft__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 4.4vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     color: var(--ink);
-    font-size: var(--step-1);
-    margin-bottom: 1.6rem;
+    margin: 22px 0 0;
+    max-width: 16ch;
+    text-wrap: balance;
   }
+  .craft__body { font-family: var(--font-body); font-size: 17px; line-height: 1.8; color: var(--ink-soft); max-width: 54ch; margin: 30px 0 40px; }
 
-  .sommelier-page__highlights {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.6rem;
-    padding: clamp(2rem, 4vw, 3rem);
-    background: var(--paper);
-    border-radius: var(--radius);
-    border: 1px solid var(--line);
+  /* ── RECOGNITION ── */
+  .srec { position: relative; overflow: hidden; background: var(--credential-bg); color: var(--cream-body); }
+  .srec__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; opacity: 0.12; z-index: 0; }
+  .srec__scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(42, 10, 17, 0.94) 0%, rgba(42, 10, 17, 0.82) 60%, rgba(42, 10, 17, 0.96) 100%); }
+  .srec__inner { position: relative; z-index: 2; }
+  .srec__head { margin-bottom: clamp(48px, 7vw, 80px); max-width: 56ch; }
+  .srec__head .eyebrow { color: var(--gold); margin-bottom: 26px; }
+  .srec__title { font-family: var(--font-display); font-weight: 500; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.08; letter-spacing: -0.02em; color: #f8f1e2; margin: 0; }
+  .srec__list { list-style: none; margin: 0; padding: 0; max-width: 920px; }
+  .srec__row { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 28px 0; border-top: 1px solid rgba(201, 168, 106, 0.22); }
+  .srec__row:last-child { border-bottom: 1px solid rgba(201, 168, 106, 0.22); }
+  .srec__year { font-family: var(--font-mono); font-weight: 300; font-size: 14px; letter-spacing: 0.08em; color: var(--gold); padding-top: 5px; }
+  .srec__detail { display: flex; flex-direction: column; gap: 12px; }
+  .srec__dist { font-family: var(--font-display); font-weight: 500; font-size: clamp(20px, 2.4vw, 27px); line-height: 1.16; letter-spacing: -0.01em; color: #f8f1e2; }
+  .srec__src { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #b89a6a; }
+  .srec__affil { margin-top: clamp(56px, 8vw, 88px); padding-top: clamp(36px, 5vw, 52px); border-top: 1px solid rgba(201, 168, 106, 0.22); }
+  .srec__affil-label { color: var(--gold); margin-bottom: 30px; }
+  .srec__creds { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(24px, 4vw, 56px); align-items: center; flex-wrap: wrap; }
+  .medallion { width: 148px; height: 148px; display: grid; place-items: center; border-radius: 999px; box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.55); transition: transform 300ms var(--ease-reveal), box-shadow 300ms var(--ease-reveal); }
+  .medallion :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .medallion:hover { transform: translateY(-6px); box-shadow: 0 22px 48px -16px rgba(184, 145, 91, 0.6); }
+
+  /* ── INVITATION ── */
+  .sinvite { background: var(--cream); }
+  .sinvite__inner { max-width: 760px; margin-inline: auto; text-align: center; }
+  .sinvite__title { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); margin: 0; text-wrap: balance; }
+  .sinvite__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 40px; }
+  .btn--ghost-ink { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+  .btn--ghost-ink:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
+
+  /* reveals */
+  [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 900ms var(--ease-reveal), transform 900ms var(--ease-reveal); }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    .shero { grid-template-columns: 1fr; }
+    .shero__media { order: -1; min-height: 52vh; }
+    .shero__fade { background: linear-gradient(180deg, rgba(42, 10, 17, 0.4) 0%, rgba(42, 10, 17, 0) 40%); }
+    .craft__inner { grid-template-columns: 1fr; }
+    .craft__media { max-width: 420px; }
+    .srec__row { grid-template-columns: 84px 1fr; gap: 16px; }
   }
-
-  .highlight h3 {
-    font-size: var(--step-1);
-    color: var(--wine-900);
-    margin-bottom: 0.6rem;
-  }
-
-  .highlight p {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-    line-height: 1.6;
-  }
-
-  .sommelier-page__cta {
-    text-align: center;
-    padding: clamp(2.5rem, 5vw, 4rem);
-    background: linear-gradient(160deg, var(--wine-700), var(--wine-950));
-    color: var(--cream-50);
-    border-radius: var(--radius);
-  }
-
-  .sommelier-page__cta h3 {
-    font-size: var(--step-2);
-    margin-bottom: 0.8rem;
-  }
-
-  .sommelier-page__cta p {
-    max-width: 60ch;
-    margin: 0 auto 1.6rem;
-    color: rgba(250, 245, 234, 0.88);
-    font-size: var(--step-0);
-  }
-
-  @media (max-width: 760px) {
-    .sommelier-page__highlights {
-      grid-template-columns: 1fr;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+    .craft__media:hover .craft__frame :global(img) { transform: none; }
+    .medallion, .medallion:hover { transition: none; transform: none; }
   }
 </style>

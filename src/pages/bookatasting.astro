@@ -1,56 +1,22 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHeader from "../components/PageHeader.astro";
+import { Image } from "astro:assets";
 import { site } from "../data/site";
+import { tastings } from "../data/tastings";
+import TastingCard from "../components/TastingCard.astro";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+import vasiliiPort from "../assets/images/vasilii-port.jpg";
 
-// Display catalogue — keep in sync with the server-authoritative prices
-// in netlify/lib/tastings.mjs (the server is the source of truth for charging).
-const tastings = [
-  {
-    key: "wine",
-    name: "Portuguese Wine Tasting",
-    price: 45,
-    duration: "90 minutes",
-    min: 1,
-    max: 12,
-    points: [
-      "5–6 carefully selected Portuguese wines",
-      "Expert guidance from our sommelier team",
-      "Learn about Portuguese terroirs and winemaking",
-      "Complimentary water and light snacks",
-    ],
-  },
-  {
-    key: "port",
-    name: "Port Wine Master Class",
-    price: 65,
-    duration: "120 minutes",
-    min: 1,
-    max: 12,
-    points: [
-      "6–8 premium Port wines (vintage, tawny, white)",
-      "Guided by a Master of Port Wine",
-      "Deep dive into Port production and aging",
-      "Exclusive access to rare selections",
-      "Complimentary snacks and accompaniments",
-    ],
-  },
-  {
-    key: "private",
-    name: "Private Group Tasting",
-    price: 55,
-    duration: "Customizable",
-    min: 4,
-    max: 20,
-    points: [
-      "Tailored selection based on your group's interests",
-      "Private tasting room experience",
-      "Extended time for questions and exploration",
-      "Food pairings available (additional cost)",
-      "Perfect for celebrations or team events",
-    ],
-  },
-];
+// The booking <select> derives from the shared catalogue (src/data/tastings.ts).
+// Prices stay server-authoritative (netlify/lib/tastings.mjs) — the browser only
+// ever sends the slug as `tastingType`; this number is for display/estimate only.
+const selectRows = tastings.map((t) => ({
+  key: t.slug,
+  name: t.name,
+  price: Number(t.price.replace(/[^0-9]/g, "")),
+  min: 1,
+  max: 12,
+}));
 
 // Reasonable starting times within opening hours (16:00–22:00). resOS is the
 // source of truth — if a time is taken, the real free slots are shown back.
@@ -58,37 +24,33 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
 ---
 
 <Base title="Book a Tasting" description="Reserve and pay for your wine tasting experience at Dogma with Portugal's first Master of Port Wine." headerSolid>
-  <PageHeader
-    title="Wine Tasting Experience"
-    subtitle="Guided by Vasilii, Portugal's first Master of Port Wine"
-  />
+  <!-- ───────────────── Tastings hero — "We propose" ───────────────── -->
+  <section class="thero">
+    <Image
+      src={cellarBg}
+      class="thero__bg"
+      alt=""
+      aria-hidden="true"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="thero__scrim" aria-hidden="true"></div>
+    <div class="container thero__inner">
+      <p class="eyebrow"><span class="thero__rule"></span>The tastings</p>
+      <h1 class="thero__title">We propose</h1>
+      <p class="thero__sub">
+        From a bright Vinho Verde region to the rarest Ports — six guided flights, each crafted
+        with passion and dedication. Choose one below, check a date, and reserve in a minute.
+      </p>
+    </div>
+  </section>
 
   <section class="section tasting">
     <div class="container tasting__inner">
-      <div class="tasting__intro">
-        <h2>Discover the World of Wine</h2>
-        <p class="lead">
-          Our tasting experiences are tailored to your interests and level of expertise.
-          Whether you're exploring Portuguese wines for the first time or seeking rare Port wines,
-          we'll guide you through a curated selection paired with insights into terroir, production,
-          and the stories behind each bottle.
-        </p>
-      </div>
-
-      <div class="tasting__options">
-        {tastings.map((t) => (
-          <div class="tasting-card">
-            <h3>{t.name}</h3>
-            <p class="price">€{t.price} per person{t.key === "private" ? " (min. 4 people)" : ""}</p>
-            <p class="duration">{t.duration}</p>
-            <ul>
-              {t.points.map((p) => <li>{p}</li>)}
-            </ul>
-            <button class="btn btn--primary js-pick" type="button" data-tasting={t.key}>
-              Reserve now
-            </button>
-          </div>
-        ))}
+      <div class="propose-grid">
+        {tastings.map((t) => <TastingCard tasting={t} anchor />)}
       </div>
 
       <!-- ───────────────── Booking + payment flow ───────────────── -->
@@ -108,7 +70,7 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
           <div class="field">
             <label for="tastingType">Tasting</label>
             <select id="tastingType">
-              {tastings.map((t) => (
+              {selectRows.map((t) => (
                 <option value={t.key} data-min={t.min} data-max={t.max} data-price={t.price}>
                   {t.name} — €{t.price} pp
                 </option>
@@ -183,24 +145,50 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
         </div>
       </div>
 
+      <!-- ───────────────── Your host ───────────────── -->
+      <aside class="host">
+        <figure class="host__media">
+          <Image
+            src={vasiliiPort}
+            alt="Vasilii Grebencea, Master of Port, holding a glass of aged Port"
+            widths={[360, 640, 900]}
+            sizes="(max-width: 760px) 100vw, 40vw"
+            loading="lazy"
+          />
+        </figure>
+        <div class="host__text">
+          <p class="eyebrow eyebrow--ink">Your host</p>
+          <h2 class="host__title">Guided by a Master of Port.</h2>
+          <p class="host__body">
+            Every flight is led by Vasilii Grebencea — the first Master of Port in Portugal and one
+            of the country's top three sommeliers. Expect the rare bottles, the real stories, and a
+            tasting that feels like a conversation, not a lecture.
+          </p>
+          <a class="btn btn--primary" href="/sommelier">Meet Vasilii</a>
+        </div>
+      </aside>
+
       <div class="tasting__info">
-        <h3>Before You Visit</h3>
+        <header class="tasting__info-head">
+          <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>Good to know</p>
+          <h2 class="tasting__info-title">Before you visit</h2>
+        </header>
         <div class="info-grid">
-          <div>
-            <h4>📍 Location</h4>
-            <p>{site.contact.address}<br />{site.contact.postalCode} {site.contact.city}</p>
+          <div class="info-item">
+            <h3>Arrive together</h3>
+            <p>Each tasting begins as a group — please arrive a few minutes early so we can start on time.</p>
           </div>
-          <div>
-            <h4>⏰ Hours</h4>
-            <p>Monday–Saturday: 4:00 PM – 10:00 PM<br />Sunday: Closed</p>
+          <div class="info-item">
+            <h3>All levels welcome</h3>
+            <p>From the curious first-timer to the seasoned collector. No experience needed — just an open glass.</p>
           </div>
-          <div>
-            <h4>📞 Contact</h4>
-            <p><a href={site.contact.phoneHref}>{site.contact.phone}</a><br /><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+          <div class="info-item">
+            <h3>Free cancellation</h3>
+            <p>Plans change. Cancel up to <span class="info-mono">48h</span> before your reservation, no charge.</p>
           </div>
-          <div>
-            <h4>✨ Group Events</h4>
-            <p>Corporate tastings, celebrations, and private events available. Contact us for details.</p>
+          <div class="info-item">
+            <h3>Private &amp; group events</h3>
+            <p>Corporate tastings, celebrations and private flights on request — <a href="/contacts">tell us what you have in mind</a>.</p>
           </div>
         </div>
       </div>
@@ -225,7 +213,7 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
         </div>
         <div class="faq-item">
           <h4>Can I buy wine after tasting?</h4>
-          <p>Yes! We offer bottles from our tastings for take-home. Pricing available upon request.</p>
+          <p>Sometimes — we run on a small, ever-changing cellar, so take-home bottles depend on what's in stock that day. Shipping can usually be arranged. Ask us and we'll see what we can do.</p>
         </div>
         <div class="faq-item">
           <h4>What's your cancellation policy?</h4>
@@ -237,34 +225,87 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
 </Base>
 
 <style>
-  .tasting { background: var(--cream-50); }
-  .tasting__inner { max-width: 1000px; display: grid; gap: clamp(3rem, 6vw, 5rem); }
+  /* ───── Tastings hero "We propose" ───── */
+  .thero {
+    position: relative;
+    overflow: hidden;
+    background: var(--credential-bg);
+    color: var(--cream-soft);
+    padding: calc(var(--header-h) + clamp(3rem, 8vw, 6rem)) 0 clamp(3rem, 8vw, 6rem);
+  }
+  .thero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    opacity: 0.22;
+    z-index: 0;
+  }
+  .thero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(120deg, rgba(42, 10, 17, 0.94), rgba(42, 10, 17, 0.72) 60%, rgba(42, 10, 17, 0.9));
+  }
+  .thero__inner { position: relative; z-index: 2; max-width: 56ch; }
+  .thero .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .thero__rule { width: 34px; height: 1px; background: var(--brass); }
+  .thero__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 1.9rem + 3.4vw, 4.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: #f8f1e2;
+    margin: 14px 0 18px;
+  }
+  .thero__sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(17px, 1.8vw, 21px);
+    line-height: 1.5;
+    color: var(--cream-soft);
+  }
 
-  .tasting__intro h2 { font-size: var(--step-3); margin-bottom: 1.2rem; }
-  .tasting__intro p.lead { font-size: var(--step-1); color: var(--ink); max-width: 70ch; }
+  .tasting { background: var(--cream); }
+  .tasting__inner { max-width: var(--container); display: grid; gap: clamp(3rem, 6vw, 5rem); }
 
-  .tasting__options {
+  /* shared tasting-card grid — 3 → 2 → 1 */
+  .propose-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 28px);
   }
-  .tasting-card {
-    padding: 2rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  @media (max-width: 980px) { .propose-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .propose-grid { grid-template-columns: 1fr; } }
+
+  /* keep the form + info panels readable */
+  .booking, .tasting__info, .tasting__faq { max-width: 1000px; width: 100%; margin-inline: auto; }
+
+  /* ───── Your host band ───── */
+  .host {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    max-width: var(--container);
   }
-  .tasting-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-  .tasting-card h3 { font-size: var(--step-1); color: var(--wine-900); }
-  .tasting-card .price { font-family: var(--font-display); font-size: var(--step-2); color: var(--gold); font-weight: 600; }
-  .tasting-card .duration { font-size: var(--step--1); color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.1em; }
-  .tasting-card ul { list-style: none; padding: 0; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
-  .tasting-card li { padding-left: 1.5rem; position: relative; color: var(--ink-soft); font-size: var(--step--1); line-height: 1.5; }
-  .tasting-card li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: bold; }
+  .host__media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: 0 30px 70px -38px rgba(42, 10, 17, 0.5);
+  }
+  .host__media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .host__title { font-size: var(--step-2); color: var(--wine-900); margin: 0.4rem 0 0.8rem; }
+  .host__body { color: var(--ink-soft); max-width: 52ch; margin-bottom: 1.4rem; line-height: 1.7; }
+  @media (max-width: 760px) {
+    .host { grid-template-columns: 1fr; }
+    .host__media { max-width: 360px; }
+  }
   .tasting-card .btn { margin-top: auto; align-self: flex-start; }
 
   /* ---------- Booking ---------- */
@@ -323,10 +364,11 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
 
   .booking__price {
     margin-top: 1rem;
-    font-family: var(--font-display);
-    font-size: var(--step-1);
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
     color: var(--wine-800);
     min-height: 1.4em;
+    letter-spacing: -0.01em;
   }
   .booking__price strong { font-weight: 600; }
 
@@ -384,13 +426,26 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   }
 
   /* ---------- Info + FAQ ---------- */
-  .tasting__info { padding: 2.5rem; background: linear-gradient(160deg, var(--wine-700), var(--wine-950)); color: var(--cream-50); border-radius: var(--radius); }
-  .tasting__info h3 { font-size: var(--step-2); margin-bottom: 2rem; }
-  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-  .info-grid h4 { font-family: var(--font-display); font-size: var(--step-1); margin-bottom: 0.6rem; color: var(--gold-300); }
-  .info-grid p { color: rgba(250, 245, 234, 0.88); font-size: var(--step--1); line-height: 1.6; }
-  .info-grid a { color: var(--gold-300); text-decoration: none; transition: opacity 0.2s ease; }
-  .info-grid a:hover { opacity: 0.8; }
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .tasting__info .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .tasting__info-head { margin-bottom: clamp(2rem, 4vw, 2.6rem); }
+  .tasting__info-title { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); color: var(--ink); margin-top: 0.3em; }
+  .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.5rem, 3vw, 2.4rem); }
+  .info-item { padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .info-item h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-1);
+    line-height: 1.12;
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+    text-wrap: balance;
+  }
+  .info-item p { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.65; }
+  .info-item a { color: var(--port-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(126,34,48,0.3); transition: text-decoration-color 0.2s ease; }
+  .info-item a:hover { text-decoration-color: var(--port-deep); }
+  .info-mono { font-family: var(--font-mono); }
 
   .tasting__faq { max-width: 800px; }
   .tasting__faq h3 { font-size: var(--step-2); margin-bottom: 2rem; }
@@ -399,10 +454,8 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   .faq-item h4 { font-size: var(--step-0); color: var(--wine-900); margin-bottom: 0.6rem; font-weight: 600; }
   .faq-item p { color: var(--ink-soft); line-height: 1.7; }
 
-  @media (max-width: 760px) {
-    .tasting__options { grid-template-columns: 1fr; }
-    .info-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 920px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>
@@ -588,14 +641,27 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
   checkBtn.addEventListener("click", checkAvailability);
   payBtn.addEventListener("click", pay);
 
-  // tasting cards → preselect + scroll to form
-  document.querySelectorAll<HTMLButtonElement>(".js-pick").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.tasting;
-      if (key) { typeEl.value = key; updatePartyBounds(); resetAvailability(); }
-      document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Each tasting card is a whole-card <a href="/bookatasting?tasting=slug">.
+  // On this page we intercept it to preselect the form instead of reloading.
+  function preselect(slug: string | null | undefined, scroll = true) {
+    if (!slug) return;
+    const opt = [...typeEl.options].find((o) => o.value === slug);
+    if (!opt) return;
+    typeEl.value = slug;
+    updatePartyBounds();
+    resetAvailability();
+    if (scroll) document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  document.querySelectorAll<HTMLAnchorElement>("a.tcard").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      preselect(card.dataset.tasting);
     });
   });
+
+  // Deep-link: /bookatasting?tasting=<slug> (from Home "We propose") preselects.
+  const wantedTasting = new URLSearchParams(location.search).get("tasting");
+  if (wantedTasting) preselect(wantedTasting);
 
   // returning from a cancelled Stripe checkout
   if (new URLSearchParams(location.search).get("canceled") === "1") {

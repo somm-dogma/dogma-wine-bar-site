@@ -1,0 +1,166 @@
+---
+/* Shared tasting card — Option A "editorial card" from the Design handoff.
+   Reused on Home ("We propose") and /bookatasting. The whole card is a link
+   to /bookatasting?tasting=<slug>; on the booking page a small script
+   intercepts it to preselect the on-page form (see bookatasting.astro). */
+import { Image } from "astro:assets";
+import type { Tasting } from "../data/tastings";
+
+interface Props {
+  tasting: Tasting;
+  /** Emit id={slug} so #slug deep-links land on this card (booking page). */
+  anchor?: boolean;
+}
+const { tasting, anchor = false } = Astro.props;
+const { slug, name, category, description, includes, price, duration, image, alt } = tasting;
+---
+
+<a
+  class="tcard"
+  href={`/bookatasting?tasting=${slug}`}
+  id={anchor ? slug : undefined}
+  data-tasting={slug}
+>
+  <span class="tcard__media">
+    <Image
+      src={image}
+      alt={alt}
+      widths={[400, 700, 900]}
+      sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 33vw"
+      loading="lazy"
+    />
+  </span>
+  <span class="tcard__body">
+    <span class="tcard__cat">{category}</span>
+    <h3 class="tcard__name">{name}</h3>
+    <span class="tcard__desc">{description}</span>
+    <span class="tcard__includes">{includes}</span>
+    <span class="tcard__meta">
+      <span class="tcard__price-wrap">
+        <span class="tcard__price">{price}</span>
+        <span class="tcard__pp">per person</span>
+      </span>
+      <span class="tcard__dur">{duration}</span>
+    </span>
+    <span class="tcard__reserve">Reserve</span>
+  </span>
+</a>
+
+<style>
+  .tcard {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 14px 34px -18px rgba(43, 10, 17, 0.4);
+    transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+  .tcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 56px -22px rgba(43, 10, 17, 0.52);
+  }
+
+  .tcard__media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: var(--wine-900);
+  }
+  .tcard__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 560ms var(--ease-out);
+    will-change: transform;
+  }
+  .tcard:hover .tcard__media :global(img) { transform: scale(1.05); }
+
+  .tcard__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: clamp(1.15rem, 1rem + 0.8vw, 1.6rem);
+    gap: 12px;
+  }
+  .tcard__cat {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step--1);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--wine-700);
+  }
+  .tcard__name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.45rem, 1.2rem + 1vw, 1.9rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--wine-900);
+  }
+  .tcard__desc {
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .tcard__includes {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .tcard__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .tcard__price-wrap { display: flex; align-items: baseline; gap: 7px; }
+  .tcard__price {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+    letter-spacing: 0.01em;
+    color: var(--wine-900);
+  }
+  .tcard__pp { font-family: var(--font-body); font-size: var(--step--1); color: var(--ink-soft); }
+  .tcard__dur {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .tcard__reserve {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--wine-800);
+    color: var(--cream-50);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    border-radius: 999px;
+    margin-top: 4px;
+    transition: background 320ms var(--ease-out);
+  }
+  .tcard:hover .tcard__reserve { background: var(--wine-700); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tcard, .tcard__media :global(img), .tcard__reserve { transition: none; }
+    .tcard:hover { transform: none; }
+    .tcard:hover .tcard__media :global(img) { transform: none; }
+  }
+</style>

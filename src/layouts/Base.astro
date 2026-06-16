@@ -3,15 +3,18 @@
 import "@fontsource/inter/latin-400.css";
 import "@fontsource/inter/latin-500.css";
 import "@fontsource/inter/latin-600.css";
-import "@fontsource/cormorant-garamond/latin-500.css";
-import "@fontsource/cormorant-garamond/latin-600.css";
-import "@fontsource/cormorant-garamond/latin-500-italic.css";
-import "@fontsource/cormorant-garamond/latin-600-italic.css";
-// Geometric numerals for the Star Wine List year badges
-import "@fontsource/montserrat/latin-800.css";
+import "@fontsource/playfair-display/latin-500.css";
+import "@fontsource/playfair-display/latin-600.css";
+import "@fontsource/playfair-display/latin-500-italic.css";
+import "@fontsource/playfair-display/latin-600-italic.css";
+// Monospace numerals — prices and figures
+import "@fontsource/jetbrains-mono/latin-400.css";
+import "@fontsource/jetbrains-mono/latin-500.css";
+import "@fontsource/jetbrains-mono/latin-600.css";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import CookieConsent from "../components/CookieConsent.astro";
 import { site } from "../data/site";
 
 interface Props {
@@ -19,9 +22,11 @@ interface Props {
   description?: string;
   /** Inner pages (no dark hero) use a solid header so the nav stays readable. */
   headerSolid?: boolean;
+  /** Home merges Visit + Footer into one inline section — skip the global footer. */
+  bareFooter?: boolean;
 }
 
-const { title, description, headerSolid = false } = Astro.props;
+const { title, description, headerSolid = false, bareFooter = false } = Astro.props;
 const pageTitle = title
   ? `${title} — ${site.name}`
   : `${site.name} — Wine Bar in Porto · Master of Port`;
@@ -74,17 +79,29 @@ const schema = {
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.jpg", site.url).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={new URL("/og.jpg", site.url).href} />
     <meta name="theme-color" content="#3e0f18" />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <title>{pageTitle}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <Header solid={headerSolid} />
-    <main class:list={[{ "main--padded": headerSolid }]}>
+    <main id="main" class:list={[{ "main--padded": headerSolid }]}>
       <slot />
     </main>
-    <Footer />
+    {!bareFooter && <Footer />}
+    <CookieConsent />
     <style>
       .main--padded { padding-top: var(--header-h); }
     </style>

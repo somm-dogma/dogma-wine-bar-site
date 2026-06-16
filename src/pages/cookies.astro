@@ -1,0 +1,99 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+---
+
+<Base title="Cookie Policy" description="How Dogma Wine Bar uses cookies, and how to manage your choices." headerSolid>
+  <PageHeader eyebrow="Legal" title="Cookie Policy" subtitle="How we use cookies, and how you stay in control." />
+
+  <section class="section legal">
+    <div class="container legal__inner">
+      <p class="legal__lead">
+        A cookie is a small file a website stores on your device. We keep our use of them to a
+        minimum and never load non-essential cookies until you tell us it’s OK.
+      </p>
+
+      <h2>What we use</h2>
+      <div class="ck">
+        <div class="ck__row">
+          <h3>Essential</h3>
+          <p>
+            Needed for the site to work, so always on. The only thing we store here is your cookie
+            choice itself, so we don’t ask again on every visit. No tracking.
+          </p>
+        </div>
+        <div class="ck__row">
+          <h3>Analytics <span class="ck__tag">Optional</span></h3>
+          <p>
+            If you accept, we use analytics to understand which pages are visited and how the site
+            performs, so we can improve it. These only load after you accept, and never identify you
+            personally to us.
+          </p>
+        </div>
+      </div>
+
+      <h2>Booking &amp; payments</h2>
+      <p>
+        When you book a tasting, payment is handled by <strong>Stripe</strong> and availability by
+        <strong>ResOS</strong> on their own secure pages. They may set their own cookies under their
+        policies; your card details never touch our site.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        You chose whether to allow analytics when you first arrived. You can change your mind at any
+        time, and you can also clear cookies in your browser settings.
+      </p>
+      <button type="button" class="btn btn--primary" id="reopen-consent">Change cookie preferences</button>
+
+      <h2>More</h2>
+      <p>
+        For how we handle personal data, see our <a href="/privacy">Privacy Policy</a>. Questions?
+        Email <a href="mailto:somm@dogmawinebar.com">somm@dogmawinebar.com</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.getElementById("reopen-consent")?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("dogma:open-consent"));
+  });
+</script>
+
+<style>
+  .legal { background: var(--cream); }
+  .legal__inner { max-width: 70ch; }
+  .legal__lead { font-size: var(--step-1); line-height: 1.6; color: var(--ink); margin-bottom: 2.5rem; }
+  .legal h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-2);
+    color: var(--wine-900);
+    margin: 2.5rem 0 0.8rem;
+  }
+  .legal p { color: var(--ink-soft); line-height: 1.75; margin-bottom: 1rem; }
+  .legal a { color: var(--port-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .legal a:hover { color: var(--port-hover); }
+  .ck { display: grid; gap: 1.25rem; margin: 1.5rem 0 0.5rem; }
+  .ck__row { padding: 1.25rem 1.4rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+  .ck__row h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .ck__tag {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+  }
+  .legal #reopen-consent { margin-top: 0.5rem; }
+</style>

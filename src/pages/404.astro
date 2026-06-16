@@ -1,0 +1,57 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Page not found" description="The page you’re looking for isn’t here — find your way back to Dogma." headerSolid>
+  <section class="nf">
+    <div class="container nf__inner">
+      <p class="nf__eyebrow"><span class="nf__rule"></span>Error 404</p>
+      <h1 class="nf__title">This page isn’t on the list.</h1>
+      <p class="nf__body">
+        The page you’re looking for has moved or never existed. Let’s pour you something that has —
+        head back to the start, or book a tasting.
+      </p>
+      <div class="nf__cta">
+        <a class="btn btn--primary" href="/">Back to home</a>
+        <a class="btn btn--ghost nf__ghost" href={site.booking.tasting}>Book a tasting</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { background: var(--cream); padding-block: clamp(5rem, 12vw, 9rem); }
+  .nf__inner { max-width: 56ch; }
+  .nf__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+    margin-bottom: 20px;
+  }
+  .nf__rule { width: 34px; height: 1px; background: var(--brass-mid); }
+  .nf__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .nf__body {
+    margin-top: 1.2rem;
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .nf__cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 2.2rem; }
+  .nf__ghost { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+  .nf__ghost:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
+</style>

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /.well-known
 
-Sitemap: https://www.dogmawinebar.com/sitemap.xml
+Sitemap: https://www.dogmawinebar.com/sitemap-index.xml
