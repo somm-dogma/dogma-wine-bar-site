@@ -115,7 +115,11 @@ export default async (req) => {
     );
     return new Response("booked", { status: 200 });
   } catch (err) {
-    console.error(`[stripe-webhook] booking failed for session ${session.id}:`, err?.message);
+    console.error(
+      `[stripe-webhook] booking failed for session ${session.id}:`,
+      err?.message,
+      err?.data ? JSON.stringify(err.data) : ""
+    );
     // Don't leave the customer charged with no booking.
     let refunded = false;
     try {
