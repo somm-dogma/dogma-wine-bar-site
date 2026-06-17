@@ -21,6 +21,7 @@ import {
   isNonEmptyString,
   isValidEmail,
   isValidPhone,
+  normalizePhone,
   isValidTime,
   isFutureOrToday,
   clampInt,
@@ -107,7 +108,7 @@ export default async (req, context) => {
         time,
         people: String(people),
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizePhone(phone),
         openingHourId: avail.openingHourId || "",
       },
       payment_intent_data: {
