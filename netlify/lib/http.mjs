@@ -98,6 +98,14 @@ export function isValidPhone(v) {
   return typeof v === "string" && /^[+()\-\s\d]{6,20}$/.test(v);
 }
 
+/** resOS requires E.164-ish format (leading "+" + country code). Most
+ *  guests just type a local PT number, so default to +351 when missing. */
+export function normalizePhone(v) {
+  const trimmed = String(v).trim().replace(/[()\-\s]/g, "");
+  if (trimmed.startsWith("+")) return trimmed;
+  return `+351${trimmed.replace(/^0+/, "")}`;
+}
+
 export function isValidDate(v) {
   // YYYY-MM-DD, real calendar date
   if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
