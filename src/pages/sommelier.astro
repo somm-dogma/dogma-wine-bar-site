@@ -18,10 +18,29 @@ const awards = [
   { year: "2025 – 28", title: "Official Ambassador of Porto", source: "Sommelier Association of Portugal" },
 ];
 const medallions = [
-  { src: credEscancoes, alt: "Associação dos Escanções de Portugal — member seal" },
-  { src: credAsi, alt: "ASI · Association de la Sommellerie Internationale — member seal" },
-  { src: credWset, alt: "WSET — Wine & Spirit Education Trust" },
-  { src: credIvv, alt: "Estabelecimento com Escanção · Sommelier" },
+  {
+    src: credEscancoes,
+    alt: "Associação dos Escanções de Portugal — member seal",
+    desc: "Portuguese Sommelier Association",
+    href: "https://escancoes.pt/",
+  },
+  {
+    src: credAsi,
+    alt: "ASI · Association de la Sommellerie Internationale — member seal",
+    desc: "International Sommelier Association",
+    href: "https://www.asi.info/",
+  },
+  {
+    src: credWset,
+    alt: "WSET — Wine & Spirit Education Trust",
+    desc: "WSET",
+    href: "https://www.wsetglobal.com/qualifications/wset-level-3-award-in-wines",
+  },
+  {
+    src: credIvv,
+    alt: "Estabelecimento com Escanção · Sommelier",
+    desc: "Portuguese badge for venues with certified sommelier",
+  },
 ];
 ---
 
@@ -108,8 +127,17 @@ const medallions = [
         <p class="eyebrow srec__affil-label">Affiliations &amp; credentials</p>
         <ul class="srec__creds" role="list">
           {medallions.map((m) => (
-            <li class="medallion">
-              <Image src={m.src} alt={m.alt} widths={[160, 320]} sizes="148px" loading="lazy" />
+            <li class="cred">
+              {m.href ? (
+                <a class="medallion" href={m.href} target="_blank" rel="noopener noreferrer" aria-label={m.desc}>
+                  <Image src={m.src} alt={m.alt} widths={[160, 320]} sizes="148px" loading="lazy" />
+                </a>
+              ) : (
+                <span class="medallion">
+                  <Image src={m.src} alt={m.alt} widths={[160, 320]} sizes="148px" loading="lazy" />
+                </span>
+              )}
+              <p class="cred__desc">{m.desc}</p>
             </li>
           ))}
         </ul>
@@ -248,10 +276,21 @@ const medallions = [
   .srec__src { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #b89a6a; }
   .srec__affil { margin-top: clamp(56px, 8vw, 88px); padding-top: clamp(36px, 5vw, 52px); border-top: 1px solid rgba(201, 168, 106, 0.22); }
   .srec__affil-label { color: var(--gold); margin-bottom: 30px; }
-  .srec__creds { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(24px, 4vw, 56px); align-items: center; flex-wrap: wrap; }
+  .srec__creds { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(24px, 4vw, 56px); align-items: flex-start; flex-wrap: wrap; }
+  .cred { display: flex; flex-direction: column; align-items: center; width: 148px; }
   .medallion { width: 148px; height: 148px; display: grid; place-items: center; border-radius: 999px; box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.55); transition: transform 300ms var(--ease-reveal), box-shadow 300ms var(--ease-reveal); }
   .medallion :global(img) { width: 100%; height: 100%; object-fit: contain; }
-  .medallion:hover { transform: translateY(-6px); box-shadow: 0 22px 48px -16px rgba(184, 145, 91, 0.6); }
+  a.medallion:hover, a.medallion:focus-visible { transform: translateY(-6px); box-shadow: 0 22px 48px -16px rgba(184, 145, 91, 0.6); }
+  a.medallion:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .cred__desc {
+    margin-top: 14px;
+    max-width: 160px;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--cream-soft);
+    opacity: 0.78;
+  }
 
   /* ── INVITATION ── */
   .sinvite { background: var(--cream); }
