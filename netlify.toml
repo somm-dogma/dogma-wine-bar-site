@@ -21,11 +21,19 @@ to = "/.netlify/functions/create-checkout-session"
 status = 200
 force = true
 
-# SPA-style fallback for everything else (static files still take precedence).
+# Serve the custom 404 page with a proper 404 status for any unmatched URL.
 [[redirects]]
 from = "/*"
-to = "/index.html"
-status = 200
+to = "/404.html"
+status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [context.production.environment]
 NODE_VERSION = "24.16.0"

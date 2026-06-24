@@ -8,7 +8,7 @@ export const site = {
   shortName: "Dogma",
   tagline: "A place where the art of great winemakers fills glasses",
   description:
-    "Discover the world of wine at Dogma — a wine paradise in the heart of Porto's historic centre. Tastings, Port wine, and a curated cellar guided by Portugal's first Master of Port.",
+    "Discover Dogma — a wine paradise in Porto's historic centre. Tastings, Port wine, and a curated cellar guided by Portugal's first Master of Port.",
   url: "https://www.dogmawinebar.com",
   established: "2023",
 

@@ -24,9 +24,11 @@ interface Props {
   headerSolid?: boolean;
   /** Home merges Visit + Footer into one inline section — skip the global footer. */
   bareFooter?: boolean;
+  /** Utility/confirmation pages that must not be indexed by search engines. */
+  noindex?: boolean;
 }
 
-const { title, description, headerSolid = false, bareFooter = false } = Astro.props;
+const { title, description, headerSolid = false, bareFooter = false, noindex = false } = Astro.props;
 const pageTitle = title
   ? `${title} — ${site.name}`
   : `${site.name} — Wine Bar in Porto · Master of Port`;
@@ -36,7 +38,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 // LocalBusiness structured data for local search (address, hours, founder).
 const schema = {
   "@context": "https://schema.org",
-  "@type": ["WineBar", "Restaurant", "LocalBusiness"],
+  "@type": ["BarOrPub", "Restaurant", "LocalBusiness"],
   name: site.name,
   url: site.url,
   telephone: site.contact.phone,
@@ -82,7 +84,8 @@ const schema = {
     <meta property="og:image" content={new URL("/og.jpg", site.url).href} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="en" />
+    <meta property="og:locale" content="en_US" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDesc} />
