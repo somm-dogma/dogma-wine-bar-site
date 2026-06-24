@@ -21,6 +21,61 @@ const selectRows = tastings.map((t) => ({
 // Reasonable starting times within opening hours (16:00–22:00). resOS is the
 // source of truth — if a time is taken, the real free slots are shown back.
 const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What should I wear?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Dress comfortably; there's no dress code. We recommend avoiding strong perfumes or colognes.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need wine experience?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No! Our tastings are designed for all levels, from curious beginners to seasoned enthusiasts.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I bring guests who don't drink?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Absolutely. We offer non-alcoholic alternatives and welcome all guests regardless of whether they taste.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I pay?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Securely online via Stripe when you book. We never see or store your card details.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I buy wine after tasting?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sometimes — we run on a small, ever-changing cellar, so take-home bottles depend on what's in stock that day. Shipping can usually be arranged. Ask us and we'll see what we can do.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What's your cancellation policy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Free cancellation up to 48 hours before your reservation. Contact us for details.",
+      },
+    },
+  ],
+};
 ---
 
 <Base title="Book a Tasting" description="Reserve and pay for your wine tasting experience at Dogma with Portugal's first Master of Port Wine." headerSolid>
@@ -218,6 +273,8 @@ const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00
       </div>
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 </Base>
 
 <style>
