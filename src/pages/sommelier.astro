@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import { Image } from "astro:assets";
 import { site } from "../data/site";
 import vasiliiPort from "../assets/images/vasilii-port.jpg";
-import vasiliiPalmela from "../assets/images/vasilii-palmela.jpg";
+import vasiliiIberico from "../assets/images/vasilii-iberico.jpg";
 import cellarBg from "../assets/images/cellar-bg.jpg";
 import credEscancoes from "../assets/images/cred-escancoes.png";
 import credAsi from "../assets/images/cred-asi.png";
@@ -79,27 +79,25 @@ const medallions = [
       <figure class="craft__media" data-reveal>
         <div class="craft__frame">
           <Image
-            src={vasiliiPalmela}
-            alt="Vasilii Grebencea on stage at the XIX Concurso Nacional de Escanções"
+            src={vasiliiIberico}
+            alt="Vasilii Grebencea on stage at the Campeonato Ibérico de Sommeliers 2025"
             widths={[420, 760, 1100]}
             sizes="(max-width: 860px) 100vw, 40vw"
             loading="lazy"
           />
         </div>
-        <figcaption class="craft__cap">On stage · XIX Concurso Nacional de Escanções</figcaption>
+        <figcaption class="craft__cap">On stage · Campeonato Ibérico de Sommeliers 2025</figcaption>
       </figure>
       <div class="craft__text" data-reveal>
         <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>The craft</p>
-        <h2 class="craft__title">The highest distinction in Port, held for the first time in Portugal.</h2>
+        <h2 class="craft__title">Portugal’s first Master of Port.</h2>
         <p class="craft__body">
-          The Master of Port is the highest distinction awarded for Port wine expertise. Vasilii
-          Grebencea is the first in Portugal to hold it — and one of the country’s top three
-          sommeliers. Every tasting at Dogma is led by someone who has reached the very top of his
-          craft, and who pours it as a conversation rather than a lecture.
+          The highest distinction in Port wine — awarded once, held for life. Every tasting at
+          Dogma is led by the only person in Portugal to hold it.
         </p>
         <div class="craft__actions">
-          <a class="btn btn--primary" href={site.booking.tasting}>Taste with a Master of Port</a>
-          <a class="btn btn--ghost btn--ghost-ink" href="/master-of-port">About the title</a>
+          <a class="btn btn--primary" href={site.booking.tasting}>Book a tasting</a>
+          <a class="btn btn--ghost btn--ghost-ink" href="/master-of-port">About the title →</a>
         </div>
       </div>
     </div>
