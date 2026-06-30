@@ -50,7 +50,9 @@ export const site = {
 // Main navigation — only real, live destinations (no "coming soon")
 export const nav = [
   { label: "Tastings", href: "/bookatasting" },
+  { label: "Signature Cases", href: "/signature-cases" },
   { label: "Menu", href: "/menu" },
   { label: "Sommelier", href: "/sommelier" },
+  { label: "Master of Port", href: "/master-of-port" },
   { label: "Contacts", href: "/contacts" },
 ];

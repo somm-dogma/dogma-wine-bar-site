@@ -4,8 +4,9 @@
     {
       "name": "dogma-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "4330"],
-      "port": 4330
+      "runtimeArgs": ["run", "dev"],
+      "port": 4330,
+      "autoPort": true
     }
   ]
 }

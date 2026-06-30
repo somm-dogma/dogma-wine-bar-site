@@ -14,6 +14,7 @@ const awards = [
   { year: "2024", title: "Top 6 · Best Newcomer, worldwide", source: "Star Wine List of the Year" },
   { year: "2024", title: "Bronze · 3rd Best Sommelier in Portugal", source: "XIX Concurso Nacional de Escanções" },
   { year: "2024 – 26", title: "Red Star · three consecutive years — first in Portugal", source: "Star Wine List" },
+  { year: "2025", title: "Master of Port · Portugal — first in the country’s history", source: "IVDP · Instituto dos Vinhos do Douro e do Porto" },
   { year: "2025", title: "Travellers’ Choice · Top 10% worldwide", source: "Tripadvisor" },
   { year: "2025 – 28", title: "Official Ambassador of Porto", source: "Sommelier Association of Portugal" },
 ];
@@ -96,7 +97,10 @@ const medallions = [
           sommeliers. Every tasting at Dogma is led by someone who has reached the very top of his
           craft, and who pours it as a conversation rather than a lecture.
         </p>
-        <a class="btn btn--primary" href={site.booking.tasting}>Taste with a Master of Port</a>
+        <div class="craft__actions">
+          <a class="btn btn--primary" href={site.booking.tasting}>Taste with a Master of Port</a>
+          <a class="btn btn--ghost btn--ghost-ink" href="/master-of-port">About the title</a>
+        </div>
       </div>
     </div>
   </section>
@@ -257,7 +261,10 @@ const medallions = [
     max-width: 16ch;
     text-wrap: balance;
   }
-  .craft__body { font-family: var(--font-body); font-size: 17px; line-height: 1.8; color: var(--ink-soft); max-width: 54ch; margin: 30px 0 40px; }
+  .craft__body { font-family: var(--font-body); font-size: 17px; line-height: 1.8; color: var(--ink-soft); max-width: 54ch; margin: 30px 0 0; }
+  .craft__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn--ghost-ink { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+  .btn--ghost-ink:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
 
   /* ── RECOGNITION ── */
   .srec { position: relative; overflow: hidden; background: var(--credential-bg); color: var(--cream-body); }

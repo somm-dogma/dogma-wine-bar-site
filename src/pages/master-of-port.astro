@@ -1,0 +1,661 @@
+---
+import Base from "../layouts/Base.astro";
+import { Image } from "astro:assets";
+import { site } from "../data/site";
+import vasiliiPort from "../assets/images/vasilii-port.jpg";
+import mopSeal from "../assets/images/mop-seal-ivdp.png";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+
+const faq = [
+  {
+    q: "What is the Master of Port title?",
+    a: "The Master of Port is the highest distinction awarded for Port wine expertise, organised by the Instituto dos Vinhos do Douro e do Porto (IVDP) — Portugal's official Port wine regulator — together with national sommelier associations. It is awarded through a rigorous multi-stage competition testing theoretical knowledge and practical skill across the history, production, brands, vintages, and food pairing of Port wine.",
+  },
+  {
+    q: "Who is the Master of Port in Portugal?",
+    a: "Vasilii Grebencea, head sommelier and owner of Dogma Wine Bar in Porto, is Portugal's first and only Master of Port. He was awarded the title on 14 October 2025 at the Palácio da Bolsa, Porto, in the inaugural Portuguese edition of the competition organised by IVDP and the Associação de Escanções de Portugal (AEP).",
+  },
+  {
+    q: "How does the Master of Port competition work?",
+    a: "The competition is open to professional sommeliers and hospitality professionals with a minimum of two years of active wine service in a public-facing venue. Candidates pass through multiple rounds of rigorous theoretical and practical tests covering the history of Port wine, production methods, the Douro Demarcated Region, leading houses and vintages, blind tasting, and expert food pairing. The final is judged by senior members of the wine and hospitality industry. Previous winners cannot re-enter — the title is held for life.",
+  },
+  {
+    q: "What does it mean to taste Port wine with a Master of Port?",
+    a: "A Master of Port holds the highest formal recognition for Port wine knowledge in their country. Tasting with Vasilii at Dogma Wine Bar means every glass is guided by someone who has undergone the most demanding professional evaluation of Port expertise in Portugal — covering blind tasting, production knowledge, history, and pairing. You receive the same depth of insight that judges, producers, and the IVDP itself recognise.",
+  },
+  {
+    q: "Where can I taste Port wine with Portugal's Master of Port?",
+    a: "At Dogma Wine Bar, Rua dos Caldeireiros 238, Porto. Vasilii leads all tastings in person. Port experiences include the Port Introduction (€45 per person), TOP Port Selection (€72 per person), and the rare Ports from Heaven tasting (€210 per person). Bookings can be made directly at dogmawinebar.com.",
+  },
+  {
+    q: "Is the Master of Port an international title?",
+    a: "Yes. The Master of Port competition is organised by IVDP across multiple countries — editions run in the United Kingdom, Canada, Benelux, Scandinavia, and Portugal. Each edition crowns one Master of Port for that country or region. Vasilii Grebencea is the Master of Port for Portugal — the country where Port wine was born and remains exclusively produced.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Vasilii Grebencea",
+  jobTitle: "Master of Port · Head Sommelier",
+  description:
+    "Portugal's first Master of Port, awarded 14 October 2025 at Palácio da Bolsa, Porto, in the inaugural Portuguese edition organised by IVDP and AEP. Owner and head sommelier of Dogma Wine Bar. 3rd Best Sommelier in Portugal (2024). WSET with distinction.",
+  award: [
+    "Master of Port Portugal 2025 — IVDP · Instituto dos Vinhos do Douro e do Porto / AEP",
+    "3rd Best Sommelier in Portugal, 2024 — XIX Concurso Nacional de Escanções",
+    "Star Wine List Red Star 2024–2026 — first venue in Portugal awarded three consecutive years",
+    "Official Ambassador of Porto, Associação dos Escanções de Portugal, 2025–2028",
+    "Top 6 Best Newcomer worldwide, 2024 — Star Wine List of the Year",
+  ],
+  worksFor: {
+    "@type": "BarOrPub",
+    name: "Dogma Wine Bar",
+    url: "https://www.dogmawinebar.com",
+  },
+  url: "https://www.dogmawinebar.com/master-of-port",
+};
+---
+
+<Base
+  title="What is the Master of Port? · Vasilii Grebencea · Dogma Wine Bar"
+  description="Portugal's first Master of Port is Vasilii Grebencea, owner of Dogma Wine Bar in Porto. Discover what the IVDP Master of Port title is, how the competition works, and how to taste with him."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <!-- ────────────── HERO ────────────── -->
+  <section class="mhero">
+    <div class="mhero__text">
+      <p class="eyebrow mhero__eyebrow"><span class="mhero__rule"></span>The highest distinction in Port wine</p>
+      <h1 class="mhero__title">Master<br />of Port</h1>
+      <p class="mhero__sub">
+        Portugal's first — and only.<br />
+        Vasilii Grebencea · Dogma Wine Bar · Porto
+      </p>
+      <figure class="mhero__seal">
+        <Image
+          src={mopSeal}
+          alt="Official Master of Port seal awarded by IVDP, Instituto dos Vinhos do Douro e do Porto"
+          widths={[100, 180]}
+          sizes="88px"
+          loading="eager"
+        />
+      </figure>
+      <div class="mhero__cta">
+        <a class="btn btn--cream" href={site.booking.tasting}>Taste with a Master of Port</a>
+        <a class="btn btn--ghost" href="/sommelier">About Vasilii</a>
+      </div>
+    </div>
+    <figure class="mhero__media">
+      <Image
+        src={vasiliiPort}
+        alt="Vasilii Grebencea — Portugal's first Master of Port, Dogma Wine Bar Porto"
+        widths={[500, 900, 1200]}
+        sizes="(max-width: 860px) 100vw, 48vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <span class="mhero__fade" aria-hidden="true"></span>
+    </figure>
+  </section>
+
+  <!-- ────────────── WHAT IS IT ────────────── -->
+  <section class="section mwhat">
+    <div class="wrap mwhat__inner">
+      <header class="mwhat__head" data-reveal>
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>What is the Master of Port?</p>
+        <h2 class="mwhat__title">
+          The most demanding test of Port wine expertise — awarded by the same body that
+          regulates its production.
+        </h2>
+      </header>
+      <div class="mwhat__body" data-reveal>
+        <p>
+          Port wine has a <strong>1756 demarcation</strong> — the oldest protected wine origin in
+          the world, predating Bordeaux, Rioja, and Champagne. The Douro Valley schist terraces
+          are a UNESCO World Heritage Site. Everything about Port, from grape varieties to barrel
+          ageing in the lodges of Vila Nova de Gaia, is overseen by the{" "}
+          <strong>Instituto dos Vinhos do Douro e do Porto (IVDP)</strong>, Portugal's official
+          regulatory authority.
+        </p>
+        <p>
+          The Master of Port is their highest professional honour — a competition run in
+          partnership with national sommelier associations across multiple countries. Each edition
+          produces one title holder. The winner becomes, in the words of IVDP President Gilberto
+          Igrejas, <em>"an official ambassador of Port wine at the international level, elevating
+          it as a premium product and a piece of national heritage."</em>
+        </p>
+        <p>
+          There is no equivalent title. No other institution awards it. And until October 2025, no
+          one in Portugal had ever held it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────── THE COMPETITION ────────────── -->
+  <section class="section mcomp">
+    <div class="wrap mcomp__inner">
+      <div class="mcomp__text" data-reveal>
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>The competition</p>
+        <h2 class="mcomp__title">Rigorous. Multi-stage. Judged by the industry's own.</h2>
+        <p class="mcomp__lead">
+          The Master of Port is open only to professionals with at minimum two years of active wine
+          service in a public-facing venue — sommeliers, maîtres d'hôtel, restaurateurs, wine merchants.
+          Candidates are tested across multiple rounds:
+        </p>
+        <ul class="mcomp__list">
+          <li>History and regulation of Port and the Douro Demarcated Region</li>
+          <li>Production methods — harvest, foot-treading, fortification, barrel ageing</li>
+          <li>Port styles, leading houses, and benchmark vintages</li>
+          <li>Blind tasting and sensory analysis</li>
+          <li>Expert food, cheese, and chocolate pairing</li>
+        </ul>
+        <p class="mcomp__lead">
+          The finalist receives a silver cup engraved <em>"Master of Port"</em> and an official IVDP
+          pin. Previous winners are permanently barred from re-entering. The title is held for life.
+        </p>
+      </div>
+      <div class="mcomp__media" data-reveal>
+        <figure class="mcomp__seal-wrap">
+          <Image
+            src={mopSeal}
+            alt="Master of Port — IVDP official seal"
+            widths={[200, 360, 480]}
+            sizes="(max-width: 860px) 160px, 240px"
+            loading="lazy"
+          />
+        </figure>
+        <p class="mcomp__seal-caption">
+          Official IVDP seal<br />awarded to the Master of Port
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────── THE WIN ────────────── -->
+  <section class="section mwin">
+    <Image
+      src={cellarBg}
+      class="mwin__bg"
+      alt=""
+      aria-hidden="true"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      loading="lazy"
+    />
+    <div class="mwin__scrim" aria-hidden="true"></div>
+    <div class="wrap mwin__inner">
+      <p class="eyebrow mwin__eyebrow" data-reveal>
+        <span class="rule rule--gold"></span>14 October 2025 · Palácio da Bolsa · Porto
+      </p>
+      <h2 class="mwin__title" data-reveal>
+        Portugal's inaugural edition.<br />
+        One winner. A first in the country's history.
+      </h2>
+      <div class="mwin__body" data-reveal>
+        <p>
+          The 2025 Master of Port was the first edition ever held in Portugal — the country
+          where Port wine was born, regulated, and exclusively produced. The final took place at
+          the <strong>Palácio da Bolsa</strong>, Porto's 19th-century Stock Exchange Palace,
+          before an audience of sommeliers, producers, and wine industry leaders.
+        </p>
+        <p>
+          Vasilii Grebencea — born in Moldova, resident in Porto, more than a decade of service
+          in prestigious European wine venues — stood ahead of the field. He is the first person
+          in the history of Portugal to hold the title of Master of Port.
+        </p>
+        <p>
+          The award was presented jointly by IVDP and the Associação de Escanções de Portugal
+          (AEP). Vasilii had already been named AEP's Ambassador of Porto the same year — the
+          2025 edition made him the most decorated Port wine expert in Portugal.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────── AT YOUR TABLE ────────────── -->
+  <section class="section mtable">
+    <div class="wrap mtable__inner">
+      <header class="mtable__head" data-reveal>
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>What this means at your table</p>
+        <h2 class="mtable__title">
+          Every pour at Dogma is guided by the highest authority in Port wine in Portugal.
+        </h2>
+      </header>
+      <div class="mtable__grid" data-reveal>
+        <div class="mtable__card">
+          <p class="mtable__num">01</p>
+          <h3 class="mtable__card-title">Not a script — a conversation</h3>
+          <p>
+            Vasilii leads every tasting himself. No recorded narration, no group tour. The session
+            adapts to what you want to understand — from grape to glass, region to house, vintage
+            to memory.
+          </p>
+        </div>
+        <div class="mtable__card">
+          <p class="mtable__num">02</p>
+          <h3 class="mtable__card-title">Wines most people never encounter</h3>
+          <p>
+            Dogma's Port cellar includes aged tawnies, single-harvest colheita, and rare vintage
+            Ports unavailable in ordinary wine bars. The <em>Ports from Heaven</em> tasting
+            features bottles most working sommeliers have not tasted.
+          </p>
+        </div>
+        <div class="mtable__card">
+          <p class="mtable__num">03</p>
+          <h3 class="mtable__card-title">Knowledge the producers themselves recognise</h3>
+          <p>
+            When Vasilii pours a wine and speaks to its origin, he draws from the same knowledge
+            base IVDP uses to evaluate Port wine's quality and authenticity. The credential is
+            not honorary — it was earned under examination.
+          </p>
+        </div>
+      </div>
+      <div class="mtable__cta" data-reveal>
+        <a class="btn btn--primary" href={site.booking.tasting}>Book a Port tasting</a>
+        <a class="btn btn--ghost btn--ghost-ink" href="/sommelier">Vasilii's full record</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────── FAQ ────────────── -->
+  <section class="section mfaq">
+    <div class="wrap mfaq__inner">
+      <header class="mfaq__head" data-reveal>
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>Frequently asked</p>
+        <h2 class="mfaq__title">About the Master of Port</h2>
+      </header>
+      <dl class="mfaq__list" data-reveal>
+        {
+          faq.map(({ q, a }) => (
+            <div class="mfaq__item">
+              <dt class="mfaq__q">{q}</dt>
+              <dd class="mfaq__a">{a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ────────────── CLOSE CTA ────────────── -->
+  <section class="section mclose">
+    <div class="wrap mclose__inner" data-reveal>
+      <h2 class="mclose__title">
+        The only place in Portugal to taste Port wine with its Master.
+      </h2>
+      <p class="mclose__sub">Dogma Wine Bar · Rua dos Caldeireiros 238 · Porto</p>
+      <div class="mclose__cta">
+        <a class="btn btn--primary" href={site.booking.tasting}>Reserve a tasting</a>
+        <a class="btn btn--ghost btn--ghost-ink" href="/contacts">Find us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const obs = new IntersectionObserver(
+      (entries, o) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            o.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -7% 0px" }
+    );
+    items.forEach((el) => obs.observe(el));
+    window.setTimeout(() => items.forEach((el) => el.classList.add("is-visible")), 2800);
+  }
+</script>
+
+<style>
+  .wrap {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+  .section { padding-block: clamp(88px, 13vw, 168px); }
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .rule--gold  { background: var(--gold); }
+  .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .eyebrow--ink { color: var(--brass-mid); }
+
+  /* ── HERO ── */
+  .mhero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    min-height: 100svh;
+    background: var(--credential-bg);
+    color: var(--cream-body);
+  }
+  .mhero__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: calc(var(--header-h) + clamp(2rem, 8vw, 5rem)) clamp(24px, 4vw, 64px) clamp(56px, 8vw, 96px);
+    max-width: 680px;
+  }
+  .mhero__eyebrow { color: #e8d9be; margin-bottom: 30px; }
+  .mhero__rule { width: 38px; height: 1px; background: var(--gold); }
+  .mhero__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(52px, 7.5vw, 108px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: #f8f1e2;
+    margin: 0;
+  }
+  .mhero__sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(16px, 1.7vw, 22px);
+    line-height: 1.55;
+    color: var(--cream-body);
+    margin: 24px 0 0;
+    max-width: 34ch;
+  }
+  .mhero__seal {
+    margin: 32px 0 0;
+    width: 88px;
+    height: 88px;
+  }
+  .mhero__seal :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .mhero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .mhero__media { position: relative; margin: 0; min-height: 46vh; background: #1a0810; }
+  .mhero__media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+  }
+  .mhero__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(42,10,17,0.88) 0%, rgba(42,10,17,0) 32%);
+  }
+
+  /* ── WHAT IS IT ── */
+  .mwhat { background: var(--cream); }
+  .mwhat__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .mwhat__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(26px, 3.2vw, 42px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 20px 0 0;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .mwhat__body p {
+    font-size: 17px;
+    line-height: 1.82;
+    color: var(--ink-soft);
+    margin: 0 0 1.4em;
+    max-width: 58ch;
+  }
+  .mwhat__body p:last-child { margin-bottom: 0; }
+  .mwhat__body strong { color: var(--ink); font-weight: 600; }
+  .mwhat__body em { font-style: italic; color: var(--ink); }
+
+  /* ── THE COMPETITION ── */
+  .mcomp { background: var(--cream-warm, #faf7f3); }
+  .mcomp__inner { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .mcomp__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 20px 0 0;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .mcomp__lead {
+    font-size: 17px;
+    line-height: 1.82;
+    color: var(--ink-soft);
+    margin: 24px 0 0;
+    max-width: 56ch;
+  }
+  .mcomp__list {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .mcomp__list li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    padding-left: 22px;
+    position: relative;
+  }
+  .mcomp__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--brass);
+  }
+  .mcomp__media { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .mcomp__seal-wrap {
+    width: clamp(140px, 18vw, 240px);
+    aspect-ratio: 1;
+    margin: 0;
+    filter: drop-shadow(0 12px 32px rgba(42,10,17,0.18));
+  }
+  .mcomp__seal-wrap :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .mcomp__seal-caption {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* ── THE WIN ── */
+  .mwin { position: relative; overflow: hidden; background: var(--credential-bg); color: var(--cream-body); }
+  .mwin__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    opacity: 0.12;
+    z-index: 0;
+  }
+  .mwin__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(42,10,17,0.94) 0%, rgba(42,10,17,0.82) 60%, rgba(42,10,17,0.96) 100%);
+  }
+  .mwin__inner { position: relative; z-index: 2; max-width: 820px; }
+  .mwin__eyebrow { color: var(--gold); margin-bottom: 28px; }
+  .mwin__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 58px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #f8f1e2;
+    margin: 0 0 clamp(32px, 5vw, 56px);
+    text-wrap: balance;
+  }
+  .mwin__body p {
+    font-size: 17px;
+    line-height: 1.82;
+    color: var(--cream-body);
+    margin: 0 0 1.4em;
+    max-width: 64ch;
+  }
+  .mwin__body p:last-child { margin-bottom: 0; }
+  .mwin__body strong { color: #f8f1e2; font-weight: 600; }
+
+  /* ── AT YOUR TABLE ── */
+  .mtable { background: var(--cream); }
+  .mtable__head { max-width: 760px; margin-bottom: clamp(48px, 7vw, 80px); }
+  .mtable__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 3.6vw, 50px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 20px 0 0;
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+  .mtable__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 3vw, 36px);
+    margin-bottom: clamp(48px, 7vw, 72px);
+  }
+  .mtable__card {
+    padding: clamp(24px, 3vw, 36px);
+    background: var(--cream-warm, #faf7f3);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(100, 70, 40, 0.1);
+  }
+  .mtable__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--brass);
+    margin: 0 0 14px;
+  }
+  .mtable__card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .mtable__card p {
+    font-size: 15px;
+    line-height: 1.78;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .mtable__card em { font-style: italic; }
+  .mtable__cta { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  /* ── FAQ ── */
+  .mfaq { background: var(--cream-warm, #faf7f3); }
+  .mfaq__head { margin-bottom: clamp(40px, 6vw, 64px); }
+  .mfaq__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 18px 0 0;
+  }
+  .mfaq__list { margin: 0; padding: 0; max-width: 800px; }
+  .mfaq__item {
+    padding: clamp(24px, 3.5vw, 36px) 0;
+    border-top: 1px solid rgba(100, 70, 40, 0.14);
+  }
+  .mfaq__item:last-child { border-bottom: 1px solid rgba(100, 70, 40, 0.14); }
+  .mfaq__q {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(17px, 1.7vw, 21px);
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .mfaq__a {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 66ch;
+  }
+
+  /* ── CLOSE CTA ── */
+  .mclose { background: var(--cream); }
+  .mclose__inner { max-width: 720px; margin-inline: auto; text-align: center; }
+  .mclose__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 54px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .mclose__sub {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+    margin: 20px 0 0;
+  }
+  .mclose__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 36px; }
+  .btn--ghost-ink { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+  .btn--ghost-ink:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
+
+  /* reveals */
+  [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 900ms var(--ease-reveal), transform 900ms var(--ease-reveal); }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .mwhat__inner,
+    .mcomp__inner { grid-template-columns: 1fr; }
+    .mcomp__media { flex-direction: row; align-items: center; gap: 24px; justify-content: flex-start; }
+    .mcomp__seal-wrap { width: 120px; }
+    .mtable__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 860px) {
+    .mhero { grid-template-columns: 1fr; }
+    .mhero__media { order: -1; min-height: 52vh; }
+    .mhero__fade { background: linear-gradient(180deg, rgba(42,10,17,0.45) 0%, rgba(42,10,17,0) 40%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+</style>
