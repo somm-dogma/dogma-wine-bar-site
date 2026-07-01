@@ -1,0 +1,779 @@
+---
+import Base from "../layouts/Base.astro";
+import { Image } from "astro:assets";
+import { site } from "../data/site";
+import { CASE_CATEGORIES, BOTTLE_SIZES } from "../data/cases";
+import { COUNTRIES } from "../data/shipping";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+---
+
+<Base
+  title="Signature Cases"
+  description="Order a personally curated case of exceptional Portuguese wines, shipped internationally. Three quality tiers from €36/bottle — selected by Portugal's first Master of Port."
+  headerSolid
+>
+  <!-- ──────────────────── Hero ──────────────────── -->
+  <section class="chero">
+    <Image
+      src={cellarBg}
+      class="chero__bg"
+      alt=""
+      aria-hidden="true"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="chero__scrim" aria-hidden="true"></div>
+    <div class="container chero__inner">
+      <p class="eyebrow"><span class="chero__rule"></span>Signature Cases</p>
+      <h1 class="chero__title">Portugal in a case.</h1>
+      <p class="chero__sub">
+        A personal selection of exceptional wines, curated by Vasilii Grebencea —
+        Portugal's first Master of Port — and shipped to your door anywhere in the world.
+      </p>
+    </div>
+  </section>
+
+  <!-- ──────────────────── How it works ──────────────────── -->
+  <section class="section howit">
+    <div class="container howit__inner">
+      <div class="howit-step">
+        <span class="howit-step__num">01</span>
+        <h3 class="howit-step__title">Choose your tier</h3>
+        <p class="howit-step__body">
+          Three quality levels, each a fixed price per bottle. The sommelier decides
+          which bottles go in — that's the whole point.
+        </p>
+      </div>
+      <div class="howit-step">
+        <span class="howit-step__num">02</span>
+        <h3 class="howit-step__title">Tell us what you want</h3>
+        <p class="howit-step__body">
+          From 6 to 48 bottles in steps of 6. Leave a note about a wine you
+          loved at Dogma, a style, an occasion — Vasilii reads every message.
+        </p>
+      </div>
+      <div class="howit-step">
+        <span class="howit-step__num">03</span>
+        <h3 class="howit-step__title">We curate &amp; ship</h3>
+        <p class="howit-step__body">
+          Pay now. Vasilii personally selects the wines and arranges international
+          shipping via IberoMail. Expect contact within 2 business days.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Category cards ──────────────────── -->
+  <section class="section cats" id="configure">
+    <div class="container">
+      <header class="cats__head">
+        <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>The tiers</p>
+        <h2 class="cats__title">Choose your quality level</h2>
+      </header>
+
+      <div class="cat-grid" role="radiogroup" aria-label="Wine tier">
+        {CASE_CATEGORIES.map((cat, i) => (
+          <button
+            class="cat-card"
+            type="button"
+            role="radio"
+            aria-checked={i === 0 ? "true" : "false"}
+            data-slug={cat.slug}
+            data-price={cat.pricePerBottle}
+          >
+            <span class="cat-card__tier">Tier {["I","II","III"][i]}</span>
+            <p class="cat-card__price">{cat.tagline}</p>
+            <h3 class="cat-card__name">{cat.name}</h3>
+            <p class="cat-card__desc">{cat.description}</p>
+            <span class="cat-card__check" aria-hidden="true">✓</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Discovery callout ──────────────────── -->
+  <section class="section discovery">
+    <div class="container discovery__inner">
+      <p class="discovery__tag">For Dogma guests</p>
+      <h2 class="discovery__title">Loved a wine during your tasting?</h2>
+      <p class="discovery__body">
+        You can have it. Tell us the name, the producer, or just describe the moment —
+        Vasilii will track it down and include it in your case. One bottle, a dozen, or
+        the whole case built around that wine. The comment field in the order form is
+        there for exactly this.
+      </p>
+      <a class="btn btn--cream" href="#order">Build your case</a>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Order form ──────────────────── -->
+  <section class="section order-section">
+    <div class="container">
+      <div class="order" id="order">
+        <h2 class="order__title">Configure your case</h2>
+
+        {/* Cancelled-payment notice */}
+        <p class="order__alert" id="canceled-note" hidden>
+          Your payment was cancelled — nothing was charged. Adjust your order and try again.
+        </p>
+
+        <!-- Bottle count -->
+        <div class="order__group">
+          <p class="order__label">Number of bottles</p>
+          <div class="bottle-chips" role="group" aria-label="Bottle count">
+            {BOTTLE_SIZES.map((n, i) => (
+              <button
+                class="bottle-chip"
+                type="button"
+                aria-pressed={i === 1 ? "true" : "false"}
+                data-n={n}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Country -->
+        <div class="order__group">
+          <div class="field">
+            <label for="countryCode">Delivery country</label>
+            <select id="countryCode">
+              <option value="">— Select country —</option>
+              {COUNTRIES.map((c) => (
+                <option value={c.code}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <!-- Price summary -->
+        <div class="price-summary" id="price-summary">
+          <div class="price-row">
+            <span id="wine-label">Wines</span>
+            <span class="price-val" id="wine-price">—</span>
+          </div>
+          <div class="price-row">
+            <span>International shipping</span>
+            <span class="price-val" id="shipping-price">—</span>
+          </div>
+          <div class="price-row price-row--total">
+            <span>Total</span>
+            <span class="price-val" id="grand-total">—</span>
+          </div>
+        </div>
+
+        <!-- Consultation banner -->
+        <div class="consult-banner" id="consult-banner" hidden>
+          <p class="consult-banner__text">
+            <strong>Shipping under consultation</strong> — this combination of destination and
+            quantity is not covered by our standard rates. Contact us for a custom quote.
+          </p>
+          <a
+            class="btn btn--ghost consult-banner__btn"
+            id="consult-link"
+            href={`mailto:${site.contact.email}?subject=Signature%20Cases%20shipping%20quote`}
+          >
+            Request a quote by email
+          </a>
+        </div>
+
+        <!-- Contact details (shown when a valid shipping price exists) -->
+        <div class="contact-step" id="contact-step" hidden>
+          <h3 class="contact-step__title">Your details</h3>
+          <div class="booking__grid">
+            <div class="field field--wide">
+              <label for="name">Full name</label>
+              <input type="text" id="name" autocomplete="name" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="field field--comment">
+            <label for="comment">Comment / Special wish</label>
+            <textarea
+              id="comment"
+              rows="3"
+              maxlength="500"
+              placeholder="Loved a wine at Dogma? Tell us — name, producer, or just how it tasted. Also: a gift, an occasion, a style preference, a dietary note. Vasilii reads every message."
+            ></textarea>
+          </div>
+
+          <!-- Honeypot -->
+          <div class="hp" aria-hidden="true">
+            <label>Leave this empty<input type="text" id="botField" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="consent" />
+            <span>
+              I have read and accept the <a href="/privacy">Privacy Policy</a> and consent to Dogma
+              storing my details to manage this order.
+            </span>
+          </label>
+
+          <p class="customs-notice customs-notice--ok">
+            All customs duties and import fees are included in the shipping price via IberoMail.
+            No surprise charges on delivery.
+          </p>
+
+          <button class="btn btn--primary" type="button" id="pay-btn">
+            <span id="pay-label">Pay &amp; confirm</span>
+          </button>
+          <p class="booking__error" id="form-error" role="alert" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── FAQ ──────────────────── -->
+  <section class="section cases-faq">
+    <div class="container cases-faq__inner">
+      <h2 class="cases-faq__title">Questions about Signature Cases</h2>
+      <div class="faq-item">
+        <h3>Can I request a wine I tasted at Dogma?</h3>
+        <p>
+          Absolutely — that's one of the best uses of this service. Use the comment field
+          to tell us the wine, the producer, or just what it tasted like and roughly when
+          you visited. Vasilii will track it down and include it in your case. You can
+          request a single bottle, several, or have the whole case built around it.
+          Style preferences, occasions, dietary restrictions — anything goes in that field.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h3>When will my case be shipped?</h3>
+        <p>
+          Vasilii will contact you within 2 business days of your order to confirm the
+          selection. Delivery times vary depending on destination — he'll give you a
+          realistic estimate when he gets in touch.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h3>Are import duties and taxes included?</h3>
+        <p>
+          Yes — all customs duties and import fees are covered through IberoMail.
+          The price you see at checkout is the price you pay, with no surprise charges on delivery.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h3>My country isn't available or shows "shipping under consultation" — what does that mean?</h3>
+        <p>
+          Some destinations or larger orders require a custom shipping quote outside our
+          standard IberoMail rates. Email us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> —
+          we'll check what's possible and come back to you within 48 hours.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I order more than 48 bottles?</h3>
+        <p>
+          Yes — contact us directly and we'll arrange a custom quote for larger quantities.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h3>What's the refund policy?</h3>
+        <p>
+          Once the wines have been selected and packed, we cannot accept returns on wine for
+          reasons of quality. If there is a problem with your delivery — damaged bottles or a
+          shipping issue — contact us immediately and we'll make it right.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ──────── Hero ──────── */
+  .chero {
+    position: relative;
+    overflow: hidden;
+    background: var(--credential-bg);
+    color: var(--cream-soft);
+    padding: calc(var(--header-h) + clamp(3rem, 8vw, 6rem)) 0 clamp(3rem, 8vw, 6rem);
+  }
+  .chero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
+    opacity: 0.22; z-index: 0;
+  }
+  .chero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(120deg, rgba(42,10,17,0.94), rgba(42,10,17,0.72) 60%, rgba(42,10,17,0.90));
+  }
+  .chero__inner { position: relative; z-index: 2; max-width: 56ch; }
+  .chero .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .chero__rule { width: 34px; height: 1px; background: var(--brass); }
+  .chero__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 1.9rem + 3.4vw, 4.4rem);
+    line-height: 1.04; letter-spacing: -0.015em;
+    color: #f8f1e2; margin: 14px 0 18px;
+  }
+  .chero__sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(17px, 1.8vw, 21px);
+    line-height: 1.5; color: var(--cream-soft);
+  }
+
+  /* ──────── How it works ──────── */
+  .howit { background: var(--wine-900); color: var(--cream-soft); }
+  .howit__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+  .howit-step { padding-top: 1.4rem; border-top: 1px solid rgba(196,149,42,0.3); }
+  .howit-step__num {
+    font-family: var(--font-mono); font-size: var(--step--1);
+    color: var(--gold-300); letter-spacing: 0.08em;
+  }
+  .howit-step__title {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: var(--step-1); color: #f8f1e2;
+    margin: 0.6rem 0 0.5rem;
+  }
+  .howit-step__body { font-size: var(--step--1); line-height: 1.65; color: var(--cream-soft); opacity: 0.82; }
+  @media (max-width: 760px) { .howit__inner { grid-template-columns: 1fr; } }
+
+  /* ──────── Category section ──────── */
+  .cats { background: var(--cream); }
+  .cats__head { margin-bottom: clamp(2rem, 4vw, 2.8rem); }
+  .cats__head .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .cats__title {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: var(--step-2); color: var(--ink); margin-top: 0.3em;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.6rem);
+  }
+  @media (max-width: 900px) { .cat-grid { grid-template-columns: 1fr; max-width: 480px; } }
+
+  .cat-card {
+    position: relative;
+    display: flex; flex-direction: column;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-card);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .cat-card:hover {
+    border-color: var(--gold-300);
+    box-shadow: 0 8px 28px -10px rgba(62,15,24,0.2);
+    transform: translateY(-2px);
+  }
+  .cat-card[aria-checked="true"] {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(196,149,42,0.18), 0 10px 32px -12px rgba(62,15,24,0.25);
+  }
+  .cat-card__tier {
+    font-family: var(--font-mono); font-size: var(--step--2);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .cat-card__price {
+    font-family: var(--font-mono); font-size: var(--step-0);
+    color: var(--wine-800); font-weight: 600; margin-bottom: 0.6rem;
+  }
+  .cat-card__name {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: var(--step-1); color: var(--wine-900);
+    line-height: 1.2; margin-bottom: 0.7rem;
+  }
+  .cat-card__desc {
+    font-size: var(--step--1); color: var(--ink-soft);
+    line-height: 1.6; flex: 1;
+  }
+  .cat-card__check {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    background: var(--gold); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700;
+    opacity: 0; transition: opacity 0.2s ease;
+  }
+  .cat-card[aria-checked="true"] .cat-card__check { opacity: 1; }
+
+  /* ──────── Discovery callout ──────── */
+  .discovery { background: var(--wine-900); color: var(--cream-soft); }
+  .discovery__inner { max-width: 620px; }
+  .discovery__tag {
+    font-size: var(--step--1); font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.9rem;
+  }
+  .discovery__title {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: clamp(1.8rem, 1.3rem + 2.2vw, 2.8rem);
+    line-height: 1.1; color: #f8f1e2; margin-bottom: 1rem;
+  }
+  .discovery__body {
+    color: var(--cream-soft); opacity: 0.85;
+    line-height: 1.72; font-size: var(--step-0);
+    max-width: 55ch; margin-bottom: 1.8rem;
+  }
+
+  /* ──────── Order form section ──────── */
+  .order-section { background: var(--cream); padding-top: 0; }
+
+  .order {
+    max-width: 740px; margin-inline: auto;
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+  .order__title { font-size: var(--step-2); color: var(--wine-900); margin-bottom: 0.3rem; }
+
+  .order__alert {
+    margin-top: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(201,168,106,0.16);
+    border: 1px solid var(--gold);
+    color: var(--wine-800);
+    font-size: var(--step--1);
+  }
+
+  .order__group { margin-top: 1.8rem; }
+  .order__label {
+    font-size: var(--step--1); font-weight: 600;
+    color: var(--wine-900); margin-bottom: 0.7rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* Bottle chips */
+  .bottle-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .bottle-chip {
+    min-width: 3.2rem; padding: 0.55em 0.9em;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: var(--font-mono); font-size: var(--step-0); font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .bottle-chip:hover { border-color: var(--gold-300); }
+  .bottle-chip[aria-pressed="true"] {
+    background: var(--wine-900); color: var(--cream-50);
+    border-color: var(--wine-900);
+  }
+
+  /* Country field */
+  .field { display: flex; flex-direction: column; }
+  .field--wide { grid-column: 1 / -1; }
+  .field label, .order__label {
+    font-size: var(--step--1); font-weight: 600;
+    color: var(--wine-900); margin-bottom: 0.4rem; letter-spacing: 0.02em;
+  }
+  .field input, .field select, .field textarea {
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: var(--step-0);
+    color: var(--ink); background: var(--paper);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    resize: vertical;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,106,0.18);
+  }
+  .field--comment { margin-top: 1rem; }
+
+  /* Price summary */
+  .price-summary {
+    margin-top: 1.8rem;
+    padding: 1.2rem 1.4rem;
+    background: rgba(62,15,24,0.04);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .price-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: var(--step-0);
+    padding: 0.35rem 0;
+  }
+  .price-row + .price-row { border-top: 1px dashed var(--line); }
+  .price-row--total {
+    margin-top: 0.4rem; padding-top: 0.7rem;
+    border-top: 1px solid var(--line) !important;
+    font-weight: 600; font-size: var(--step-1);
+  }
+  .price-val { font-family: var(--font-mono); color: var(--wine-800); }
+  .price-row--total .price-val { color: var(--wine-900); }
+
+  /* Consultation banner */
+  .consult-banner {
+    margin-top: 1.4rem;
+    padding: 1rem 1.2rem;
+    background: rgba(201,168,106,0.1);
+    border: 1px solid var(--gold-300);
+    border-radius: 10px;
+  }
+  .consult-banner__text { font-size: var(--step--1); color: var(--wine-800); line-height: 1.55; }
+  .consult-banner__btn { margin-top: 0.9rem; color: var(--wine-800); }
+
+  /* Contact step */
+  .contact-step {
+    margin-top: 2rem; padding-top: 1.8rem;
+    border-top: 1px solid var(--line);
+  }
+  .contact-step__title {
+    font-size: var(--step-1); color: var(--wine-900); margin-bottom: 1rem;
+  }
+  .booking__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.1rem;
+  }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .consent { display: flex; align-items: flex-start; gap: 0.6rem; margin: 1.4rem 0; }
+  .consent input[type="checkbox"] {
+    margin-top: 0.25rem; width: 1.05rem; height: 1.05rem;
+    flex-shrink: 0; accent-color: var(--wine-800); cursor: pointer;
+  }
+  .consent span { font-size: var(--step--1); line-height: 1.5; color: var(--ink-soft); }
+  .consent a { color: var(--wine-800); text-decoration: underline; text-underline-offset: 2px; }
+
+  .customs-notice {
+    padding: 0.9rem 1rem;
+    background: rgba(62,15,24,0.05);
+    border-left: 3px solid var(--gold-300);
+    border-radius: 0 6px 6px 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+  }
+  .customs-notice--ok {
+    background: rgba(60,100,60,0.08);
+    border-left-color: #4c8a4c;
+    color: #2f5e2f;
+  }
+
+  #pay-btn[disabled] { opacity: 0.6; cursor: progress; transform: none; }
+
+  .booking__error {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(160,60,60,0.1);
+    border: 1px solid #a14444;
+    color: #7a2e2e;
+    font-size: var(--step--1);
+  }
+
+  /* ──────── FAQ ──────── */
+  .cases-faq { background: var(--cream-50, #faf5ed); }
+  .cases-faq__inner { max-width: 800px; }
+  .cases-faq__title {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: var(--step-2); color: var(--wine-900);
+    margin-bottom: 2.4rem;
+  }
+  .faq-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .faq-item h3 { font-size: var(--step-0); color: var(--wine-900); margin-bottom: 0.6rem; font-weight: 600; }
+  .faq-item p { color: var(--ink-soft); line-height: 1.7; }
+  .faq-item a { color: var(--wine-800); border-bottom: 1px solid var(--gold-300); padding-bottom: 1px; }
+</style>
+
+<script>
+  import { calculateShipping } from "../data/shipping";
+  import { getCaseCategory, CASE_CATEGORIES, BOTTLE_SIZES } from "../data/cases";
+
+  type CheckoutResp = { url?: string; error?: string; consultation?: boolean; fields?: string[] };
+
+  /* ── State ── */
+  let selectedSlug: string = CASE_CATEGORIES[0].slug;
+  let selectedBottles: number = BOTTLE_SIZES[1]; // default 12
+
+  /* ── Element helpers ── */
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const catCards     = document.querySelectorAll<HTMLButtonElement>(".cat-card");
+  const bottleChips  = document.querySelectorAll<HTMLButtonElement>(".bottle-chip");
+  const countryEl   = $<HTMLSelectElement>("countryCode");
+  const priceSummary = $("price-summary");
+  const winePriceEl  = $("wine-price");
+  const wineLabelEl  = $("wine-label");
+  const shipPriceEl  = $("shipping-price");
+  const grandTotalEl = $("grand-total");
+  const consultBanner = $("consult-banner");
+  const consultLink   = $<HTMLAnchorElement>("consult-link");
+  const contactStep  = $("contact-step");
+  const nameEl       = $<HTMLInputElement>("name");
+  const emailEl      = $<HTMLInputElement>("email");
+  const phoneEl      = $<HTMLInputElement>("phone");
+  const commentEl    = $<HTMLTextAreaElement>("comment");
+  const botEl        = $<HTMLInputElement>("botField");
+  const consentEl    = $<HTMLInputElement>("consent");
+  const payBtn       = $<HTMLButtonElement>("pay-btn");
+  const payLabel     = $("pay-label");
+  const formError    = $("form-error");
+
+  function fmt(n: number) {
+    return "€" + n.toFixed(2).replace(/\.00$/, "");
+  }
+
+  function updatePriceSummary() {
+    const cat     = getCaseCategory(selectedSlug);
+    const country = countryEl.value;
+
+    if (!cat) return;
+
+    const wineTotal = cat.pricePerBottle * selectedBottles;
+    wineLabelEl.textContent = `Wines (${selectedBottles} × ${fmt(cat.pricePerBottle)})`;
+    winePriceEl.textContent = fmt(wineTotal);
+
+    if (!country) {
+      shipPriceEl.textContent = "—";
+      grandTotalEl.textContent = "—";
+      consultBanner.hidden = true;
+      contactStep.hidden = true;
+      return;
+    }
+
+    const shipping = calculateShipping(country, selectedBottles);
+
+    if (shipping.kind === "price") {
+      const grand = wineTotal + shipping.price;
+      shipPriceEl.textContent = fmt(shipping.price);
+      grandTotalEl.textContent = fmt(grand);
+      consultBanner.hidden = true;
+      contactStep.hidden = false;
+
+      // Update consult mailto link for the edge case someone switches to consultation after
+      updateConsultLink(cat.name, selectedBottles, country);
+    } else {
+      shipPriceEl.textContent = "Sob consulta";
+      grandTotalEl.textContent = "—";
+      consultBanner.hidden = false;
+      contactStep.hidden = true;
+      updateConsultLink(cat.name, selectedBottles, country);
+    }
+  }
+
+  function getCountryName(code: string) {
+    return countryEl.options[countryEl.selectedIndex]?.text ?? code;
+  }
+
+  function updateConsultLink(catName: string, bottles: number, countryCode: string) {
+    const countryName = getCountryName(countryCode);
+    const subject = encodeURIComponent(
+      `Signature Cases shipping quote — ${catName}, ${bottles} bottles to ${countryName}`
+    );
+    consultLink.href = `mailto:${consultLink.href.split("?")[0].split("mailto:")[1]}?subject=${subject}`;
+  }
+
+  /* ── Category selection ── */
+  catCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      catCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+      card.setAttribute("aria-checked", "true");
+      selectedSlug = card.dataset.slug || CASE_CATEGORIES[0].slug;
+      updatePriceSummary();
+    });
+  });
+
+  /* ── Bottle count selection ── */
+  bottleChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      bottleChips.forEach((c) => c.setAttribute("aria-pressed", "false"));
+      chip.setAttribute("aria-pressed", "true");
+      selectedBottles = Number(chip.dataset.n);
+      updatePriceSummary();
+    });
+  });
+
+  /* ── Country change ── */
+  countryEl.addEventListener("change", updatePriceSummary);
+
+  /* ── Payment ── */
+  function showError(msg: string) {
+    formError.hidden = false;
+    formError.textContent = msg;
+  }
+
+  async function pay() {
+    formError.hidden = true;
+
+    if (!nameEl.value.trim())                                  return showError("Please enter your full name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value))    return showError("Please enter a valid email address.");
+    if (phoneEl.value.replace(/[^\d]/g, "").length < 6)        return showError("Please enter a valid phone number.");
+    if (!consentEl.checked)                                     return showError("Please accept the Privacy Policy to continue.");
+
+    payBtn.disabled = true;
+    payLabel.textContent = "Redirecting to secure payment…";
+
+    try {
+      const res = await fetch("/api/create-case-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          categorySlug: selectedSlug,
+          bottles:      selectedBottles,
+          countryCode:  countryEl.value,
+          name:         nameEl.value.trim(),
+          email:        emailEl.value.trim(),
+          phone:        phoneEl.value.trim(),
+          comment:      commentEl.value.trim(),
+          consent:      consentEl.checked,
+          botField:     botEl.value,
+        }),
+      });
+
+      let body: CheckoutResp = {};
+      try { body = await res.json(); } catch {}
+
+      if (body.url) { window.location.href = body.url; return; }
+      showError(body.error || "Could not start checkout. Please try again.");
+    } catch {
+      showError("Network error. Please try again.");
+    } finally {
+      payBtn.disabled = false;
+      payLabel.textContent = "Pay & confirm";
+    }
+  }
+
+  payBtn.addEventListener("click", pay);
+
+  /* ── Initial state ── */
+  // Pre-select first category card and 12 bottle chip
+  catCards[0]?.setAttribute("aria-checked", "true");
+  bottleChips.forEach((c) => c.setAttribute("aria-pressed", c.dataset.n === "12" ? "true" : "false"));
+  updatePriceSummary();
+
+  // Returning from a cancelled Stripe checkout
+  if (new URLSearchParams(location.search).get("canceled") === "1") {
+    $("canceled-note").hidden = false;
+  }
+
+  // Pre-scroll to order section from deep link
+  if (new URLSearchParams(location.search).get("configure") === "1") {
+    setTimeout(() => $("order")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  }
+</script>

@@ -14,6 +14,7 @@ import Stripe from "stripe";
 import { createBooking, checkAvailability } from "../lib/resos.mjs";
 import { getTasting } from "../lib/tastings.mjs";
 import { notifyTelegram, esc } from "../lib/notify.mjs";
+import { getCaseCategory } from "../lib/cases.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
@@ -44,12 +45,60 @@ export default async (req) => {
   const session = event.data.object;
   const m = session.metadata || {};
 
-  // Only act on paid tasting sessions.
-  if (session.payment_status !== "paid" || m.kind !== "tasting") {
+  if (session.payment_status !== "paid") {
     return new Response("ok", { status: 200 });
   }
 
   const piId = typeof session.payment_intent === "string" ? session.payment_intent : null;
+
+  // ── Signature Case order ───────────────────────────────────────────────────
+  if (m.kind === "case") {
+    try {
+      // Idempotency: skip if already processed.
+      let pi = null;
+      if (piId) {
+        pi = await stripe.paymentIntents.retrieve(piId);
+        if (pi.metadata?.caseOrderId) return new Response("already-processed", { status: 200 });
+      }
+
+      const category = getCaseCategory(m.categorySlug);
+      const bottles  = parseInt(m.bottles, 10);
+      const wineCents = Math.round((category?.pricePerBottle ?? 0) * bottles * 100);
+      const shipCents = Math.round(parseFloat(m.shippingEur ?? "0") * 100);
+      const total = `€${((session.amount_total ?? (wineCents + shipCents)) / 100).toFixed(2)}`;
+      const guestEmail = session.customer_details?.email || session.customer_email || "";
+
+      if (piId) {
+        await stripe.paymentIntents.update(piId, {
+          metadata: { ...(pi?.metadata || {}), caseOrderId: session.id },
+        });
+      }
+
+      await notifyTelegram(
+        `📦 <b>New Signature Case order</b>\n` +
+          `${esc(m.categoryName)} · ${esc(m.bottles)} bottles\n` +
+          `📍 Destination: ${esc(m.countryCode)}\n` +
+          `💶 ${total} total (wines + shipping)\n` +
+          `👤 ${esc(m.name)}\n` +
+          `📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
+          (m.comment ? `💬 ${esc(m.comment)}\n` : "") +
+          `🔑 Stripe session: ${esc(session.id)}`
+      );
+      console.log(`[stripe-webhook] case order processed for session ${session.id}`);
+      return new Response("case-received", { status: 200 });
+    } catch (err) {
+      console.error(`[stripe-webhook] case order failed for session ${session.id}:`, err?.message);
+      await notifyTelegram(
+        `⚠️ <b>Case order webhook FAILED</b>\n` +
+          `Session ${esc(session.id)} — check Stripe dashboard\n` +
+          `Error: ${esc(err?.message)}`
+      ).catch(() => {});
+      return new Response("error-handled", { status: 200 });
+    }
+  }
+
+  // ── Tasting booking ───────────────────────────────────────────────────────
+  if (m.kind !== "tasting") return new Response("ok", { status: 200 });
 
   try {
     // Idempotency: if we already booked this payment, stop.

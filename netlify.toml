@@ -21,6 +21,12 @@ to = "/.netlify/functions/create-checkout-session"
 status = 200
 force = true
 
+[[redirects]]
+from = "/api/create-case-checkout"
+to = "/.netlify/functions/create-case-checkout"
+status = 200
+force = true
+
 # Serve the custom 404 page with a proper 404 status for any unmatched URL.
 [[redirects]]
 from = "/*"
