@@ -23,36 +23,38 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
     <div class="visit__grid">
       <div class="visit__col">
-        <h3 class="visit__h">Where</h3>
-        <p>
-          <a href={mapsHref} target="_blank" rel="noopener">
-            {site.contact.address}<br />{site.contact.postalCode} {site.contact.city}, {site.contact.country}
-          </a>
-        </p>
-      </div>
-      <div class="visit__col">
-        <h3 class="visit__h">Hours</h3>
-        <ul class="visit__hours">
-          <li><span>Mon – Sat</span><span class="visit__time">16:00 – 22:00</span></li>
-          <li><span>Sunday</span><span class="visit__closed">Closed</span></li>
+        <h3 class="visit__h">Services</h3>
+        <ul class="visit__list">
+          <li><a href="/menu">Menu</a></li>
+          <li><a href={site.booking.tasting}>Degustation</a></li>
+          <li><a href="/signature-cases">Wine Boxes</a></li>
         </ul>
       </div>
       <div class="visit__col">
-        <h3 class="visit__h">Reach us</h3>
-        <ul class="visit__reach">
-          <li><a href={site.contact.phoneHref}><span class="visit__num">{site.contact.phone}</span></a></li>
+        <h3 class="visit__h">Contacts</h3>
+        <ul class="visit__list">
+          <li>
+            <a href={mapsHref} target="_blank" rel="noopener">
+              {site.contact.address}, {site.contact.postalCode} {site.contact.city}
+            </a>
+          </li>
           <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
           <li><a href={site.social.instagram} target="_blank" rel="noopener">{site.social.instagramHandle}</a></li>
         </ul>
       </div>
+      <div class="visit__col">
+        <h3 class="visit__h">Company</h3>
+        <ul class="visit__list">
+          <li><a href="/#place">About</a></li>
+          <li><a href="/sommelier">Sommelier</a></li>
+        </ul>
+      </div>
     </div>
 
-    <nav class="visit__legal" aria-label="Legal">
-      <a href="/privacy">Privacy</a>
-      <span aria-hidden="true">·</span>
-      <a href="/cookies">Cookie Policy</a>
-    </nav>
-    <p class="visit__credit">Designed by Freemason Hermes</p>
+    <div class="visit__bottom">
+      <p class="visit__copy">&copy; {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+      <a class="visit__privacy" href="/privacy">Privacy Policy</a>
+    </div>
   </div>
 </footer>
 
@@ -117,32 +119,26 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .visit__col p, .visit__col a { color: var(--cream-body); line-height: 1.7; }
   .visit__col a { transition: color var(--dur-fast) var(--ease-out); }
   .visit__col a:hover { color: #f8f1e2; }
-  .visit__hours, .visit__reach { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .visit__hours li { display: flex; justify-content: space-between; gap: 16px; max-width: 260px; }
-  .visit__time, .visit__num { font-family: var(--font-mono); font-size: 13px; }
-  .visit__closed { font-family: var(--font-mono); font-size: 13px; color: var(--brass); }
-  .visit__legal {
+  .visit__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+  .visit__bottom {
     margin-top: clamp(56px, 9vw, 96px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line-dark);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
+    flex-wrap: wrap;
     font-size: var(--step--1);
     color: var(--cream-soft);
   }
-  .visit__legal a { color: var(--cream-soft); transition: color var(--dur-fast) var(--ease-out); }
-  .visit__legal a:hover { color: #f8f1e2; }
-  .visit__credit {
-    margin-top: 14px;
-    text-align: center;
-    font-family: var(--font-body);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--cream-muted);
-  }
+  .visit__copy { margin: 0; }
+  .visit__privacy { color: var(--cream-soft); transition: color var(--dur-fast) var(--ease-out); }
+  .visit__privacy:hover { color: #f8f1e2; }
 
   @media (max-width: 760px) {
     .visit__grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-    .visit__hours li { margin-inline: auto; }
+    .visit__bottom { justify-content: center; text-align: center; }
   }
 </style>

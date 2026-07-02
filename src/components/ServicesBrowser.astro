@@ -1,0 +1,152 @@
+---
+/* Services category browser — pill nav + alternating full-bleed cards.
+   Reusable on /services and (if needed) Home. Content is entirely
+   data-driven from src/data/services.ts — never hardcode a service here. */
+import { Image } from "astro:assets";
+import { serviceCategories, services } from "../data/services";
+---
+
+<div class="services-browser">
+  <nav class="sb-pills" aria-label="Service categories">
+    {serviceCategories.map((c, i) => (
+      <a href={`#${c.slug}`} class="sb-pill" class:list={{ "sb-pill--active": i === 0 }} data-slug={c.slug}>
+        {c.label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="sb-cards">
+    {services.map((s, i) => (
+      <section
+        class="sb-card"
+        class:list={{ "sb-card--reverse": i % 2 === 1 }}
+        id={s.category}
+        data-slug={s.category}
+      >
+        <figure class="sb-card__media">
+          <Image
+            src={s.image}
+            alt={s.alt}
+            widths={[480, 800, 1100]}
+            sizes="(max-width: 860px) 100vw, 50vw"
+            loading="lazy"
+          />
+        </figure>
+        <div class="sb-card__text">
+          <p class="eyebrow eyebrow--ink">{s.eyebrow}</p>
+          <h3 class="sb-card__headline">{s.headline}</h3>
+          <p class="sb-card__desc">{s.description}</p>
+          <a class="btn btn--ghost btn--ghost-ink" href={s.href}>{s.ctaLabel}</a>
+        </div>
+      </section>
+    ))}
+  </div>
+</div>
+
+<style>
+  .services-browser { display: grid; gap: clamp(40px, 6vw, 72px); }
+
+  /* ── Pill nav ───────────────────────────────────────────── */
+  .sb-pills {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sb-pills::-webkit-scrollbar { display: none; }
+  .sb-pill {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(62, 15, 24, 0.3);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--wine-800);
+    text-decoration: none;
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  }
+  .sb-pill:hover { border-color: rgba(62, 15, 24, 0.6); }
+  .sb-pill--active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--wine-950);
+  }
+
+  /* ── Alternating cards ──────────────────────────────────── */
+  .sb-cards { display: grid; gap: clamp(32px, 5vw, 56px); }
+  .sb-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+    scroll-margin-top: calc(var(--header-h, 80px) + 1.5rem);
+  }
+  .sb-card--reverse { direction: rtl; }
+  .sb-card--reverse > * { direction: ltr; }
+
+  .sb-card__media {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--wine-900);
+    border-radius: 0 80px 0 80px;
+  }
+  .sb-card--reverse .sb-card__media { border-radius: 80px 0 80px 0; }
+  .sb-card__media :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .sb-card__headline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 1.35rem + 1.4vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    color: var(--wine-900);
+    margin: 10px 0 14px;
+  }
+  .sb-card__desc {
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    max-width: 46ch;
+  }
+
+  @media (max-width: 760px) {
+    .sb-card, .sb-card--reverse { grid-template-columns: 1fr; direction: ltr; }
+    .sb-card__media, .sb-card--reverse .sb-card__media { border-radius: 0 60px 0 60px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sb-pill { transition: none; }
+  }
+</style>
+
+<script>
+  // Highlight the pill matching the card currently in view.
+  const pills = document.querySelectorAll<HTMLAnchorElement>(".sb-pill");
+  const cards = document.querySelectorAll<HTMLElement>(".sb-card[data-slug]");
+  if (pills.length && cards.length && "IntersectionObserver" in window) {
+    const setActive = (slug: string) => {
+      pills.forEach((p) => p.classList.toggle("sb-pill--active", p.dataset.slug === slug));
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length) {
+          const slug = (visible[0].target as HTMLElement).dataset.slug;
+          if (slug) setActive(slug);
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px" }
+    );
+    cards.forEach((c) => io.observe(c));
+  }
+</script>

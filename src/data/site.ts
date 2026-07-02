@@ -52,6 +52,7 @@ export const nav = [
   { label: "Tastings", href: "/bookatasting" },
   { label: "Signature Cases", href: "/signature-cases" },
   { label: "Menu", href: "/menu" },
+  { label: "Services", href: "/services" },
   { label: "Sommelier", href: "/sommelier" },
   { label: "Contacts", href: "/contacts" },
 ];

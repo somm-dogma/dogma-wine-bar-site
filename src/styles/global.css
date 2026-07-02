@@ -186,6 +186,10 @@ h1, h2, h3, h4 {
 .btn--cream:hover { background: var(--paper); }
 .btn--ghost { background: transparent; border-color: currentColor; }
 .btn--ghost:hover { background: rgba(255, 255, 255, 0.12); }
+/* Outline button on cream/parchment — no dedicated charcoal token, so the
+   border is a translucent burgundy tint (also used by .btn--ghost-ink alone). */
+.btn--ghost-ink { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+.btn--ghost-ink:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
 
 /* ============================================================
    Scroll-reveal — fade + rise as elements enter the viewport.

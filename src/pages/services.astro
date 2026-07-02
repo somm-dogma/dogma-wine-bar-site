@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ServicesBrowser from "../components/ServicesBrowser.astro";
+---
+
+<Base
+  title="Services · Tastings, Port &amp; Wine Boxes"
+  description="What Dogma offers in Porto — guided wine and Port tastings led by Portugal's first Master of Port, and curated wine boxes shipped worldwide."
+  headerSolid={true}
+>
+  <PageHeader
+    eyebrow="Services"
+    title="What we pour, guide, and ship."
+    subtitle="Every tasting and every box passes through the same hands — Portugal's first Master of Port."
+  />
+
+  <section class="section">
+    <div class="container">
+      <ServicesBrowser />
+    </div>
+  </section>
+</Base>
