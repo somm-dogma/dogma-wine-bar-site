@@ -21,10 +21,10 @@ Every canonical touchpoint flipped from `www.` to non-www:
 
 ### Task 2 — Legacy `/shop/*` → 410 Gone
 - Copied an on-brand `public/410.html` (noindex, wine/gold palette).
-- `netlify.toml`: `/shop/*` **and** bare `/shop` → `410`.
-- **Did NOT** mass-301 `/shop/*` to `/signature-cases` (brief forbids it — an old
-  individual product ≠ the Signature Cases page; Google treats that as soft-404).
-  Couldn't confirm an old shop *index* existed, so everything is 410 (brief's safe default).
+- `netlify.toml`: `/shop/*` products → `410`; bare `/shop` (old storefront index)
+  → `301` → `/signature-cases/` (a real content equivalent).
+- **Did NOT** mass-301 `/shop/*` products to `/signature-cases` (brief forbids it — an
+  old individual product ≠ the Signature Cases page; Google treats that as soft-404).
 
 ### Task 3 — Sitemap + robots
 - Sitemap integration already existed; now emits non-www URLs only, no `/shop/`.
@@ -36,11 +36,16 @@ Every canonical touchpoint flipped from `www.` to non-www:
 ## Two deliberate deviations from the brief — please sanity-check these
 
 1. **Redirects live in `netlify.toml`, not `public/_redirects`.**
-   Reason: the existing `netlify.toml` has a catch-all `/* → /404.html` (404), and
-   **Netlify evaluates `netlify.toml` rules before `_redirects`**. A `_redirects` shop
-   rule would be shadowed by that catch-all and return 404 instead of 410. So the 410
-   rules go in `netlify.toml`, ordered *before* the catch-all. The brief explicitly
-   allowed "juntar às regras existentes". → *Is the ordering/precedence claim correct?*
+   All shop/canonical rules are co-located in `netlify.toml`, above the catch-all
+   `/* → /404.html`, so top-to-bottom order guarantees the 410 wins.
+   ⚠️ **Correction (reviewer):** Netlify actually processes **`_redirects` BEFORE
+   `netlify.toml`** — do NOT split these rules across the two files assuming
+   `netlify.toml` wins, or they can behave the opposite of what you expect. Keeping
+   them together in one file is what makes the ordering deterministic.
+
+   **Splat gotcha:** Netlify's `/shop/*` also matches the bare `/shop`, so the exact
+   `/shop` 301 rule MUST be ordered *above* `/shop/*` 410 (exact `/shop` doesn't match
+   `/shop/1-2`, so products still fall through to 410).
 
 2. **410 is served via `netlify.toml` redirect, not an Edge Function.**
    The brief said to verify Netlify honors 410 this way and fall back to an Edge Function
