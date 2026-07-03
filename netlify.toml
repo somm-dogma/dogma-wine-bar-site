@@ -29,17 +29,20 @@ force = true
 # _redirects FIRST, so a shop rule split into _redirects vs netlify.toml could
 # behave the opposite of what you expect. Keep these together, in this file.
 #
-# Specific /shop/* before the bare /shop rule (specificity + top-down order).
-[[redirects]]
-from = "/shop/*"
-to = "/410.html"
-status = 410
-force = true
-
+# Order matters: Netlify's "/shop/*" splat also matches the bare "/shop", so the
+# exact "/shop" 301 MUST come first, otherwise "/shop" gets caught by the 410
+# rule. Exact "/shop" does NOT match "/shop/1-2", so products still fall through
+# to the 410 rule below.
 [[redirects]]
 from = "/shop"
 to = "/signature-cases/"
 status = 301
+force = true
+
+[[redirects]]
+from = "/shop/*"
+to = "/410.html"
+status = 410
 force = true
 
 # Pretty paths for the booking API → the underlying functions.
