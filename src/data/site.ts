@@ -9,7 +9,7 @@ export const site = {
   tagline: "A place where the art of great winemakers fills glasses",
   description:
     "Discover Dogma — a wine paradise in Porto's historic centre. Tastings, Port wine, and a curated cellar guided by Portugal's first Master of Port.",
-  url: "https://www.dogmawinebar.com",
+  url: "https://dogmawinebar.com",
   established: "2023",
 
   contact: {

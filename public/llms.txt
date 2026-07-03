@@ -24,6 +24,6 @@ Dogma Wine Bar is a premium wine bar located in Porto, Portugal. Founded in 2023
 ## Contact
 - Phone: +351 912 925 598
 - Email: somm@dogmawinebar.com
-- Web: https://www.dogmawinebar.com
+- Web: https://dogmawinebar.com
 
 For more information, visit our website.

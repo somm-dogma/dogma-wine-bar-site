@@ -8,6 +8,33 @@ publish = "dist"
 directory = "netlify/functions"
 node_bundler = "esbuild"
 
+# --- SEO / indexation ---------------------------------------------------------
+# Canonical host is NON-WWW. Belt-and-suspenders 301 in case the Netlify
+# "Primary domain" setting is ever changed; both layers point www → non-www.
+[[redirects]]
+from = "https://www.dogmawinebar.com/*"
+to = "https://dogmawinebar.com/:splat"
+status = 301
+force = true
+
+# Legacy pre-Astro shop (/shop/<id>) is gone on purpose → 410 Gone, so Google
+# de-indexes cleanly instead of retrying ~31 soft-404s. NOT a mass 301 to
+# /signature-cases: an individual old product is not that page's equivalent.
+# Kept in netlify.toml (not _redirects) and placed before the catch-all 404
+# below, because netlify.toml rules are evaluated first — otherwise /* → 404
+# would shadow these and return 404 instead of 410.
+[[redirects]]
+from = "/shop/*"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/shop"
+to = "/410.html"
+status = 410
+force = true
+
 # Pretty paths for the booking API → the underlying functions.
 [[redirects]]
 from = "/api/check-availability"

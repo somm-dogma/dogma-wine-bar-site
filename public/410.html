@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Página indisponível · Dogma Wine Bar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --wine-dark: #3e0f18;
+      --gold: #C4952A;
+      --cream: #FBF6EE;
+      --charcoal: #1E1410;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: var(--wine-dark);
+      color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .wrap { max-width: 34rem; }
+    .mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 6vw, 3.25rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(251, 246, 238, 0.75);
+      margin-bottom: 2.5rem;
+    }
+    .rule {
+      width: 3rem;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 2.5rem;
+      opacity: 0.6;
+    }
+    .links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 1.75rem;
+      border: 1px solid var(--gold);
+      color: var(--cream);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    a:hover { background: var(--gold); color: var(--charcoal); }
+    a.ghost { border-color: rgba(251, 246, 238, 0.25); }
+    a.ghost:hover { background: var(--cream); color: var(--charcoal); border-color: var(--cream); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="mark">Dogma Wine Bar</div>
+    <h1>Esta página já não existe</h1>
+    <div class="rule"></div>
+    <p>O conteúdo que procurava foi removido. Mas há sempre uma boa garrafa à sua espera — comece por aqui.</p>
+    <div class="links">
+      <a href="/">Início</a>
+      <a class="ghost" href="/signature-cases">Signature Cases</a>
+    </div>
+  </main>
+</body>
+</html>
