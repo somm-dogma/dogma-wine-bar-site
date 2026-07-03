@@ -17,12 +17,19 @@ to = "https://dogmawinebar.com/:splat"
 status = 301
 force = true
 
-# Legacy pre-Astro shop (/shop/<id>) is gone on purpose → 410 Gone, so Google
-# de-indexes cleanly instead of retrying ~31 soft-404s. NOT a mass 301 to
-# /signature-cases: an individual old product is not that page's equivalent.
-# Kept in netlify.toml (not _redirects) and placed before the catch-all 404
-# below, because netlify.toml rules are evaluated first — otherwise /* → 404
-# would shadow these and return 404 instead of 410.
+# Legacy pre-Astro shop. Individual products (/shop/<id>) are gone on purpose →
+# 410 Gone, so Google de-indexes cleanly instead of retrying ~31 soft-404s. NOT
+# a mass 301 to /signature-cases: an individual old product is not that page's
+# equivalent. The bare /shop index WAS a storefront "montra", so it 301s to
+# /signature-cases (a real content equivalent).
+#
+# NOTE on ordering: these are co-located in netlify.toml, above the catch-all
+# /* → 404 below, so top-to-bottom order guarantees the 410 wins. Do NOT rely on
+# netlify.toml beating a public/_redirects file — Netlify actually processes
+# _redirects FIRST, so a shop rule split into _redirects vs netlify.toml could
+# behave the opposite of what you expect. Keep these together, in this file.
+#
+# Specific /shop/* before the bare /shop rule (specificity + top-down order).
 [[redirects]]
 from = "/shop/*"
 to = "/410.html"
@@ -31,8 +38,8 @@ force = true
 
 [[redirects]]
 from = "/shop"
-to = "/410.html"
-status = 410
+to = "/signature-cases/"
+status = 301
 force = true
 
 # Pretty paths for the booking API → the underlying functions.
