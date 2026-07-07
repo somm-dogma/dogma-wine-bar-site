@@ -108,3 +108,16 @@ merges its Visit section with the footer via `bareFooter`.
 - The 6 tastings' names, slugs, and prices are fixed (owned by Vasilii) — see the table in
   `DESIGN-HANDOFF.md` §5. Durations are the only still-open field.
 - Git commit/push/merge for site changes is pre-authorized — no need to ask before each one.
+
+## Brand & content rules (vault: ~/dogma-brain)
+
+- Stack: Astro + Netlify, production **dogmawinebar.com**.
+- All copy/content must obey the **dogma-brand** skill (voice, terminology, "Never" list). Where the
+  skill's visual tokens differ from this repo's locked design system, the repo's `DESIGN-HANDOFF.md` +
+  `src/styles/global.css` win — the design system here is authoritative for the site.
+- Portuguese = **European PT strictly** (Coimbra register). Never PT-BR.
+- SEO discipline: keep/extend JSON-LD schema, meta tags, and internal links on every page change.
+- **Never break existing 301/410 fixes** (see `netlify.toml` redirects and `HANDOFF-seo-indexacao.md`).
+- Dark editorial design stays intact — no redesigns outside the locked tokens.
+- Owner context (priorities, compliance, societário) lives in the vault at `~/dogma-brain` — read
+  `~/dogma-brain/profile.md` when business context matters.
