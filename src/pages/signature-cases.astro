@@ -5,11 +5,13 @@ import { site } from "../data/site";
 import { CASE_CATEGORIES, BOTTLE_SIZES } from "../data/cases";
 import { COUNTRIES } from "../data/shipping";
 import cellarBg from "../assets/images/cellar-bg.jpg";
+
+const lowestPricePerBottle = Math.min(...CASE_CATEGORIES.map((c) => c.pricePerBottle));
 ---
 
 <Base
   title="Signature Cases"
-  description="Order a personally curated case of exceptional Portuguese wines, shipped internationally. Three quality tiers from €36/bottle — selected by Portugal's first Master of Port."
+  description={`Order a personally curated case of exceptional Portuguese wines, shipped internationally. Three quality tiers from €${lowestPricePerBottle}/bottle — selected by Portugal's first Master of Port.`}
   headerSolid
 >
   <!-- ──────────────────── Hero ──────────────────── -->
