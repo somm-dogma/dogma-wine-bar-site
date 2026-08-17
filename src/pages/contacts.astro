@@ -83,9 +83,10 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
       </header>
       <form
         class="cform"
+        id="contact-form"
         name="contact"
         method="POST"
-        action="/obrigado"
+        action="/obrigado/"
         data-netlify="true"
         netlify-honeypot="bot-field"
       >
@@ -128,8 +129,17 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
             storing my details to reply to this message. *
           </label>
         </div>
+        <p class="cform__error" id="contact-error" role="alert" hidden></p>
         <button type="submit" class="btn btn--primary">Send message</button>
       </form>
+
+      <div class="cform-success" id="contact-success" hidden>
+        <p class="cform-success__title">Thank you — your message is on its way.</p>
+        <p class="cform-success__body">
+          We’ve received your message and will get back to you, usually within 24 hours. Can’t wait?
+          Call us on <a href={site.contact.phoneHref}>{site.contact.phone}</a> during opening hours.
+        </p>
+      </div>
     </div>
   </section>
 </Base>
@@ -146,6 +156,43 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     items.forEach((el) => obs.observe(el));
     window.setTimeout(() => items.forEach((el) => el.classList.add("is-visible")), 2800);
   }
+</script>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const successEl = document.getElementById("contact-success");
+  const errorEl = document.getElementById("contact-error");
+  const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (errorEl) { errorEl.hidden = true; errorEl.textContent = ""; }
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
+
+    const params = new URLSearchParams();
+    for (const [key, value] of new FormData(form).entries()) {
+      params.append(key, String(value));
+    }
+
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+      if (!res.ok) throw new Error(`Unexpected status ${res.status}`);
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch {
+      if (errorEl) {
+        errorEl.hidden = false;
+        errorEl.textContent =
+          "Something went wrong sending your message. Please call us on +351 912 925 598 or email somm@dogmawinebar.com instead.";
+      }
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Send message"; }
+    }
+  });
 </script>
 
 <style>
@@ -232,7 +279,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
     border-radius: var(--radius);
   }
   .form-group { display: flex; flex-direction: column; }
-  .form-group--wide, .form-consent, .cform > button { grid-column: 1 / -1; }
+  .form-group--wide, .form-consent, .cform > button, .cform__error { grid-column: 1 / -1; }
   .form-group label { font-size: var(--step--1); font-weight: 600; color: var(--wine-900); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
   .form-group input, .form-group select, .form-group textarea {
     padding: 0.85rem 1rem;
@@ -255,6 +302,33 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .form-consent label { font-size: var(--step--1); line-height: 1.5; color: var(--ink-soft); }
   .form-consent a { color: var(--wine-800); text-decoration: underline; text-underline-offset: 2px; }
   .form-consent a:hover { color: var(--port-deep); }
+
+  .cform__error {
+    margin: 0;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(160, 60, 60, 0.1);
+    border: 1px solid #a14444;
+    color: #7a2e2e;
+    font-size: var(--step--1);
+  }
+
+  .cform-success {
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .cform-success__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.8rem);
+    color: var(--ink);
+    margin: 0 0 0.6rem;
+  }
+  .cform-success__body { color: var(--ink-soft); margin: 0; }
+  .cform-success__body a { color: var(--wine-800); text-decoration: underline; text-underline-offset: 2px; }
+  .cform-success__body a:hover { color: var(--port-deep); }
 
   /* reveals */
   [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 900ms var(--ease-reveal), transform 900ms var(--ease-reveal); }
