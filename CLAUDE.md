@@ -107,6 +107,10 @@ merges its Visit section with the footer via `bareFooter`.
 - The 6 tastings' names, slugs, and prices are fixed (owned by Vasilii) — see the table in
   `DESIGN-HANDOFF.md` §5. Durations are the only still-open field.
 - Git commit/push/merge for site changes is pre-authorized — no need to ask before each one.
+- **Internal links must end in a trailing slash** (`/menu/`, not `/menu`). Netlify 301s the
+  non-slashed form, and `Header.astro` compares `Astro.url.pathname` (always slashed) against
+  `nav[].href` — a missing slash silently kills `aria-current`/`.nav__link--active` sitewide.
+  This applies to `src/data/*.ts` hrefs too, anchors included (`/bookatasting/#port-intro`).
 
 ## Brand & content rules (vault: ~/dogma-brain)
 
