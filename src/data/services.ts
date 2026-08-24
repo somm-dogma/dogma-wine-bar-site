@@ -46,7 +46,7 @@ export const services: Service[] = [
     image: imgTasting,
     alt: "Vasilii serving wine to guests at the bottle wall inside Dogma",
     ctaLabel: "See more",
-    href: "/bookatasting",
+    href: "/bookatasting/",
   },
   {
     category: "port-wine-tasting",
@@ -57,7 +57,7 @@ export const services: Service[] = [
     image: imgPort,
     alt: "Guests gathered for an evening of Port tasting at Dogma, under warm light",
     ctaLabel: "See more",
-    href: "/bookatasting#port-intro",
+    href: "/bookatasting/#port-intro",
   },
   {
     category: "wine-boxes",
@@ -68,6 +68,6 @@ export const services: Service[] = [
     image: imgBoxes,
     alt: "A curated shelf of wine bottles and awards at Dogma",
     ctaLabel: "See more",
-    href: "/signature-cases",
+    href: "/signature-cases/",
   },
 ];

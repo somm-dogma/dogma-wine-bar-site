@@ -19,8 +19,8 @@ export const sommelier = {
 // Live, bookable services only. Wine boxes / gift cards / tours are not live yet —
 // do not add them here until they have a real destination.
 export const services = [
-  { title: "Wine Tasting", text: "A careful selection of the very best of Portugal.", href: "/bookatasting" },
-  { title: "Port Wine Tasting", text: "The finest selection, guided by a Master of Port.", href: "/bookatasting" },
+  { title: "Wine Tasting", text: "A careful selection of the very best of Portugal.", href: "/bookatasting/" },
+  { title: "Port Wine Tasting", text: "The finest selection, guided by a Master of Port.", href: "/bookatasting/" },
 ];
 
 export const wineries = [

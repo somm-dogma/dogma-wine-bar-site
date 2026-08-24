@@ -30,7 +30,7 @@ export const site = {
 
   booking: {
     table: "https://dogma-wine-bar.resos.com/booking",
-    tasting: "/bookatasting",
+    tasting: "/bookatasting/",
   },
 
   social: {
@@ -49,10 +49,10 @@ export const site = {
 
 // Main navigation — only real, live destinations (no "coming soon")
 export const nav = [
-  { label: "Tastings", href: "/bookatasting" },
-  { label: "Signature Cases", href: "/signature-cases" },
-  { label: "Menu", href: "/menu" },
-  { label: "Services", href: "/services" },
-  { label: "Sommelier", href: "/sommelier" },
-  { label: "Contacts", href: "/contacts" },
+  { label: "Tastings", href: "/bookatasting/" },
+  { label: "Signature Cases", href: "/signature-cases/" },
+  { label: "Menu", href: "/menu/" },
+  { label: "Services", href: "/services/" },
+  { label: "Sommelier", href: "/sommelier/" },
+  { label: "Contacts", href: "/contacts/" },
 ];
