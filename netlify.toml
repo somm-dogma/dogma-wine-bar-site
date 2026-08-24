@@ -45,6 +45,189 @@ to = "/410.html"
 status = 410
 force = true
 
+# --- Legacy Tilda-site cleanup ------------------------------------------------
+# 56 dead URLs from the pre-Astro site (bilingual PT/RU, had a shop + a blog).
+# Same principle as the /shop rules above: 301 ONLY where a real content
+# equivalent exists; 410 where the content is deliberately gone; plain 404 for
+# system debris that was never a page. Never mass-301 to a non-equivalent — that
+# just converts a 404 into a soft-404.
+#
+# The 13 legacy /shop/* URLs are already handled by the 410 block above — do not
+# add 301s for them.
+#
+# Netlify normalises http→https and www→apex BEFORE matching these rules
+# (verified live), so path-only rules cover every variant Search Console listed.
+# Targets keep their trailing slash to avoid a second 301 hop.
+
+# Old home + language roots → the real home.
+[[redirects]]
+from = "/homepage"
+to = "/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/principal"
+to = "/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/ru"
+to = "/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/pt"
+to = "/"
+status = 301
+force = true
+
+# Old booking / tasting / event pages → the live booking page.
+[[redirects]]
+from = "/tastings"
+to = "/bookatasting/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/provas"
+to = "/bookatasting/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/winetour"
+to = "/bookatasting/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/enoturismo"
+to = "/bookatasting/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/eventos"
+to = "/bookatasting/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/events"
+to = "/bookatasting/"
+status = 301
+force = true
+
+# Old wine-box pages → Signature Cases (a true equivalent: boxes of wine).
+[[redirects]]
+from = "/wineboxes"
+to = "/signature-cases/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/wine-boxes-pt"
+to = "/signature-cases/"
+status = 301
+force = true
+
+# Old "our wine" / "our port" pages → the wine list, which is what they were.
+# (Deliberately NOT /signature-cases: that is a narrow 3-tier gift product, not
+# the bar's wine offering.)
+[[redirects]]
+from = "/wine"
+to = "/menu/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/portwine"
+to = "/menu/"
+status = 301
+force = true
+
+# Blog press pieces about Vasilii → the page about Vasilii. These five slugs name
+# him or "O Escanção" (the Associação dos Escanções publication, whose seal the
+# site already carries), so /sommelier/ is a genuine equivalent and any press
+# backlinks keep their value. MUST stay above the /blog/* 410 rules below.
+[[redirects]]
+from = "/blog/publico-vasiliy-grebenchea"
+to = "/sommelier/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/blog-ru/publico-vasiliy-grebenchea"
+to = "/sommelier/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/blog/o_escancao"
+to = "/sommelier/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/blog-ru/o_escancao"
+to = "/sommelier/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/blog-pt/o_escancao"
+to = "/sommelier/"
+status = 301
+force = true
+
+# Everything else under the old blog is gone for good → 410, so Google
+# de-indexes cleanly instead of treating a redirect-to-home as a soft-404.
+# (Netlify's "/blog/*" also matches the bare "/blog"; both are 410 here, so the
+# ordering that matters is only the exact 301s above.)
+[[redirects]]
+from = "/blog"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/blog/*"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/blog-ru"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/blog-ru/*"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/blog-pt"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/blog-pt/*"
+to = "/410.html"
+status = 410
+force = true
+
+# Pure Tilda system debris (/iconsofportugal, /old, /rate, /success-page, /qr,
+# /gidsomm, /-/empty/, /static3.tildacdn.com/) has no sensible destination and
+# was never a real content page — it falls through to the catch-all 404 below.
+# Deliberate: do NOT invent redirect targets for junk.
+
 # Pretty paths for the booking API → the underlying functions.
 [[redirects]]
 from = "/api/check-availability"
