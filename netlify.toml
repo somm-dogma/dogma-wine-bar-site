@@ -253,6 +253,38 @@ from = "/*"
 to = "/404.html"
 status = 404
 
+# The /menu/ page is the indexable version of the wine list. These PDFs are the
+# same content as a download, and the weekly menu-sync automation replaces them
+# every Monday — so keep them out of search and let the HTML page rank instead.
+# Guests are unaffected: the download links still work normally.
+# Listed file-by-file on purpose: a "/menu/*" glob would also catch the /menu/
+# page itself and noindex it. If menu-sync ever adds a new PDF, add it here.
+# The /certificates/*.pdf credential proofs stay indexable by design.
+[[headers]]
+  for = "/menu/food.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/menu/port-and-fortified.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/menu/tastings.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/menu/wines-by-bottle.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/menu/wines-by-glass.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 [[headers]]
   for = "/*"
   [headers.values]
