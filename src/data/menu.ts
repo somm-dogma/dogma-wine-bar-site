@@ -12,8 +12,9 @@
      • meta  — the tertiary line (vintage · producer, or the scope)
      • price — bare number; the euro/VAT note lives in `notes`
 
-   To edit the menu, change the text here — the page updates on build.
-   PDFs in /public/menu are offered as secondary downloads only.
+   The menu is generated from "MENU NOVO.numbers" by the weekly Numbers sync
+   (Thursdays 17:00). Hand edits to `groups` are overwritten; section headings,
+   intros and notes below are editorial and are preserved.
    ------------------------------------------------------------------ */
 
 export interface MenuItem {
@@ -46,8 +47,6 @@ export interface MenuSection {
   groups: MenuGroup[];
   /** Footnotes (serving sizes, VAT) */
   notes?: string[];
-  /** Secondary PDF download (served locally from /public/menu) */
-  pdf?: string;
 }
 
 const vatNote =
@@ -124,7 +123,6 @@ export const menuSections: MenuSection[] = [
       "Wine sample 75 ml (2.5 oz) · Port sample 60 ml (2 oz).",
       vatNote,
     ],
-    pdf: "/menu/tastings.pdf",
   },
 
   /* ------------------------------- FOOD ------------------------------- */
@@ -234,7 +232,6 @@ export const menuSections: MenuSection[] = [
       },
     ],
     notes: [vatNote],
-    pdf: "/menu/food.pdf",
   },
 
   /* -------------------------- WINES BY GLASS -------------------------- */
@@ -361,7 +358,6 @@ export const menuSections: MenuSection[] = [
       },
     ],
     notes: ["Glass 150 ml (5 oz).", vatNote],
-    pdf: "/menu/wines-by-glass.pdf",
   },
 
   /* --------------------- PORT, FORTIFIED & DRINKS --------------------- */
@@ -433,7 +429,6 @@ export const menuSections: MenuSection[] = [
       },
     ],
     notes: ["Port and fortified wines 60 ml per glass.", vatNote],
-    pdf: "/menu/port-and-fortified.pdf",
   },
 
   /* -------------------------- WINES BY BOTTLE ------------------------- */
@@ -727,6 +722,5 @@ export const menuSections: MenuSection[] = [
       },
     ],
     notes: [vatNote],
-    pdf: "/menu/wines-by-bottle.pdf",
   },
 ];

@@ -80,11 +80,6 @@ import { menuSections } from "../data/menu";
                 {s.notes.map((n) => (
                   <p class="menu-sec__note">{n}</p>
                 ))}
-                {s.pdf && (
-                  <a class="menu-sec__pdf" href={s.pdf} target="_blank" rel="noopener">
-                    Download the {s.label} menu (PDF) ↓
-                  </a>
-                )}
               </footer>
             )}
           </article>
@@ -249,17 +244,6 @@ import { menuSections } from "../data/menu";
     color: var(--ink-soft);
     line-height: 1.5;
   }
-  .menu-sec__pdf {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: var(--step--1);
-    letter-spacing: 0.04em;
-    color: var(--wine-800);
-    border-bottom: 1px solid var(--gold-300);
-    padding-bottom: 2px;
-    transition: color 0.2s ease;
-  }
-  .menu-sec__pdf:hover { color: var(--gold); }
 
   @media (max-width: 520px) {
     .m-item { column-gap: 0.9rem; }

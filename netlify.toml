@@ -228,6 +228,41 @@ force = true
 # was never a real content page — it falls through to the catch-all 404 below.
 # Deliberate: do NOT invent redirect targets for junk.
 
+# Retired menu PDFs. The /menu/ page is now the only version of the wine list —
+# it is generated from "MENU NOVO.numbers" by the weekly sync, so a static PDF
+# would go stale the moment the sheet changes. These were noindex before being
+# removed, so little should be in the index; 410 keeps it consistent with the
+# /shop/* and blog rules above (deliberately gone, not merely missing).
+[[redirects]]
+from = "/menu/food.pdf"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/menu/port-and-fortified.pdf"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/menu/tastings.pdf"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/menu/wines-by-bottle.pdf"
+to = "/410.html"
+status = 410
+force = true
+
+[[redirects]]
+from = "/menu/wines-by-glass.pdf"
+to = "/410.html"
+status = 410
+force = true
+
 # Pretty paths for the booking API → the underlying functions.
 [[redirects]]
 from = "/api/check-availability"
@@ -252,38 +287,6 @@ force = true
 from = "/*"
 to = "/404.html"
 status = 404
-
-# The /menu/ page is the indexable version of the wine list. These PDFs are the
-# same content as a download, and the weekly menu-sync automation replaces them
-# every Monday — so keep them out of search and let the HTML page rank instead.
-# Guests are unaffected: the download links still work normally.
-# Listed file-by-file on purpose: a "/menu/*" glob would also catch the /menu/
-# page itself and noindex it. If menu-sync ever adds a new PDF, add it here.
-# The /certificates/*.pdf credential proofs stay indexable by design.
-[[headers]]
-  for = "/menu/food.pdf"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
-[[headers]]
-  for = "/menu/port-and-fortified.pdf"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
-[[headers]]
-  for = "/menu/tastings.pdf"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
-[[headers]]
-  for = "/menu/wines-by-bottle.pdf"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
-[[headers]]
-  for = "/menu/wines-by-glass.pdf"
-  [headers.values]
-    X-Robots-Tag = "noindex"
 
 [[headers]]
   for = "/*"
