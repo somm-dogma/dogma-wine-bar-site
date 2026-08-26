@@ -227,13 +227,13 @@ export const menuSections: MenuSection[] = [
         titlePt: "espumante",
         items: [
           {
-            price: "10",
+            price: "12",
             name: "Vinho Verde",
             desc: "Alvarinho · brut nature",
             meta: "2022 · Cortinha Velha",
           },
           {
-            price: "15",
+            price: "12",
             name: "Bairrada",
             desc: "Baga · brut",
             meta: "2017 · Caves São Domingos GR",
