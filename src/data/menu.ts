@@ -176,10 +176,6 @@ export const menuSections: MenuSection[] = [
         titlePt: "clássicos",
         items: [
           {
-            price: "12",
-            name: "smoked duck prosciutto · presunto de pato fumado",
-          },
-          {
             price: "15",
             name: "dry cured ham (ibérico) · min. 30 months of cure",
             desc: "presunto de porco preto alentejano com o mínimo de 30 meses de cura",
@@ -227,10 +223,10 @@ export const menuSections: MenuSection[] = [
         titlePt: "espumante",
         items: [
           {
-            price: "12",
+            price: "15",
             name: "Vinho Verde",
-            desc: "Alvarinho · brut nature",
-            meta: "2022 · Cortinha Velha",
+            desc: "Alvarelhão · brut",
+            meta: "2022 · Pardusco Private Rosé",
           },
           {
             price: "12",
@@ -244,10 +240,10 @@ export const menuSections: MenuSection[] = [
         title: "rosé",
         items: [
           {
-            price: "15",
-            name: "Bairrada",
-            desc: "Baga & Pinot Noir",
-            meta: "2025 · CSJ Quinta do Poço do Lobo Reserva",
+            price: "17",
+            name: "Douro",
+            desc: "Mourisco",
+            meta: "2022 · Titan Vale dos Mil",
           },
         ],
       },
@@ -264,14 +260,8 @@ export const menuSections: MenuSection[] = [
           {
             price: "15",
             name: "Vinho Verde",
-            desc: "Loureiro & Alvarinho",
-            meta: "2021 · Tamada GIO C & Luís C",
-          },
-          {
-            price: "17",
-            name: "Dão [Lafões]",
-            desc: "Arinto & Cercial & DB",
-            meta: "2020 · Chão do Vale VV",
+            desc: "Alvarinho",
+            meta: "2016 · Casa Capitão Mor Res.",
           },
           {
             price: "18",
@@ -280,16 +270,22 @@ export const menuSections: MenuSection[] = [
             meta: "2022 · Muxagat Os Xistos Altos",
           },
           {
-            price: "38",
-            name: "Alentejo",
-            desc: "Arinto & Antão Vaz",
-            meta: "2023 · Herdade do Sobroso ARCHÉ",
+            price: "15",
+            name: "Lisboa",
+            desc: "Cercial",
+            meta: "2024 · Baías & Enseadas",
           },
           {
-            price: "16",
-            name: "Açores",
-            desc: "Blend",
-            meta: "2023 · Rola Pipa",
+            price: "25",
+            name: "Setúbal",
+            desc: "Boal",
+            meta: "2021 · Horácio Simões Trad. LR",
+          },
+          {
+            price: "24",
+            name: "Açores [Pico]",
+            desc: "Verdelho",
+            meta: "2023 · Entre Pedras",
           },
         ],
       },
@@ -304,10 +300,16 @@ export const menuSections: MenuSection[] = [
             meta: "2024 · Zafirah",
           },
           {
-            price: "18",
+            price: "14",
+            name: "Dão",
+            desc: "Touriga Nacional",
+            meta: "2019 · M.O.B.",
+          },
+          {
+            price: "31",
             name: "Dão",
             desc: "Blend",
-            meta: "2019 · Fugitivo Centenárias",
+            meta: "2019 · Quinta da Pellada ALTO",
           },
           {
             price: "24",
@@ -316,16 +318,10 @@ export const menuSections: MenuSection[] = [
             meta: "2016 · Quinta dos Lagares VV44",
           },
           {
-            price: "13",
-            name: "Douro",
-            desc: "Blend",
-            meta: "2019 · Quinta da Devesa VV",
-          },
-          {
-            price: "18",
+            price: "24",
             name: "Bairrada",
             desc: "Baga",
-            meta: "2014 · Vadio Library Release",
+            meta: "2009 · Vacariça Garrafeirra",
           },
           {
             price: "18",
@@ -369,12 +365,12 @@ export const menuSections: MenuSection[] = [
           {
             price: "9",
             name: "Tawny",
-            meta: "DR Agri-Roncão 10 Years Old",
+            meta: "DR 10 Years Old",
           },
           {
             price: "18",
             name: "Tawny",
-            meta: "Quinta da Gaivosa 20 Years Old",
+            meta: "Blackett 20 Years Old",
           },
           {
             price: "27",
@@ -425,7 +421,8 @@ export const menuSections: MenuSection[] = [
           },
           {
             price: "39",
-            name: "Verdelho Medium Dry Madeira DOP",
+            name: "Madeira DOP",
+            desc: "Verdelho · Medium Dry",
             meta: "D’Oliveiras Frasqueira",
           },
         ],
@@ -484,55 +481,49 @@ export const menuSections: MenuSection[] = [
         items: [
           {
             price: "36",
-            name: "France (Limoux)",
+            name: "France · Limoux",
             desc: "Blend · brut",
             meta: "NV · Domaine B&B",
           },
           {
             price: "64",
-            name: "Lebanon (Zahleh)",
+            name: "Lebanon · Zahleh",
             desc: "Obeideh",
             meta: "2022 · SEPT (white wine)",
           },
           {
             price: "48",
-            name: "Lebanon (Zahleh)",
+            name: "Lebanon · Zahleh",
             desc: "Obeideh Skin Contact",
             meta: "2022 · SEPT (white wine)",
           },
           {
             price: "48",
-            name: "Lebanon (Nehla)",
+            name: "Lebanon · Nehla",
             desc: "Merweh",
             meta: "2022 · SEPT (white wine)",
           },
           {
             price: "99",
-            name: "Lebanon (Riyaq)",
+            name: "Lebanon · Riyaq",
             desc: "Viognier",
             meta: "2022 · SEPT (white wine) · 1500 ml",
           },
           {
             price: "120",
-            name: "Lebanon (Maytouba)",
+            name: "Lebanon · Maytouba",
             desc: "Zitani",
             meta: "2022 · SEPT (white wine)",
           },
           {
-            price: "69",
-            name: "Lebanon (Eddeh, Batroun)",
-            desc: "Grenache",
-            meta: "2022 · SEPT (red wine)",
-          },
-          {
             price: "60",
-            name: "Lebanon (North Bekaa)",
+            name: "Lebanon · North Bekaa",
             desc: "Cab Sauv & Tempranillo",
             meta: "2021 · SEPT (red wine)",
           },
           {
             price: "81",
-            name: "Moldova (Codru)",
+            name: "Moldova · Codru",
             desc: "Riesling",
             meta: "2021 · Chateau Vartely (ice wine) · 375 ml",
           },
@@ -543,10 +534,10 @@ export const menuSections: MenuSection[] = [
         titlePt: "espumantes",
         items: [
           {
-            price: "40",
+            price: "60",
             name: "Vinho Verde",
-            desc: "Alvarinho · brut nature",
-            meta: "2022 · Cortinha Velha",
+            desc: "Alvarelhão · brut",
+            meta: "2022 · Pardusco Private Rosé",
           },
           {
             price: "60",
@@ -578,6 +569,12 @@ export const menuSections: MenuSection[] = [
             meta: "2025 · CSJ Quinta do Poço do Lobo Reserva",
           },
           {
+            price: "68",
+            name: "Douro",
+            desc: "Mourisco",
+            meta: "2022 · Titan Vale dos Mil",
+          },
+          {
             price: "48",
             name: "Alentejo",
             desc: "TN & Tinta Míuda",
@@ -590,22 +587,16 @@ export const menuSections: MenuSection[] = [
         titlePt: "brancos",
         items: [
           {
-            price: "36",
+            price: "120",
             name: "Vinho Verde",
             desc: "Alvarinho",
-            meta: "2024 · Casa do Capitão Mor",
+            meta: "2018 · Casa do Capitão Mor Reserva · 1500 ml",
           },
           {
             price: "132",
             name: "Vinho Verde",
             desc: "Alvarinho",
             meta: "2021 · Granito CRU (Luís Seabra) · 1500 ml",
-          },
-          {
-            price: "60",
-            name: "Vinho Verde",
-            desc: "Loureiro & Alvarinho",
-            meta: "2021 · Tamada by GC & LC",
           },
           {
             price: "36",
@@ -632,22 +623,16 @@ export const menuSections: MenuSection[] = [
             meta: "2020 · Chão do Vale VV",
           },
           {
-            price: "44",
-            name: "Dão",
-            desc: "Encruzado",
-            meta: "2025 · Quinta do Perdigão",
-          },
-          {
             price: "60",
             name: "Lisboa",
-            desc: "Arinto",
+            desc: "Cercial",
             meta: "2023 · Baías e Enseadas",
           },
           {
             price: "100",
-            name: "Lisboa · Colares DOC",
-            desc: "Malvasia de Colares",
-            meta: "2012 · Casal Santa Maria · 500 ml",
+            name: "Setúbal",
+            desc: "Boal",
+            meta: "2021 · Horácio Simões Tradição Late Release",
           },
           {
             price: "152",
@@ -657,9 +642,9 @@ export const menuSections: MenuSection[] = [
           },
           {
             price: "64",
-            name: "Açores",
-            desc: "Blend",
-            meta: "2023 · Rola Pipa",
+            name: "Açores · Pico",
+            desc: "Verdelho",
+            meta: "2023 · Entre Pedras",
           },
         ],
       },
@@ -674,22 +659,16 @@ export const menuSections: MenuSection[] = [
             meta: "2024 · Zafirah",
           },
           {
-            price: "48",
+            price: "60",
             name: "Vinho Verde",
-            desc: "Padeiro",
-            meta: "2023 · Villa Seara",
+            desc: "Vinhão",
+            meta: "2019 · Quinta de Santa Cristina Cave",
           },
           {
-            price: "72",
-            name: "Vinho Verde",
-            desc: "Alvarelhão",
-            meta: "2020 · Aphros Ouranos",
-          },
-          {
-            price: "72",
+            price: "88",
             name: "Dão",
             desc: "Blend",
-            meta: "2019 · Fugitivo Centenárias",
+            meta: "2012 · Fugitivo Centenárias",
           },
           {
             price: "90",
@@ -698,10 +677,22 @@ export const menuSections: MenuSection[] = [
             meta: "2019 · MONO A (first edition)",
           },
           {
+            price: "56",
+            name: "Dão",
+            desc: "Touriga Nacional",
+            meta: "2021 · MOB TN",
+          },
+          {
             price: "60",
             name: "Dão",
             desc: "Blend",
             meta: "2021 · Revela (first edition)",
+          },
+          {
+            price: "60",
+            name: "Dão",
+            desc: "Blend",
+            meta: "2019 · Quinta da Pellada ALTO",
           },
           {
             price: "96",
@@ -714,18 +705,6 @@ export const menuSections: MenuSection[] = [
             name: "Douro",
             desc: "Blend",
             meta: "2017 · Chryseia",
-          },
-          {
-            price: "72",
-            name: "Bairrada",
-            desc: "Baga",
-            meta: "2014 · Vadio Library Release",
-          },
-          {
-            price: "44",
-            name: "Bairrada",
-            desc: "Baga",
-            meta: "2019 · Sidónio de Sousa Reserva",
           },
           {
             price: "96",
@@ -756,18 +735,6 @@ export const menuSections: MenuSection[] = [
             name: "Alentejo",
             desc: "AB & TN & Petit Verdot",
             meta: "2021 · Zambujeiro",
-          },
-          {
-            price: "72",
-            name: "Alentejo",
-            desc: "Moreto",
-            meta: "2024 · Maquete Talha",
-          },
-          {
-            price: "60",
-            name: "Alentejo",
-            desc: "Tinta Miúda",
-            meta: "2021 · Herdade Grande",
           },
         ],
       },
