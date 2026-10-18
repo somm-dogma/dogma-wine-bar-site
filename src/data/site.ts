@@ -39,7 +39,20 @@ export const site = {
     facebook: "",
     tripadvisor:
       "https://www.tripadvisor.com/Attraction_Review-g189180-d15224502-Reviews-Dogma_Wine_Bar_Tastings-Porto_Porto_District_Northern_Portugal.html",
+    // Verified 2026-10-18: this profile carries Dogma's own address, phone and
+    // email, and lists Vasilii. These URLs feed schema.org `sameAs`, which is how
+    // a machine confirms the website, the TripAdvisor listing and this profile are
+    // one business — so only add a URL you have actually opened and checked.
+    starWineList: "https://starwinelist.com/wine-place/dogma-wine-bar",
+    // Paste the Google Maps place link here and it joins `sameAs` automatically.
+    googleMaps: "",
   },
+
+  // Third-party accolades, used for schema.org `award`. Keep these literal and
+  // verifiable — an inflated award is worse than none.
+  awards: [
+    "Star Wine List of the Year — Newcomer List of the Year, International Open 2024",
+  ],
 
   credits: {
     designer: "Daria Kostiuchenkova",

@@ -60,11 +60,42 @@ const schema = {
       closes: "22:00",
     },
   ],
-  sameAs: [site.social.instagram].filter(Boolean),
+  // `sameAs` is how a search engine or an AI assistant confirms that this site,
+  // the TripAdvisor listing and the Star Wine List profile are all ONE business
+  // rather than three similarly-named places. Entity resolution is most of what
+  // decides whether a model is confident enough to recommend you by name, so
+  // every real profile belongs here. .filter(Boolean) drops the blanks.
+  sameAs: [
+    site.social.instagram,
+    site.social.tripadvisor,
+    site.social.starWineList,
+    site.social.googleMaps,
+    site.social.facebook,
+  ].filter(Boolean),
+  award: site.awards,
+  hasMenu: new URL("/menu/", site.url).href,
+  acceptsReservations: site.booking.table,
+  servesCuisine: ["Portuguese wine", "Port wine", "Petiscos"],
+  // The single most quotable fact about this business. Modelled as a Person with
+  // an explicit credential rather than a job-title string, so "Portugal's first
+  // Master of Port" is machine-extractable instead of buried in prose.
   founder: {
     "@type": "Person",
     name: "Vasilii Grebencea",
     jobTitle: "Master of Port · Head Sommelier",
+    worksFor: { "@type": "Organization", name: site.name, url: site.url },
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      name: "Master of Port",
+      credentialCategory: "Professional certification",
+      description:
+        "Portugal's first Master of Port. The highest distinction in Port wine, awarded by the IVDP.",
+      recognizedBy: {
+        "@type": "Organization",
+        name: "Instituto dos Vinhos do Douro e do Porto (IVDP)",
+      },
+    },
+    url: new URL("/sommelier/", site.url).href,
   },
 };
 ---
