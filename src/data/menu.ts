@@ -198,10 +198,6 @@ export const menuSections: MenuSection[] = [
         items: [
           {
             price: "4.5",
-            name: "red berries sorbet · sorvete de frutos silvestres",
-          },
-          {
-            price: "4.5",
             name: "chocolate mousse · mousse de chocolate",
           },
         ],
@@ -261,7 +257,7 @@ export const menuSections: MenuSection[] = [
             price: "15",
             name: "Vinho Verde",
             desc: "Alvarinho",
-            meta: "2016 · Casa Capitão Mor Res.",
+            meta: "2020 · Casa Capitão Mor Res.",
           },
           {
             price: "18",
@@ -363,12 +359,17 @@ export const menuSections: MenuSection[] = [
             meta: "Dalva 20 Years Old",
           },
           {
-            price: "9",
-            name: "Tawny",
-            meta: "DR 10 Years Old",
+            price: "60",
+            name: "Dry White",
+            meta: "Dalva Colheita (bottled 2018)",
           },
           {
-            price: "18",
+            price: "9",
+            name: "Tawny",
+            meta: "LR 10 Years Old",
+          },
+          {
+            price: "15",
             name: "Tawny",
             meta: "Blackett 20 Years Old",
           },
@@ -385,17 +386,17 @@ export const menuSections: MenuSection[] = [
           {
             price: "15",
             name: "Ruby Vintage",
-            meta: "Quinta do Crasto · 2000",
+            meta: "Quinta da Prelada · 2009",
+          },
+          {
+            price: "15",
+            name: "Ruby Vintage",
+            meta: "Quinta do Crasto · 2016",
           },
           {
             price: "18",
             name: "Ruby Vintage",
-            meta: "Pintas · 2016",
-          },
-          {
-            price: "21",
-            name: "Ruby Vintage",
-            meta: "Quinta do Javali · 2016",
+            meta: "Quinta de la Rosa · 2024",
           },
         ],
       },
