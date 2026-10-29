@@ -126,7 +126,7 @@ export const menuSections: MenuSection[] = [
           },
           {
             price: "6",
-            name: "seasonal tomato salad · salada de tomate coração de boi",
+            name: "seasonal tomato salad with onion · salada de tomate da época",
           },
         ],
       },
@@ -254,12 +254,6 @@ export const menuSections: MenuSection[] = [
             meta: "2025 · Casa de Nabais",
           },
           {
-            price: "15",
-            name: "Vinho Verde",
-            desc: "Alvarinho",
-            meta: "2020 · Casa Capitão Mor Res.",
-          },
-          {
             price: "18",
             name: "Douro",
             desc: "Rabigato",
@@ -278,6 +272,12 @@ export const menuSections: MenuSection[] = [
             meta: "2021 · Horácio Simões Trad. LR",
           },
           {
+            price: "18",
+            name: "Alentejo",
+            desc: "Blend",
+            meta: "2023 · XXVI Talhas Talha X",
+          },
+          {
             price: "24",
             name: "Açores [Pico]",
             desc: "Verdelho",
@@ -290,16 +290,16 @@ export const menuSections: MenuSection[] = [
         titlePt: "tintos",
         items: [
           {
-            price: "9",
+            price: "15",
             name: "Vinho Verde",
-            desc: "Blend",
-            meta: "2024 · Zafirah",
+            desc: "Vinhão",
+            meta: "2019 · Quinta de S.Cristina Cave",
           },
           {
             price: "14",
             name: "Dão",
             desc: "Touriga Nacional",
-            meta: "2019 · M.O.B.",
+            meta: "2021 · M.O.B.",
           },
           {
             price: "31",
@@ -308,22 +308,22 @@ export const menuSections: MenuSection[] = [
             meta: "2019 · Quinta da Pellada ALTO",
           },
           {
-            price: "24",
-            name: "Douro",
-            desc: "Blend",
-            meta: "2016 · Quinta dos Lagares VV44",
-          },
-          {
-            price: "24",
+            price: "11",
             name: "Bairrada",
             desc: "Baga",
-            meta: "2009 · Vacariça Garrafeirra",
+            meta: "2023 · Casa de Saima Tonel 10",
           },
           {
-            price: "18",
+            price: "12",
+            name: "Setúbal",
+            desc: "Castelão",
+            meta: "2022 · Quinta do Piloto Reserva",
+          },
+          {
+            price: "10",
             name: "Tejo",
-            desc: "Blend",
-            meta: "2015 · Marquesa de Cadaval",
+            desc: "Trincadeira Preta",
+            meta: "2023 · Casa Cadaval",
           },
         ],
       },
@@ -384,6 +384,11 @@ export const menuSections: MenuSection[] = [
             meta: "Messias 50 Years Old",
           },
           {
+            price: "75",
+            name: "Tawny",
+            meta: "Rozès Colheita · Bottled 2018",
+          },
+          {
             price: "15",
             name: "Ruby Vintage",
             meta: "Quinta da Prelada · 2009",
@@ -394,9 +399,9 @@ export const menuSections: MenuSection[] = [
             meta: "Quinta do Crasto · 2016",
           },
           {
-            price: "18",
+            price: "15",
             name: "Ruby Vintage",
-            meta: "Quinta de la Rosa · 2024",
+            meta: "Quinta da Devesa · 2024",
           },
         ],
       },
@@ -443,24 +448,14 @@ export const menuSections: MenuSection[] = [
             meta: "Pedras grande",
           },
           {
-            price: "3",
-            name: "tonic water",
-            meta: "Água tónica",
-          },
-          {
             price: "4.5",
-            name: "peach & ginger soda",
-            meta: "WHY NOT · Pêssego & gengibre",
-          },
-          {
-            price: "4.5",
-            name: "pomegranate & cucumber soda",
-            meta: "WHY NOT · Romã & pepino",
+            name: "WHY NOT craft soda",
+            meta: "Refrigerante artisanal",
           },
           {
             price: "6",
-            name: "beer of the moment",
-            meta: "Cerveja do momento",
+            name: "Red Stripe Lager",
+            meta: "Jamaica",
           },
         ],
       },
@@ -487,12 +482,6 @@ export const menuSections: MenuSection[] = [
             meta: "NV · Domaine B&B",
           },
           {
-            price: "64",
-            name: "Lebanon · Zahleh",
-            desc: "Obeideh",
-            meta: "2022 · SEPT (white wine)",
-          },
-          {
             price: "48",
             name: "Lebanon · Zahleh",
             desc: "Obeideh Skin Contact",
@@ -515,12 +504,6 @@ export const menuSections: MenuSection[] = [
             name: "Lebanon · Maytouba",
             desc: "Zitani",
             meta: "2022 · SEPT (white wine)",
-          },
-          {
-            price: "60",
-            name: "Lebanon · North Bekaa",
-            desc: "Cab Sauv & Tempranillo",
-            meta: "2021 · SEPT (red wine)",
           },
           {
             price: "81",
@@ -724,6 +707,12 @@ export const menuSections: MenuSection[] = [
             name: "Tejo",
             desc: "Blend",
             meta: "2015 · Marquesa de Cadaval",
+          },
+          {
+            price: "84",
+            name: "Lisboa",
+            desc: "Pinot Noir",
+            meta: "Baías e Enseadas Escolha Pessoal",
           },
           {
             price: "84",
