@@ -8,6 +8,7 @@
    in src/data/home.ts.
    ------------------------------------------------------------------ */
 import type { ImageMetadata } from "astro";
+import type { Lang } from "../i18n/routes";
 
 import imgTasting from "../assets/images/moment-serve.jpg";
 import imgPort from "../assets/images/moment-room-gold.jpg";
@@ -16,6 +17,7 @@ import imgBoxes from "../assets/images/moment-bottles.jpg";
 export interface ServiceCategory {
   slug: string;
   label: string;
+  labelPt: string;
 }
 
 export interface Service {
@@ -27,13 +29,20 @@ export interface Service {
   image: ImageMetadata;
   alt: string;
   ctaLabel: string;
-  href: string;
+  /** Route key + optional #anchor, resolved per language at render time. */
+  route: "tastings" | "cases";
+  anchor?: string;
+  pt: Pick<Service, "eyebrow" | "headline" | "description" | "alt" | "ctaLabel">;
+}
+
+export function localizeService(s: Service, lang: Lang): Service {
+  return lang === "pt" ? { ...s, ...s.pt } : s;
 }
 
 export const serviceCategories: ServiceCategory[] = [
-  { slug: "wine-tasting", label: "Wine Tasting" },
-  { slug: "port-wine-tasting", label: "Port Wine Tasting" },
-  { slug: "wine-boxes", label: "Wine Boxes" },
+  { slug: "wine-tasting", label: "Wine Tasting", labelPt: "Provas de vinho" },
+  { slug: "port-wine-tasting", label: "Port Wine Tasting", labelPt: "Provas de vinho do Porto" },
+  { slug: "wine-boxes", label: "Wine Boxes", labelPt: "Caixas de vinho" },
 ];
 
 export const services: Service[] = [
@@ -46,7 +55,15 @@ export const services: Service[] = [
     image: imgTasting,
     alt: "Vasilii serving wine to guests at the bottle wall inside Dogma",
     ctaLabel: "See more",
-    href: "/bookatasting/",
+    route: "tastings",
+    pt: {
+      eyebrow: "Provas de vinho",
+      headline: "Uma seleção cuidada do melhor que Portugal tem.",
+      description:
+        "Seis provas guiadas, do Vinho Verde luminoso aos grandes ícones portugueses. Cada copo é servido pelo nosso escanção, à sua mesa.",
+      alt: "Vasilii a servir vinho a clientes junto à parede de garrafas do Dogma",
+      ctaLabel: "Saber mais",
+    },
   },
   {
     category: "port-wine-tasting",
@@ -57,7 +74,16 @@ export const services: Service[] = [
     image: imgPort,
     alt: "Guests gathered for an evening of Port tasting at Dogma, under warm light",
     ctaLabel: "See more",
-    href: "/bookatasting/#port-intro",
+    route: "tastings",
+    anchor: "port-intro",
+    pt: {
+      eyebrow: "Provas de vinho do Porto",
+      headline: "A melhor seleção, guiada por um Master of Port.",
+      description:
+        "Da introdução aos estilos essenciais a uma prova de garrafas verdadeiramente raras — conduzida pelo primeiro Master of Port de Portugal.",
+      alt: "Clientes reunidos numa noite de prova de vinho do Porto no Dogma, sob luz quente",
+      ctaLabel: "Saber mais",
+    },
   },
   {
     category: "wine-boxes",
@@ -68,6 +94,14 @@ export const services: Service[] = [
     image: imgBoxes,
     alt: "A curated shelf of wine bottles and awards at Dogma",
     ctaLabel: "See more",
-    href: "/signature-cases/",
+    route: "cases",
+    pt: {
+      eyebrow: "Caixas de vinho",
+      headline: "Portugal numa caixa.",
+      description:
+        "Uma seleção pessoal de vinhos excecionais, escolhida por Vasilii Grebencea e enviada para a sua porta, em qualquer parte do mundo.",
+      alt: "Uma prateleira de garrafas escolhidas e distinções no Dogma",
+      ctaLabel: "Saber mais",
+    },
   },
 ];

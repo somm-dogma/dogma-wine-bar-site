@@ -1,0 +1,126 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { langFromPath, r } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const T = {
+  en: {
+    title: "Cookie Policy",
+    description:
+      "How Dogma Wine Bar uses cookies: essential only by default, analytics only with your consent — and how to change your choice at any time.",
+    eyebrow: "Legal", heading: "Cookie Policy", sub: "How we use cookies, and how you stay in control.",
+    lead: "A cookie is a small file a website stores on your device. We keep our use of them to a minimum and never load non-essential cookies until you tell us it’s OK.",
+    what: "What we use",
+    essential: "Essential",
+    essentialBody: "Needed for the site to work, so always on. The only thing we store here is your cookie choice itself, so we don’t ask again on every visit. No tracking.",
+    analytics: "Analytics", optional: "Optional",
+    analyticsBody: "If you accept, we use analytics to understand which pages are visited and how the site performs, so we can improve it. These only load after you accept, and never identify you personally to us.",
+    payments: "Booking & payments",
+    paymentsBody: "When you book a tasting, payment is handled by <strong>Stripe</strong> and availability by <strong>ResOS</strong> on their own secure pages. They may set their own cookies under their policies; your card details never touch our site.",
+    choices: "Your choices",
+    choicesBody: "You chose whether to allow analytics when you first arrived. You can change your mind at any time, and you can also clear cookies in your browser settings.",
+    change: "Change cookie preferences",
+    more: "More",
+    moreA: "For how we handle personal data, see our", privacy: "Privacy Policy", moreB: "Questions? Email",
+  },
+  pt: {
+    title: "Política de Cookies",
+    description:
+      "Como o Dogma Wine Bar usa cookies: apenas os essenciais por defeito, analíticos só com o seu consentimento — e como alterar a sua escolha.",
+    eyebrow: "Informação legal", heading: "Política de Cookies", sub: "Como usamos cookies e como mantém o controlo.",
+    lead: "Um cookie é um pequeno ficheiro que um site guarda no seu dispositivo. Reduzimos o seu uso ao mínimo e nunca carregamos cookies não essenciais sem a sua autorização.",
+    what: "O que usamos",
+    essential: "Essenciais",
+    essentialBody: "Necessários para o funcionamento do site, por isso estão sempre ativos. A única coisa que guardamos é a sua própria escolha sobre cookies, para não voltarmos a perguntar em cada visita. Sem rastreio.",
+    analytics: "Analíticos", optional: "Opcionais",
+    analyticsBody: "Se aceitar, usamos ferramentas analíticas para perceber que páginas são visitadas e como o site funciona, de modo a melhorá-lo. Só são carregados depois de aceitar e nunca o identificam pessoalmente perante nós.",
+    payments: "Reservas e pagamentos",
+    paymentsBody: "Quando reserva uma prova, o pagamento é tratado pela <strong>Stripe</strong> e a disponibilidade pela <strong>ResOS</strong>, nas suas próprias páginas seguras. Estas entidades podem definir cookies próprios, ao abrigo das respetivas políticas; os dados do seu cartão nunca passam pelo nosso site.",
+    choices: "As suas escolhas",
+    choicesBody: "Escolheu se autorizava cookies analíticos quando chegou ao site. Pode mudar de ideias a qualquer momento e também pode apagar os cookies nas definições do seu navegador.",
+    change: "Alterar preferências de cookies",
+    more: "Mais informação",
+    moreA: "Para saber como tratamos os dados pessoais, consulte a nossa", privacy: "Política de Privacidade", moreB: "Dúvidas? Escreva para",
+  },
+};
+const t = T[lang];
+---
+
+<Base title={t.title} description={t.description} headerSolid>
+  <PageHeader eyebrow={t.eyebrow} title={t.heading} subtitle={t.sub} />
+
+  <section class="section legal">
+    <div class="container legal__inner">
+      <p class="legal__lead">{t.lead}</p>
+
+      <h2>{t.what}</h2>
+      <div class="ck">
+        <div class="ck__row">
+          <h3>{t.essential}</h3>
+          <p>{t.essentialBody}</p>
+        </div>
+        <div class="ck__row">
+          <h3>{t.analytics} <span class="ck__tag">{t.optional}</span></h3>
+          <p>{t.analyticsBody}</p>
+        </div>
+      </div>
+
+      <h2>{t.payments}</h2>
+      <p set:html={t.paymentsBody} />
+
+      <h2>{t.choices}</h2>
+      <p>{t.choicesBody}</p>
+      <button type="button" class="btn btn--primary" id="reopen-consent">{t.change}</button>
+
+      <h2>{t.more}</h2>
+      <p>
+        {t.moreA} <a href={r(lang, "privacy")}>{t.privacy}</a>. {t.moreB}
+        <a href="mailto:somm@dogmawinebar.com">somm@dogmawinebar.com</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.getElementById("reopen-consent")?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("dogma:open-consent"));
+  });
+</script>
+
+<style>
+  .legal { background: var(--cream); }
+  .legal__inner { max-width: 70ch; }
+  .legal__lead { font-size: var(--step-1); line-height: 1.6; color: var(--ink); margin-bottom: 2.5rem; }
+  .legal h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-2);
+    color: var(--wine-900);
+    margin: 2.5rem 0 0.8rem;
+  }
+  .legal p { color: var(--ink-soft); line-height: 1.75; margin-bottom: 1rem; }
+  .legal a { color: var(--port-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .legal a:hover { color: var(--port-hover); }
+  .ck { display: grid; gap: 1.25rem; margin: 1.5rem 0 0.5rem; }
+  .ck__row { padding: 1.25rem 1.4rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+  .ck__row h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .ck__tag {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+  }
+  .legal #reopen-consent { margin-top: 0.5rem; }
+</style>

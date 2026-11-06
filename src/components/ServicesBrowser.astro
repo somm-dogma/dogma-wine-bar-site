@@ -3,14 +3,18 @@
    Reusable on /services and (if needed) Home. Content is entirely
    data-driven from src/data/services.ts — never hardcode a service here. */
 import { Image } from "astro:assets";
-import { serviceCategories, services } from "../data/services";
+import { serviceCategories, services as allServices, localizeService } from "../data/services";
+import { langFromPath, r } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const services = allServices.map((s) => localizeService(s, lang));
 ---
 
 <div class="services-browser">
-  <nav class="sb-pills" aria-label="Service categories">
+  <nav class="sb-pills" aria-label={lang === "pt" ? "Categorias de serviços" : "Service categories"}>
     {serviceCategories.map((c, i) => (
       <a href={`#${c.slug}`} class="sb-pill" class:list={{ "sb-pill--active": i === 0 }} data-slug={c.slug}>
-        {c.label}
+        {lang === "pt" ? c.labelPt : c.label}
       </a>
     ))}
   </nav>
@@ -36,7 +40,7 @@ import { serviceCategories, services } from "../data/services";
           <p class="eyebrow eyebrow--ink">{s.eyebrow}</p>
           <h3 class="sb-card__headline">{s.headline}</h3>
           <p class="sb-card__desc">{s.description}</p>
-          <a class="btn btn--ghost btn--ghost-ink" href={s.href}>{s.ctaLabel}</a>
+          <a class="btn btn--ghost btn--ghost-ink" href={`${r(lang, s.route)}${s.anchor ? `#${s.anchor}` : ""}`}>{s.ctaLabel}</a>
         </div>
       </section>
     ))}

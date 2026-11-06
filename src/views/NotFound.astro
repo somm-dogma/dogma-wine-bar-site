@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+import { langFromPath, r } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const T = {
+  en: {
+    title: "Page not found",
+    description: "The page you’re looking for isn’t here — find your way back to Dogma.",
+    eyebrow: "Error 404",
+    heading: "This page isn’t on the list.",
+    body: "The page you’re looking for has moved or never existed. Let’s pour you something that has — head back to the start, or book a tasting.",
+    home: "Back to home", book: "Book a tasting",
+  },
+  pt: {
+    title: "Página não encontrada",
+    description: "A página que procura não está aqui — encontre o caminho de volta ao Dogma.",
+    eyebrow: "Erro 404",
+    heading: "Esta página não consta da carta.",
+    body: "A página que procura mudou de lugar ou nunca existiu. Deixe-nos servir-lhe algo que existe — volte ao início ou reserve uma prova.",
+    home: "Voltar ao início", book: "Reservar uma prova",
+  },
+};
+const t = T[lang];
+---
+
+<Base title={t.title} description={t.description} headerSolid noindex>
+  <section class="nf">
+    <div class="container nf__inner">
+      <p class="nf__eyebrow"><span class="nf__rule"></span>{t.eyebrow}</p>
+      <h1 class="nf__title">{t.heading}</h1>
+      <p class="nf__body">{t.body}</p>
+      <div class="nf__cta">
+        <a class="btn btn--primary" href={r(lang, "home")}>{t.home}</a>
+        <a class="btn btn--ghost nf__ghost" href={r(lang, "tastings")}>{t.book}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { background: var(--cream); padding-block: clamp(5rem, 12vw, 9rem); }
+  .nf__inner { max-width: 56ch; }
+  .nf__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--brass-mid);
+    margin-bottom: 20px;
+  }
+  .nf__rule { width: 34px; height: 1px; background: var(--brass-mid); }
+  .nf__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .nf__body {
+    margin-top: 1.2rem;
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .nf__cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 2.2rem; }
+  .nf__ghost { color: var(--wine-900); border-color: rgba(62, 15, 24, 0.3); }
+  .nf__ghost:hover { background: rgba(62, 15, 24, 0.06); border-color: rgba(62, 15, 24, 0.6); }
+</style>

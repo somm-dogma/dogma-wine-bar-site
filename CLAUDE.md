@@ -100,6 +100,28 @@ schema), Header/Footer/CookieConsent. Props (`headerSolid`, `bareFooter`, `noind
 header/footer variants — inner pages pass `headerSolid` for a readable nav over non-hero content; Home
 merges its Visit section with the footer via `bareFooter`.
 
+## Bilingual site (EN + European PT)
+
+English lives at the root, European Portuguese under `/pt/` with Portuguese slugs (`/pt/provas/`,
+`/pt/carta/`, `/pt/caixas-de-vinho/`…). Every page is written **once** in `src/views/<Page>.astro`
+with its copy in a `T = { en: {...}, pt: {...} }` object beside the markup; `src/pages/<slug>.astro`
+and `src/pages/pt/<slug>.astro` are 3-line wrappers. Language is derived from the URL
+(`langFromPath(Astro.url.pathname)`), never passed around.
+
+- `src/i18n/routes.ts` — the EN↔PT route map. Feeds the header language switch, `<link hreflang>`,
+  sitemap alternates (`astro.config.mjs`) and every internal link (`r(lang, "menu")`). **Adding a page
+  = add a route entry + both wrappers.** Never hardcode `/menu/`-style hrefs in views.
+- `src/i18n/ui.ts` — shared UI copy (nav, footer, cookie banner, card labels, hours, `euro()` format).
+- Data files carry a `pt:` block (`tastings.ts`, `services.ts`, `cases.ts`) + `localizeX()` helpers.
+  Tasting **names** are not translated (owned by Vasilii).
+- Menu: `menu.ts` is shared and stays sync-owned; the PT page swaps headings to `titlePt` and takes tab
+  labels/intros/footnotes from `src/i18n/menu-pt.ts`. A new footnote from the sync shows in English on
+  `/pt/carta/` until its translation is added to `notesPt`.
+- Client scripts read their strings from a `data-i18n` JSON attribute (booking, cases, contact form).
+  Checkout requests send `lang`; `netlify/lib/lang.mjs` whitelists it and picks the Stripe locale and
+  the PT/EN return URLs (keep its paths in sync with `routes.ts`).
+- Any copy change must be made in **both** languages in the same commit.
+
 ## Project-specific constraints
 
 - Never invent placeholder logos, photos, or text stand-ins for missing assets — ask for the real file.

@@ -28,6 +28,7 @@ import {
 } from "../lib/http.mjs";
 import { getTasting, CURRENCY } from "../lib/tastings.mjs";
 import { checkAvailability, ResosError } from "../lib/resos.mjs";
+import { pickLang, stripeLocale, langPath } from "../lib/lang.mjs";
 
 const SITE = process.env.URL || "https://www.dogmawinebar.com";
 
@@ -54,6 +55,7 @@ export default async (req, context) => {
   }
 
   const { name, email, phone, date, time, partySize, tastingType, consent, botField } = body || {};
+  const lang = pickLang(body?.lang);
 
   // Honeypot: real users never fill this.
   if (botField) return json({ error: "Invalid submission." }, { status: 400, origin });
@@ -85,6 +87,7 @@ export default async (req, context) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      locale: stripeLocale(lang),
       customer_email: email,
       line_items: [
         {
@@ -94,7 +97,10 @@ export default async (req, context) => {
             unit_amount: unitAmount,
             product_data: {
               name: `${tasting.label} — Dogma Wine Bar`,
-              description: `${date} at ${time} · ${people} guest(s)`,
+              description:
+                lang === "pt"
+                  ? `${date} às ${time} · ${people} pessoa(s)`
+                  : `${date} at ${time} · ${people} guest(s)`,
             },
           },
         },
@@ -110,12 +116,13 @@ export default async (req, context) => {
         name: name.trim(),
         phone: normalizePhone(phone),
         openingHourId: avail.openingHourId || "",
+        lang,
       },
       payment_intent_data: {
         metadata: { kind: "tasting", tastingType, date, time, people: String(people) },
       },
-      success_url: `${SITE}/booking-confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${SITE}/bookatasting?canceled=1`,
+      success_url: `${SITE}${langPath(lang, "bookingConfirmed")}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SITE}${langPath(lang, "tastings")}?canceled=1`,
     });
 
     return json({ url: session.url }, { origin });

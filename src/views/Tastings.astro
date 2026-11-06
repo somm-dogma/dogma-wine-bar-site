@@ -1,0 +1,794 @@
+---
+import Base from "../layouts/Base.astro";
+import { Image } from "astro:assets";
+import { tastings } from "../data/tastings";
+import TastingCard from "../components/TastingCard.astro";
+import { langFromPath, r, HTML_LANG } from "../i18n/routes";
+import { euro } from "../i18n/ui";
+import cellarBg from "../assets/images/cellar-bg.jpg";
+import vasiliiDoorway from "../assets/images/dogma-8.jpeg";
+
+const lang = langFromPath(Astro.url.pathname);
+
+// The booking <select> derives from the shared catalogue (src/data/tastings.ts).
+// Prices stay server-authoritative (netlify/lib/tastings.mjs) — the browser only
+// ever sends the slug as `tastingType`; this number is for display/estimate only.
+const selectRows = tastings.map((t) => ({
+  key: t.slug,
+  name: t.name,
+  price: Number(t.price.replace(/[^0-9]/g, "")),
+  min: 1,
+  max: 12,
+}));
+
+// Reasonable starting times within opening hours (16:00–22:00). resOS is the
+// source of truth — if a time is taken, the real free slots are shown back.
+const startTimes = ["16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
+
+const T = {
+  en: {
+    title: "Book a Wine & Port Tasting in Porto",
+    description:
+      "Six guided wine and Port tastings in Porto, from €45 per person, led by Portugal's first Master of Port. Check availability and book in a minute.",
+    eyebrow: "The tastings",
+    heading: "We propose",
+    sub: "From a bright Vinho Verde region to the rarest Ports — six guided flights, each crafted with passion and dedication. Choose one below, check a date, and reserve in a minute.",
+    bookTitle: "Reserve your tasting",
+    bookSub: "Check availability, then pay securely to confirm. Payment is handled by Stripe — your card details never touch our site.",
+    canceled: "Your payment was cancelled — nothing was charged. You can pick a time and try again.",
+    tasting: "Tasting", date: "Date", time: "Time", guests: "Guests", pp: "pp",
+    check: "Check availability",
+    slotsLead: "These times are still open that day — tap one:",
+    almost: "Almost there — your details",
+    fullName: "Full name", email: "Email", phone: "Phone", honeypot: "Leave this empty",
+    consentA: "I have read and accept the", privacy: "Privacy Policy", consentB: "and consent to Dogma storing my details to manage this booking.",
+    pay: "Pay & confirm",
+    hostAlt: "Vasilii Grebencea holding a bottle at the doorway of Dogma, 238",
+    hostOver: "Your host", hostTitle: "Guided by a Master of Port.",
+    hostBody: "Every flight is led by Vasilii Grebencea — the first Master of Port in Portugal and one of the country's top three sommeliers. Expect the rare bottles, the real stories, and a tasting that feels like a conversation, not a lecture.",
+    meet: "Meet Vasilii",
+    infoOver: "Good to know", infoTitle: "Before you visit",
+    info: [
+      { h: "All levels welcome", p: "From the curious first-timer to the seasoned collector. No experience needed — just an open glass." },
+      { h: "Free cancellation", p: "Plans change. Cancel up to <span class=\"info-mono\">48h</span> before your reservation, no charge." },
+      { h: "Private & group events", p: "Corporate tastings, celebrations and private flights on request — <a href=\"__CONTACTS__\">tell us what you have in mind</a>." },
+    ],
+    faqTitle: "Frequently Asked Questions",
+    faq: [
+      { q: "What should I wear?", a: "Dress comfortably; there's no dress code. We recommend avoiding strong perfumes or colognes." },
+      { q: "Do I need wine experience?", a: "No — our tastings are designed for all levels, from curious beginners to seasoned enthusiasts." },
+      { q: "Can I bring guests who don't drink?", a: "Absolutely. We offer non-alcoholic alternatives and welcome all guests regardless of whether they taste." },
+      { q: "How do I pay?", a: "Securely online via Stripe when you book. We never see or store your card details." },
+      { q: "Can I buy wine after tasting?", a: "Sometimes — we run on a small, ever-changing cellar, so take-home bottles depend on what's in stock that day. Shipping can usually be arranged. Ask us and we'll see what we can do." },
+      { q: "What's your cancellation policy?", a: "Free cancellation up to 48 hours before your reservation. Contact us for details." },
+    ],
+    js: {
+      total: "Total", guest: "guest", guests: "guests",
+      chooseDate: "Please choose a date first.",
+      checking: "Checking availability…",
+      available: "✓ That slot is available. Add your details below to confirm.",
+      unavailable: "That exact time isn't available. Try one of the open times below, or another day.",
+      checkFirst: "Please check availability first.",
+      needName: "Please enter your name.",
+      needEmail: "Please enter a valid email.",
+      needPhone: "Please enter a valid phone number.",
+      needConsent: "Please accept the Privacy Policy to continue.",
+      redirecting: "Redirecting to secure payment…",
+      taken: "Sorry — that slot was just taken. Please pick another time.",
+      pay: "Pay & confirm",
+      network: "Network error. Please try again.",
+      couldNotCheck: "Could not check availability. Please try again.",
+      couldNotPay: "Could not start checkout. Please try again.",
+      tooMany: "Too many requests — please wait a moment and try again.",
+      busy: "We're handling a lot of bookings right now — please try again in a moment.",
+      checkForm: "Please check the form and try again.",
+    },
+  },
+  pt: {
+    title: "Reservar Prova de Vinho no Porto",
+    description:
+      "Seis provas guiadas de vinho e de vinho do Porto, desde 45 € por pessoa, com o primeiro Master of Port de Portugal. Veja a disponibilidade e reserve já.",
+    eyebrow: "As provas",
+    heading: "Propomos",
+    sub: "Do luminoso Vinho Verde aos Portos mais raros — seis provas guiadas, cada uma preparada com paixão e dedicação. Escolha uma, veja a data e reserve num minuto.",
+    bookTitle: "Reserve a sua prova",
+    bookSub: "Confirme a disponibilidade e pague em segurança para garantir a reserva. O pagamento é processado pela Stripe — os dados do seu cartão nunca passam pelo nosso site.",
+    canceled: "O pagamento foi cancelado — nada foi cobrado. Pode escolher uma hora e tentar novamente.",
+    tasting: "Prova", date: "Data", time: "Hora", guests: "Pessoas", pp: "p/p",
+    check: "Ver disponibilidade",
+    slotsLead: "Estas horas ainda estão livres nesse dia — escolha uma:",
+    almost: "Falta pouco — os seus dados",
+    fullName: "Nome completo", email: "Email", phone: "Telemóvel", honeypot: "Deixe este campo vazio",
+    consentA: "Li e aceito a", privacy: "Política de Privacidade", consentB: "e autorizo o Dogma a guardar os meus dados para gerir esta reserva.",
+    pay: "Pagar e confirmar",
+    hostAlt: "Vasilii Grebencea com uma garrafa à porta do Dogma, no número 238",
+    hostOver: "O seu anfitrião", hostTitle: "Guiado por um Master of Port.",
+    hostBody: "Cada prova é conduzida por Vasilii Grebencea — o primeiro Master of Port de Portugal e um dos três melhores escanções do país. Conte com garrafas raras, histórias verdadeiras e uma prova que é uma conversa, não uma aula.",
+    meet: "Conhecer o Vasilii",
+    infoOver: "Bom saber", infoTitle: "Antes da sua visita",
+    info: [
+      { h: "Para todos os níveis", p: "Do curioso que se estreia ao colecionador experiente. Não é preciso experiência — apenas um copo aberto." },
+      { h: "Cancelamento gratuito", p: "Os planos mudam. Cancele até <span class=\"info-mono\">48h</span> antes da reserva, sem qualquer custo." },
+      { h: "Eventos privados e de grupo", p: "Provas para empresas, celebrações e provas privadas, por pedido — <a href=\"__CONTACTS__\">diga-nos o que tem em mente</a>." },
+    ],
+    faqTitle: "Perguntas frequentes",
+    faq: [
+      { q: "Como devo vestir-me?", a: "Venha à vontade; não há código de vestuário. Recomendamos que evite perfumes ou colónias intensos." },
+      { q: "Preciso de ter experiência em vinhos?", a: "Não — as nossas provas são pensadas para todos os níveis, dos principiantes curiosos aos apreciadores experientes." },
+      { q: "Posso trazer acompanhantes que não bebem?", a: "Com certeza. Temos alternativas sem álcool e recebemos todos os convidados, provem ou não." },
+      { q: "Como pago?", a: "Online e em segurança, através da Stripe, no momento da reserva. Nunca vemos nem guardamos os dados do seu cartão." },
+      { q: "Posso comprar vinho depois da prova?", a: "Por vezes — trabalhamos com uma garrafeira pequena e em constante mudança, por isso as garrafas para levar dependem do que houver nesse dia. Normalmente, é possível tratar do envio. Pergunte-nos e veremos o que podemos fazer." },
+      { q: "Qual é a política de cancelamento?", a: "Cancelamento gratuito até 48 horas antes da reserva. Contacte-nos para mais detalhes." },
+    ],
+    js: {
+      total: "Total", guest: "pessoa", guests: "pessoas",
+      chooseDate: "Escolha primeiro uma data.",
+      checking: "A verificar a disponibilidade…",
+      available: "✓ Esta hora está disponível. Preencha os seus dados abaixo para confirmar.",
+      unavailable: "Essa hora não está disponível. Experimente uma das horas livres abaixo ou outro dia.",
+      checkFirst: "Verifique primeiro a disponibilidade.",
+      needName: "Indique o seu nome.",
+      needEmail: "Indique um email válido.",
+      needPhone: "Indique um número de telefone válido.",
+      needConsent: "Aceite a Política de Privacidade para continuar.",
+      redirecting: "A redirecionar para o pagamento seguro…",
+      taken: "Lamentamos — essa hora acabou de ser reservada. Escolha outra, por favor.",
+      pay: "Pagar e confirmar",
+      network: "Erro de ligação. Tente novamente.",
+      couldNotCheck: "Não foi possível verificar a disponibilidade. Tente novamente.",
+      couldNotPay: "Não foi possível iniciar o pagamento. Tente novamente.",
+      tooMany: "Demasiados pedidos — aguarde um momento e tente novamente.",
+      busy: "Estamos a receber muitas reservas neste momento — tente novamente dentro de instantes.",
+      checkForm: "Verifique os dados do formulário e tente novamente.",
+    },
+  },
+};
+const t = T[lang];
+const contactsHref = r(lang, "contacts");
+const info = t.info.map((i) => ({ ...i, p: i.p.replace("__CONTACTS__", contactsHref) }));
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: HTML_LANG[lang],
+  mainEntity: t.faq.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+---
+
+<Base title={t.title} description={t.description} headerSolid>
+  <!-- ───────────────── Tastings hero — "We propose" ───────────────── -->
+  <section class="thero">
+    <Image
+      src={cellarBg}
+      class="thero__bg"
+      alt=""
+      aria-hidden="true"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="thero__scrim" aria-hidden="true"></div>
+    <div class="container thero__inner">
+      <p class="eyebrow"><span class="thero__rule"></span>{t.eyebrow}</p>
+      <h1 class="thero__title">{t.heading}</h1>
+      <p class="thero__sub">{t.sub}</p>
+    </div>
+  </section>
+
+  <section class="section tasting">
+    <div class="container tasting__inner">
+      <div class="propose-grid">
+        {tastings.map((tt) => <TastingCard tasting={tt} anchor />)}
+      </div>
+
+      <!-- ───────────────── Booking + payment flow ───────────────── -->
+      <div class="booking" id="book" data-lang={lang} data-i18n={JSON.stringify(t.js)}>
+        <h3 class="booking__title">{t.bookTitle}</h3>
+        <p class="booking__sub">{t.bookSub}</p>
+
+        <p class="booking__alert" id="canceled-note" hidden>{t.canceled}</p>
+
+        <!-- Step 1 — choose -->
+        <div class="booking__grid">
+          <div class="field">
+            <label for="tastingType">{t.tasting}</label>
+            <select id="tastingType">
+              {selectRows.map((row) => (
+                <option value={row.key} data-min={row.min} data-max={row.max} data-price={row.price}>
+                  {row.name} — {euro(lang, row.price)} {t.pp}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="date">{t.date}</label>
+            <input type="date" id="date" />
+          </div>
+
+          <div class="field">
+            <label for="time">{t.time}</label>
+            <select id="time">
+              {startTimes.map((tm) => <option value={tm}>{tm}</option>)}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="partySize">{t.guests}</label>
+            <input type="number" id="partySize" min="1" max="12" value="2" inputmode="numeric" />
+          </div>
+        </div>
+
+        <p class="booking__price" id="price-line" aria-live="polite"></p>
+
+        <button class="btn btn--primary" type="button" id="check-btn">{t.check}</button>
+
+        <!-- availability result -->
+        <div class="booking__status" id="avail-status" role="status" aria-live="polite" hidden></div>
+        <div class="booking__slots" id="slots" hidden>
+          <p>{t.slotsLead}</p>
+          <div class="slots__chips" id="slots-chips"></div>
+        </div>
+
+        <!-- Step 2 — contact + pay (revealed when available) -->
+        <div class="booking__contact" id="contact-step" hidden>
+          <h4>{t.almost}</h4>
+          <div class="booking__grid">
+            <div class="field field--wide">
+              <label for="name">{t.fullName}</label>
+              <input type="text" id="name" autocomplete="name" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="email">{t.email}</label>
+              <input type="email" id="email" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="phone">{t.phone}</label>
+              <input type="tel" id="phone" autocomplete="tel" />
+            </div>
+          </div>
+
+          <!-- honeypot: hidden from humans -->
+          <div class="hp" aria-hidden="true">
+            <label>{t.honeypot}<input type="text" id="botField" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="consent" />
+            <span>
+              {t.consentA} <a href={r(lang, "privacy")}>{t.privacy}</a> {t.consentB}
+            </span>
+          </label>
+
+          <button class="btn btn--primary" type="button" id="pay-btn">
+            <span id="pay-label">{t.pay}</span>
+          </button>
+          <p class="booking__error" id="form-error" role="alert" hidden></p>
+        </div>
+      </div>
+
+      <!-- ───────────────── Your host ───────────────── -->
+      <aside class="host">
+        <figure class="host__media">
+          <Image
+            src={vasiliiDoorway}
+            alt={t.hostAlt}
+            widths={[360, 640, 900]}
+            sizes="(max-width: 760px) 100vw, 40vw"
+            loading="lazy"
+          />
+        </figure>
+        <div class="host__text">
+          <p class="eyebrow eyebrow--ink">{t.hostOver}</p>
+          <h2 class="host__title">{t.hostTitle}</h2>
+          <p class="host__body">{t.hostBody}</p>
+          <a class="btn btn--primary" href={r(lang, "sommelier")}>{t.meet}</a>
+        </div>
+      </aside>
+
+      <div class="tasting__info">
+        <header class="tasting__info-head">
+          <p class="eyebrow eyebrow--ink"><span class="rule rule--brass"></span>{t.infoOver}</p>
+          <h2 class="tasting__info-title">{t.infoTitle}</h2>
+        </header>
+        <div class="info-grid">
+          {info.map((i) => (
+            <div class="info-item">
+              <h3>{i.h}</h3>
+              <p set:html={i.p} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="tasting__faq">
+        <h3>{t.faqTitle}</h3>
+        {t.faq.map((f) => (
+          <div class="faq-item">
+            <h4>{f.q}</h4>
+            <p>{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</Base>
+
+<style>
+  /* ───── Tastings hero "We propose" ───── */
+  .thero {
+    position: relative;
+    overflow: hidden;
+    background: var(--credential-bg);
+    color: var(--cream-soft);
+    padding: calc(var(--header-h) + clamp(3rem, 8vw, 6rem)) 0 clamp(3rem, 8vw, 6rem);
+  }
+  .thero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    opacity: 0.22;
+    z-index: 0;
+  }
+  .thero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(120deg, rgba(42, 10, 17, 0.94), rgba(42, 10, 17, 0.72) 60%, rgba(42, 10, 17, 0.9));
+  }
+  .thero__inner { position: relative; z-index: 2; max-width: 56ch; }
+  .thero .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .thero__rule { width: 34px; height: 1px; background: var(--brass); }
+  .thero__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 1.9rem + 3.4vw, 4.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: #f8f1e2;
+    margin: 14px 0 18px;
+  }
+  .thero__sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(17px, 1.8vw, 21px);
+    line-height: 1.5;
+    color: var(--cream-soft);
+  }
+
+  .tasting { background: var(--cream); }
+  .tasting__inner { max-width: var(--container); display: grid; gap: clamp(3rem, 6vw, 5rem); }
+
+  /* shared tasting-card grid — 3 → 2 → 1 */
+  .propose-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 28px);
+  }
+  @media (max-width: 980px) { .propose-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .propose-grid { grid-template-columns: 1fr; } }
+
+  /* keep the form + info panels readable */
+  .booking, .tasting__info, .tasting__faq { max-width: 1000px; width: 100%; margin-inline: auto; }
+
+  /* ───── Your host band ───── */
+  .host {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    max-width: var(--container);
+  }
+  .host__media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: 0 30px 70px -38px rgba(42, 10, 17, 0.5);
+  }
+  .host__media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .host__title { font-size: var(--step-2); color: var(--wine-900); margin: 0.4rem 0 0.8rem; }
+  .host__body { color: var(--ink-soft); max-width: 52ch; margin-bottom: 1.4rem; line-height: 1.7; }
+  @media (max-width: 760px) {
+    .host { grid-template-columns: 1fr; }
+    .host__media { max-width: 360px; }
+  }
+  .tasting-card .btn { margin-top: auto; align-self: flex-start; }
+
+  /* ---------- Booking ---------- */
+  .booking {
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+  .booking__title { font-size: var(--step-2); color: var(--wine-900); }
+  .booking__sub { margin-top: 0.5rem; color: var(--ink-soft); max-width: 60ch; }
+  .booking__alert {
+    margin-top: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(201, 168, 106, 0.16);
+    border: 1px solid var(--gold);
+    color: var(--wine-800);
+    font-size: var(--step--1);
+  }
+
+  .booking__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.6rem;
+  }
+  .field { display: flex; flex-direction: column; }
+  .field--wide { grid-column: 1 / -1; }
+  .field label {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--wine-900);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .field input,
+  .field select {
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: var(--step-0);
+    color: var(--ink);
+    background: var(--paper);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
+  }
+
+  .booking__price {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    color: var(--wine-800);
+    min-height: 1.4em;
+    letter-spacing: -0.01em;
+  }
+  .booking__price strong { font-weight: 600; }
+
+  #check-btn { margin-top: 1.2rem; }
+
+  .booking__status {
+    margin-top: 1.4rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 8px;
+    font-size: var(--step-0);
+    line-height: 1.5;
+  }
+  .booking__status.is-ok { background: rgba(76, 122, 76, 0.12); border: 1px solid #4c7a4c; color: #2f5e2f; }
+  .booking__status.is-no { background: rgba(160, 60, 60, 0.1); border: 1px solid #a14444; color: #7a2e2e; }
+  .booking__status.is-busy { background: var(--cream); border: 1px solid var(--line); color: var(--ink-soft); }
+
+  .booking__slots { margin-top: 1rem; }
+  .booking__slots > p { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: 0.6rem; }
+  .slots__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .slot-chip {
+    padding: 0.5em 1em;
+    border-radius: 999px;
+    border: 1px solid var(--gold);
+    background: var(--paper);
+    color: var(--wine-800);
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .slot-chip:hover { background: var(--wine-800); color: var(--cream-50); border-color: var(--wine-800); }
+
+  .booking__contact { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+  .booking__contact h4 { font-size: var(--step-1); color: var(--wine-900); margin-bottom: 0.3rem; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .consent { display: flex; align-items: flex-start; gap: 0.6rem; margin: 1.4rem 0; }
+  .consent input[type="checkbox"] { margin-top: 0.25rem; width: 1.05rem; height: 1.05rem; flex-shrink: 0; accent-color: var(--wine-800); cursor: pointer; }
+  .consent span { font-size: var(--step--1); line-height: 1.5; color: var(--ink-soft); }
+  .consent a { color: var(--wine-800); text-decoration: underline; text-underline-offset: 2px; }
+  .consent a:hover { color: var(--gold); }
+
+  #pay-btn[disabled], #check-btn[disabled] { opacity: 0.6; cursor: progress; transform: none; }
+
+  .booking__error {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(160, 60, 60, 0.1);
+    border: 1px solid #a14444;
+    color: #7a2e2e;
+    font-size: var(--step--1);
+  }
+
+  /* ---------- Info + FAQ ---------- */
+  .rule { width: 34px; height: 1px; display: inline-block; }
+  .rule--brass { background: var(--brass); }
+  .tasting__info .eyebrow { display: flex; align-items: center; gap: 14px; }
+  .tasting__info-head { margin-bottom: clamp(2rem, 4vw, 2.6rem); }
+  .tasting__info-title { font-family: var(--font-display); font-weight: 500; font-size: var(--step-2); color: var(--ink); margin-top: 0.3em; }
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.4rem); }
+  .info-item { padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .info-item h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-1);
+    line-height: 1.12;
+    color: var(--wine-900);
+    margin-bottom: 0.6rem;
+    text-wrap: balance;
+  }
+  .info-item p { color: var(--ink-soft); font-size: var(--step--1); line-height: 1.65; }
+  .info-item a { color: var(--port-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(126,34,48,0.3); transition: text-decoration-color 0.2s ease; }
+  .info-item a:hover { text-decoration-color: var(--port-deep); }
+  .info-mono { font-family: var(--font-mono); }
+
+  .tasting__faq { max-width: 800px; }
+  .tasting__faq h3 { font-size: var(--step-2); margin-bottom: 2rem; }
+  .faq-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .faq-item h4 { font-size: var(--step-0); color: var(--wine-900); margin-bottom: 0.6rem; font-weight: 600; }
+  .faq-item p { color: var(--ink-soft); line-height: 1.7; }
+
+  @media (max-width: 920px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  type AvailResp = { available?: boolean; slots?: string[]; error?: string; fields?: string[] };
+  type SessionResp = { url?: string; available?: boolean; slots?: string[]; error?: string };
+
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const typeEl = $<HTMLSelectElement>("tastingType");
+  const dateEl = $<HTMLInputElement>("date");
+  const timeEl = $<HTMLSelectElement>("time");
+  const partyEl = $<HTMLInputElement>("partySize");
+  const priceLine = $("price-line");
+  const checkBtn = $<HTMLButtonElement>("check-btn");
+  const availStatus = $("avail-status");
+  const slotsBox = $("slots");
+  const slotsChips = $("slots-chips");
+  const contactStep = $("contact-step");
+  const nameEl = $<HTMLInputElement>("name");
+  const emailEl = $<HTMLInputElement>("email");
+  const phoneEl = $<HTMLInputElement>("phone");
+  const botEl = $<HTMLInputElement>("botField");
+  const consentEl = $<HTMLInputElement>("consent");
+  const payBtn = $<HTMLButtonElement>("pay-btn");
+  const payLabel = $("pay-label");
+  const formError = $("form-error");
+
+  // Per-language strings + language, rendered server-side on #book.
+  const bookEl = $("book");
+  const LANG = bookEl.dataset.lang === "pt" ? "pt" : "en";
+  const L: Record<string, string> = JSON.parse(bookEl.dataset.i18n || "{}");
+  const money = (n: number) => (LANG === "pt" ? `${n} €` : `€${n}`);
+  // Server errors come back in English; in Portuguese map them by status.
+  function serverError(status: number, body: { error?: string }, fallback: string) {
+    if (LANG === "en") return body.error || fallback;
+    if (status === 429) return L.tooMany;
+    if (status === 503) return L.busy;
+    if (status === 400) return L.checkForm;
+    return fallback;
+  }
+
+  // date min = today (local)
+  const todayStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
+  dateEl.min = todayStr;
+
+  let confirmedAvailable = false;
+
+  function selectedOption() {
+    return typeEl.selectedOptions[0];
+  }
+  function updatePartyBounds() {
+    const opt = selectedOption();
+    const min = Number(opt.dataset.min || "1");
+    const max = Number(opt.dataset.max || "12");
+    partyEl.min = String(min);
+    partyEl.max = String(max);
+    if (Number(partyEl.value) < min) partyEl.value = String(min);
+    if (Number(partyEl.value) > max) partyEl.value = String(max);
+    updatePrice();
+  }
+  function updatePrice() {
+    const price = Number(selectedOption().dataset.price || "0");
+    const people = Math.max(1, Number(partyEl.value) || 0);
+    const total = price * people;
+    priceLine.innerHTML = `${L.total}: <strong>${money(total)}</strong> &nbsp;·&nbsp; ${money(price)} × ${people} ${people > 1 ? L.guests : L.guest}`;
+  }
+
+  function resetAvailability() {
+    confirmedAvailable = false;
+    contactStep.hidden = true;
+    slotsBox.hidden = true;
+    availStatus.hidden = true;
+    availStatus.className = "booking__status";
+  }
+
+  function setStatus(kind: "ok" | "no" | "busy", html: string) {
+    availStatus.hidden = false;
+    availStatus.className = `booking__status is-${kind}`;
+    availStatus.innerHTML = html;
+  }
+
+  function payload(extra: Record<string, unknown> = {}) {
+    return {
+      tastingType: typeEl.value,
+      date: dateEl.value,
+      time: timeEl.value,
+      partySize: Number(partyEl.value),
+      botField: botEl.value,
+      lang: LANG,
+      ...extra,
+    };
+  }
+
+  async function postJSON(url: string, data: unknown) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    let body: any = {};
+    try { body = await res.json(); } catch {}
+    return { ok: res.ok, status: res.status, body };
+  }
+
+  function renderSlots(slots: string[]) {
+    if (!slots || !slots.length) { slotsBox.hidden = true; return; }
+    slotsChips.innerHTML = "";
+    for (const s of slots) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "slot-chip";
+      b.textContent = s;
+      b.addEventListener("click", () => {
+        // ensure the option exists, then select + re-check
+        if (![...timeEl.options].some((o) => o.value === s)) {
+          const o = document.createElement("option");
+          o.value = s; o.textContent = s; timeEl.appendChild(o);
+        }
+        timeEl.value = s;
+        checkAvailability();
+      });
+      slotsChips.appendChild(b);
+    }
+    slotsBox.hidden = false;
+  }
+
+  async function checkAvailability() {
+    if (!dateEl.value) { setStatus("no", L.chooseDate); return; }
+    resetAvailability();
+    checkBtn.disabled = true;
+    setStatus("busy", L.checking);
+    try {
+      const { ok, status, body } = await postJSON("/api/check-availability", payload()) as { ok: boolean; status: number; body: AvailResp };
+      if (!ok) {
+        setStatus("no", serverError(status, body, L.couldNotCheck));
+        return;
+      }
+      if (body.available) {
+        confirmedAvailable = true;
+        setStatus("ok", L.available);
+        contactStep.hidden = false;
+        contactStep.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        setStatus("no", L.unavailable);
+        renderSlots(body.slots || []);
+      }
+    } catch {
+      setStatus("no", L.network);
+    } finally {
+      checkBtn.disabled = false;
+    }
+  }
+
+  function showError(msg: string) {
+    formError.hidden = false;
+    formError.textContent = msg;
+  }
+
+  async function pay() {
+    formError.hidden = true;
+    if (!confirmedAvailable) { showError(L.checkFirst); return; }
+    if (!nameEl.value.trim()) return showError(L.needName);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) return showError(L.needEmail);
+    if (phoneEl.value.replace(/[^\d]/g, "").length < 6) return showError(L.needPhone);
+    if (!consentEl.checked) return showError(L.needConsent);
+
+    payBtn.disabled = true;
+    payLabel.textContent = L.redirecting;
+    try {
+      const { status, body } = await postJSON("/api/create-checkout-session", payload({
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        phone: phoneEl.value.trim(),
+        consent: consentEl.checked,
+      })) as { status: number; body: SessionResp };
+
+      if (body.url) { window.location.href = body.url; return; }
+      if (body.available === false) {
+        setStatus("no", L.taken);
+        renderSlots(body.slots || []);
+        contactStep.hidden = true;
+        confirmedAvailable = false;
+        return;
+      }
+      showError(serverError(status, body, L.couldNotPay));
+    } catch {
+      showError(L.network);
+    } finally {
+      payBtn.disabled = false;
+      payLabel.textContent = L.pay;
+    }
+  }
+
+  // wire up
+  typeEl.addEventListener("change", () => { updatePartyBounds(); resetAvailability(); });
+  partyEl.addEventListener("input", () => { updatePrice(); resetAvailability(); });
+  [dateEl, timeEl].forEach((el) => el.addEventListener("change", resetAvailability));
+  checkBtn.addEventListener("click", checkAvailability);
+  payBtn.addEventListener("click", pay);
+
+  // Each tasting card is a whole-card <a href="/bookatasting/?tasting=slug">.
+  // On this page we intercept it to preselect the form instead of reloading.
+  function preselect(slug: string | null | undefined, scroll = true) {
+    if (!slug) return;
+    const opt = [...typeEl.options].find((o) => o.value === slug);
+    if (!opt) return;
+    typeEl.value = slug;
+    updatePartyBounds();
+    resetAvailability();
+    if (scroll) document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  document.querySelectorAll<HTMLAnchorElement>("a.tcard").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      preselect(card.dataset.tasting);
+    });
+  });
+
+  // Deep-link: /bookatasting?tasting=<slug> (from Home "We propose") preselects.
+  // setTimeout(0) defers scroll to after the current task so layout is settled.
+  // "instant" avoids mobile smooth-scroll timing issues.
+  const wantedTasting = new URLSearchParams(location.search).get("tasting");
+  if (wantedTasting) {
+    preselect(wantedTasting, false);
+    setTimeout(() => {
+      const el = document.getElementById("book");
+      if (!el) return;
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 80;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - headerH, behavior: "instant" });
+    }, 0);
+  }
+
+  // returning from a cancelled Stripe checkout
+  if (new URLSearchParams(location.search).get("canceled") === "1") {
+    $("canceled-note").hidden = false;
+  }
+
+  updatePartyBounds();
+</script>

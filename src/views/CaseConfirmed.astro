@@ -1,0 +1,54 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+import { langFromPath, r } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const T = {
+  en: {
+    title: "Order confirmed", description: "Your Signature Case order at Dogma Wine Bar is confirmed.",
+    eyebrow: "Payment received", heading: "Your case is on its way.",
+    lead: "Thank you — your payment went through. Vasilii will personally curate your selection and reach out within 2 business days to confirm the wines and shipping details.",
+    metaA: "Questions or changes? Reach us at", metaB: "or call",
+    home: "Back to home", again: "Order another case",
+  },
+  pt: {
+    title: "Encomenda confirmada", description: "A sua encomenda Signature Case no Dogma Wine Bar está confirmada.",
+    eyebrow: "Pagamento recebido", heading: "A sua caixa está a caminho.",
+    lead: "Obrigado — o pagamento foi concluído. O Vasilii vai escolher pessoalmente a sua seleção e contactá-lo no prazo de 2 dias úteis para confirmar os vinhos e os detalhes do envio.",
+    metaA: "Dúvidas ou alterações? Escreva-nos para", metaB: "ou ligue para o",
+    home: "Voltar ao início", again: "Encomendar outra caixa",
+  },
+};
+const t = T[lang];
+---
+
+<Base title={t.title} description={t.description} headerSolid noindex>
+  <PageHeader eyebrow={t.eyebrow} title={t.heading} />
+
+  <section class="section confirmed">
+    <div class="container confirmed__inner">
+      <p class="lead">{t.lead}</p>
+      <p class="confirmed__meta">
+        {t.metaA} <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> {t.metaB}
+        <a href={site.contact.phoneHref}>{site.contact.phone}</a>.
+      </p>
+      <div class="confirmed__cta">
+        <a class="btn btn--primary" href={r(lang, "home")}>{t.home}</a>
+        <a class="btn btn--ghost" href={r(lang, "cases")}>{t.again}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .confirmed { background: var(--cream-50); }
+  .confirmed__inner { max-width: 640px; }
+  .confirmed .lead { color: var(--ink); line-height: 1.75; }
+  .confirmed__meta { margin-top: 1.2rem; color: var(--ink-soft); }
+  .confirmed__meta a { color: var(--wine-800); border-bottom: 1px solid var(--gold-300); padding-bottom: 1px; }
+  .confirmed__meta a:hover { color: var(--gold); }
+  .confirmed__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.2rem; }
+  .confirmed__cta .btn--ghost { color: var(--wine-800); }
+</style>

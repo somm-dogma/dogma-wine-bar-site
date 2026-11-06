@@ -1,0 +1,190 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+import { langFromPath } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const T = {
+  en: {
+    title: "Privacy Policy",
+    description: "How Dogma Wine Bar handles your personal data, booking information, and your rights under GDPR — plain language, no legalese.",
+    updated: "Last updated: June 2026",
+    sections: [
+      { h: "Introduction", p: ["At Dogma Wine Bar (\"we,\" \"us,\" or \"our\"), we respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, disclose, and safeguard your information."] },
+      { h: "Information We Collect", p: ["We may collect information about you in the following ways:"], li: [
+        "<strong>Contact forms:</strong> Name, email, phone number, and message content",
+        "<strong>Booking systems:</strong> Contact details and reservation preferences",
+        "<strong>Analytics:</strong> Browser type, IP address, pages visited (via Google Analytics)",
+        "<strong>Cookies:</strong> Technical and preference data to improve your experience",
+      ] },
+      { h: "How We Use Your Information", p: ["We use collected information for:"], li: [
+        "Processing reservations and responding to enquiries",
+        "Improving website functionality and user experience",
+        "Sending occasional updates about our events and offerings",
+        "Complying with legal obligations",
+      ] },
+      { h: "Data Security", p: ["We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security."] },
+      { h: "Your Rights", p: ["Depending on your location, you may have rights to:"], li: [
+        "Access your personal data", "Request correction of inaccurate data", "Request deletion of your data",
+        "Object to processing of your data", "Request restriction of processing", "Data portability",
+      ], after: "To exercise these rights, please contact us at" },
+      { h: "Third-Party Links", p: ["Our website may contain links to external websites. We are not responsible for the privacy practices of these third-party sites. Please review their privacy policies before submitting any personal information."] },
+      { h: "Cookies", p: ["We use cookies to enhance your browsing experience. You can control cookie preferences in your browser settings. Disabling cookies may affect website functionality."] },
+      { h: "Changes to This Policy", p: ["We may update this privacy policy from time to time. We will notify you of changes by updating the \"Last updated\" date. Continued use of the website constitutes acceptance of the updated policy."] },
+      { h: "Contact Us", p: ["If you have questions about this privacy policy or our privacy practices, please contact us:"] },
+    ],
+    rights: "All rights reserved.",
+  },
+  pt: {
+    title: "Política de Privacidade",
+    description: "Como o Dogma Wine Bar trata os seus dados pessoais e de reserva, e quais os seus direitos ao abrigo do RGPD — em linguagem clara.",
+    updated: "Última atualização: junho de 2026",
+    sections: [
+      { h: "Introdução", p: ["No Dogma Wine Bar (\"nós\"), respeitamos a sua privacidade e estamos empenhados em proteger os seus dados pessoais. Esta política de privacidade explica como recolhemos, utilizamos, divulgamos e protegemos as suas informações."] },
+      { h: "Informações que recolhemos", p: ["Podemos recolher informações sobre si das seguintes formas:"], li: [
+        "<strong>Formulários de contacto:</strong> nome, email, número de telefone e conteúdo da mensagem",
+        "<strong>Sistemas de reserva:</strong> dados de contacto e preferências de reserva",
+        "<strong>Análise de utilização:</strong> tipo de navegador, endereço IP e páginas visitadas (através do Google Analytics)",
+        "<strong>Cookies:</strong> dados técnicos e de preferências para melhorar a sua experiência",
+      ] },
+      { h: "Como utilizamos as suas informações", p: ["Utilizamos as informações recolhidas para:"], li: [
+        "Processar reservas e responder a pedidos de informação",
+        "Melhorar o funcionamento do site e a experiência de utilização",
+        "Enviar, ocasionalmente, novidades sobre os nossos eventos e propostas",
+        "Cumprir obrigações legais",
+      ] },
+      { h: "Segurança dos dados", p: ["Aplicamos medidas técnicas e organizativas adequadas para proteger os seus dados pessoais contra acesso, alteração, divulgação ou destruição não autorizados. No entanto, nenhum método de transmissão pela internet é 100% seguro, pelo que não podemos garantir uma segurança absoluta."] },
+      { h: "Os seus direitos", p: ["Consoante a sua localização, poderá ter o direito de:"], li: [
+        "Aceder aos seus dados pessoais", "Pedir a retificação de dados inexatos", "Pedir o apagamento dos seus dados",
+        "Opor-se ao tratamento dos seus dados", "Pedir a limitação do tratamento", "Solicitar a portabilidade dos dados",
+      ], after: "Para exercer estes direitos, contacte-nos através de" },
+      { h: "Ligações para sites de terceiros", p: ["O nosso site pode conter ligações para sites externos. Não somos responsáveis pelas práticas de privacidade desses sites. Consulte as respetivas políticas de privacidade antes de fornecer quaisquer dados pessoais."] },
+      { h: "Cookies", p: ["Utilizamos cookies para melhorar a sua experiência de navegação. Pode controlar as preferências de cookies nas definições do seu navegador. A desativação dos cookies pode afetar o funcionamento do site."] },
+      { h: "Alterações a esta política", p: ["Podemos atualizar esta política de privacidade periodicamente. Comunicaremos as alterações através da atualização da data de \"Última atualização\". A utilização continuada do site implica a aceitação da política atualizada."] },
+      { h: "Contacte-nos", p: ["Se tiver dúvidas sobre esta política de privacidade ou sobre as nossas práticas de privacidade, contacte-nos:"] },
+    ],
+    rights: "Todos os direitos reservados.",
+  },
+};
+const t = T[lang];
+const country = lang === "pt" ? "Portugal" : site.contact.country;
+---
+
+<Base title={t.title} description={t.description} headerSolid>
+  <PageHeader title={t.title} />
+
+  <section class="section privacy">
+    <div class="container privacy__content">
+      <div class="privacy__text">
+        <h2>{t.title}</h2>
+        <p class="last-updated">{t.updated}</p>
+
+        {t.sections.map((sec) => (
+          <>
+            <h3>{sec.h}</h3>
+            {sec.p.map((para) => <p>{para}</p>)}
+            {sec.li && <ul>{sec.li.map((item) => <li set:html={item} />)}</ul>}
+            {sec.after && (
+              <p>{sec.after} <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</p>
+            )}
+          </>
+        ))}
+        <p>
+          <strong>Dogma Wine Bar</strong><br />
+          {site.contact.address}<br />
+          {site.contact.postalCode} {site.contact.city}, {country}<br />
+          <a href={site.contact.phoneHref}>{site.contact.phone}</a><br />
+          <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+        </p>
+
+        <div class="privacy__footer">
+          <p><small>© {new Date().getFullYear()} {site.name}. {t.rights}</small></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .privacy {
+    background: var(--cream-50);
+  }
+
+  .privacy__content {
+    max-width: 800px;
+  }
+
+  .privacy__text h2 {
+    font-size: var(--step-3);
+    color: var(--wine-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy__text .last-updated {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+  }
+
+  .privacy__text h3 {
+    font-size: var(--step-1);
+    color: var(--wine-900);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .privacy__text p {
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .privacy__text ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    list-style: disc;
+  }
+
+  .privacy__text li {
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 0.6rem;
+  }
+
+  .privacy__text strong {
+    color: var(--wine-900);
+    font-weight: 600;
+  }
+
+  .privacy__text a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .privacy__text a:hover {
+    color: var(--gold-300);
+  }
+
+  .privacy__footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .privacy__footer p {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  @media (max-width: 520px) {
+    .privacy__text h3 {
+      margin-top: 1.5rem;
+    }
+  }
+</style>

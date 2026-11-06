@@ -79,7 +79,7 @@ export default async (req) => {
           `${esc(m.categoryName)} · ${esc(m.bottles)} bottles\n` +
           `📍 Destination: ${esc(m.countryCode)}\n` +
           `💶 ${total} total (wines + shipping)\n` +
-          `👤 ${esc(m.name)}\n` +
+          `👤 ${esc(m.name)}${m.lang === "pt" ? " · 🇵🇹 booked in Portuguese" : ""}\n` +
           `📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
           (m.comment ? `💬 ${esc(m.comment)}\n` : "") +
           `🔑 Stripe session: ${esc(session.id)}`
@@ -159,7 +159,7 @@ export default async (req) => {
     await notifyTelegram(
       `🍷 <b>New tasting booking</b>\n` +
         `${esc(m.label)} · ${people} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
-        `👤 ${esc(m.name)}\n📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
+        `👤 ${esc(m.name)}${m.lang === "pt" ? " · 🇵🇹 booked in Portuguese" : ""}\n📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
         `💶 ${amount} paid · resOS <code>${esc(bookingId)}</code>`
     );
     return new Response("booked", { status: 200 });
