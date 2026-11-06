@@ -15,6 +15,7 @@ import {
 } from "../lib/http.mjs";
 import { getCaseCategory, isValidBottleCount, CURRENCY } from "../lib/cases.mjs";
 import { calculateShipping } from "../lib/shipping.mjs";
+import { pickLang, stripeLocale, langPath } from "../lib/lang.mjs";
 
 const SITE = process.env.URL || "https://www.dogmawinebar.com";
 
@@ -37,6 +38,7 @@ export default async (req, context) => {
   catch { return json({ error: "Invalid request." }, { status: 400, origin }); }
 
   const { categorySlug, bottles, countryCode, name, email, phone, comment, consent, botField } = body || {};
+  const lang = pickLang(body?.lang);
 
   if (botField) return json({ error: "Invalid submission." }, { status: 400, origin });
 
@@ -72,6 +74,7 @@ export default async (req, context) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const session = await stripe.checkout.sessions.create({
+      locale: stripeLocale(lang),
       mode: "payment",
       customer_email: email.trim(),
       line_items: [
@@ -109,6 +112,7 @@ export default async (req, context) => {
         name:           name.trim(),
         phone:          phone.trim(),
         comment:        commentText,
+        lang,
       },
       payment_intent_data: {
         metadata: {
@@ -118,8 +122,8 @@ export default async (req, context) => {
           countryCode: country,
         },
       },
-      success_url: `${SITE}/case-confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${SITE}/signature-cases?canceled=1`,
+      success_url: `${SITE}${langPath(lang, "caseConfirmed")}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${SITE}${langPath(lang, "cases")}?canceled=1`,
     });
 
     return json({ url: session.url }, { origin });

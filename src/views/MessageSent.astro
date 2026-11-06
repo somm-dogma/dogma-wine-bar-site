@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+import { langFromPath, r } from "../i18n/routes";
+
+const lang = langFromPath(Astro.url.pathname);
+const T = {
+  en: {
+    title: "Message sent", description: "Thank you for contacting Dogma Wine Bar. We'll be in touch soon.",
+    eyebrow: "Thank you", heading: "Your message is on its way.",
+    lead: "Thank you for reaching out to Dogma. We’ve received your message and will get back to you, usually within 24 hours.",
+    metaA: "Can’t wait? Call us on", metaB: "during opening hours.",
+    home: "Back to home", menu: "View the menu",
+  },
+  pt: {
+    title: "Mensagem enviada", description: "Obrigado por contactar o Dogma Wine Bar. Responderemos em breve.",
+    eyebrow: "Obrigado", heading: "A sua mensagem está a caminho.",
+    lead: "Obrigado por contactar o Dogma. Recebemos a sua mensagem e respondemos, normalmente, no prazo de 24 horas.",
+    metaA: "Não pode esperar? Ligue-nos para o", metaB: "durante o horário de funcionamento.",
+    home: "Voltar ao início", menu: "Ver a carta",
+  },
+};
+const t = T[lang];
+---
+
+<Base title={t.title} description={t.description} headerSolid noindex>
+  <PageHeader eyebrow={t.eyebrow} title={t.heading} />
+
+  <section class="section thanks">
+    <div class="container thanks__inner">
+      <p class="lead">{t.lead}</p>
+      <p class="thanks__meta">
+        {t.metaA} <a href={site.contact.phoneHref}>{site.contact.phone}</a> {t.metaB}
+      </p>
+      <div class="thanks__cta">
+        <a class="btn btn--primary" href={r(lang, "home")}>{t.home}</a>
+        <a class="btn btn--ghost" href={r(lang, "menu")}>{t.menu}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    background: var(--cream-50);
+  }
+  .thanks__inner {
+    max-width: 640px;
+  }
+  .thanks .lead {
+    color: var(--ink);
+  }
+  .thanks__meta {
+    margin-top: 1.2rem;
+    color: var(--ink-soft);
+  }
+  .thanks__meta a {
+    color: var(--wine-800);
+    border-bottom: 1px solid var(--gold-300);
+    padding-bottom: 1px;
+  }
+  .thanks__meta a:hover {
+    color: var(--gold);
+  }
+  .thanks__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.2rem;
+  }
+  .thanks__cta .btn--ghost {
+    color: var(--wine-800);
+  }
+</style>

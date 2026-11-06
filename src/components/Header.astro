@@ -1,5 +1,7 @@
 ---
-import { site, nav } from "../data/site";
+import { navKeys } from "../data/site";
+import { langFromPath, alternatesOf, r, routes, type RouteKey } from "../i18n/routes";
+import { ui } from "../i18n/ui";
 import { Image } from "astro:assets";
 import dogmaLogo from "../assets/images/logo-medallion.jpg";
 
@@ -8,21 +10,49 @@ interface Props {
 }
 const { solid = false } = Astro.props;
 const currentPath = Astro.url.pathname;
+const lang = langFromPath(currentPath);
+const t = ui[lang];
+const nav = navKeys.map((key) => ({ label: t.nav[key], href: r(lang, key as RouteKey) }));
+// The switch always lands on the same page in the other language; pages
+// without a twin (404) fall back to that language's home.
+const twin = alternatesOf(currentPath) ?? routes.home;
+const langs = [
+  { code: "en", short: "en", name: "English", href: twin.en },
+  { code: "pt", short: "pt", name: "Português", href: twin.pt },
+] as const;
 ---
 
 <header class:list={["site-header", { "is-solid": solid }]} id="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="Dogma — Wine Bar &amp; Tasting, home">
+    <a class="brand" href={r(lang, "home")} aria-label={t.homeLabel}>
       <Image src={dogmaLogo} alt="Dogma — Wine Bar &amp; Tasting" class="brand__logo" widths={[120, 200, 280]} sizes="72px" loading="eager" />
     </a>
 
-    <a class="btn btn--cream header-book" href={site.booking.tasting}>Book</a>
+    <a class="btn btn--cream header-book" href={r(lang, "tastings")}>{t.bookShort}</a>
 
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+    <nav class="lang" aria-label={t.langSwitch}>
+      {langs.map((l, i) => (
+        <>
+          {i > 0 && <span class="lang__sep" aria-hidden="true"></span>}
+          <a
+            class:list={["lang__opt", { "is-active": l.code === lang }]}
+            href={l.href}
+            hreflang={l.code === "pt" ? "pt-PT" : "en"}
+            lang={l.code === "pt" ? "pt-PT" : "en"}
+            title={l.name}
+            aria-label={l.name}
+            aria-current={l.code === lang ? "true" : undefined}
+            data-lang={l.code}
+          >{l.short}</a>
+        </>
+      ))}
+    </nav>
+
+    <button class="nav-toggle" aria-label={t.toggleMenu} aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span><span></span>
     </button>
 
-    <nav class="nav" id="primary-nav" aria-label="Main navigation">
+    <nav class="nav" id="primary-nav" aria-label={t.mainNav}>
       {nav.map((item) => {
         const isActive = currentPath === item.href || (currentPath === "/" && item.href === "/");
         return (
@@ -35,7 +65,7 @@ const currentPath = Astro.url.pathname;
           </a>
         );
       })}
-      <a class="btn btn--cream nav__cta" href={site.booking.tasting}>Book a tasting</a>
+      <a class="btn btn--cream nav__cta" href={r(lang, "tastings")}>{t.bookTasting}</a>
     </nav>
   </div>
 </header>
@@ -70,6 +100,9 @@ const currentPath = Astro.url.pathname;
     opacity: 0;
   }
 
+  /* The header spans the gallery width (1440px), not the 1180px text column:
+     six links + CTA + language switch need ~1230px in Portuguese. */
+  .header-inner.container { max-width: var(--container-gallery); }
   .header-inner {
     display: flex;
     align-items: center;
@@ -109,6 +142,7 @@ const currentPath = Astro.url.pathname;
     letter-spacing: 0.13em;
     text-transform: uppercase;
     font-weight: 500;
+    white-space: nowrap;
     opacity: 0.92;
     transition: color 0.2s ease, opacity 0.2s ease;
   }
@@ -131,14 +165,77 @@ const currentPath = Astro.url.pathname;
 
   .nav-toggle { display: none; }
 
+  /* ── Language switch — an engraved wine-label cartouche ──────────────
+     Double gold hairline (border + offset outline), small-caps Playfair,
+     a gold lozenge between the two languages, and a fine gold underline
+     under the active one. Sits last on desktop, beside "Book" on mobile. */
+  .lang {
+    order: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.28rem 0.7rem 0.34rem;
+    border: 1px solid rgba(201, 168, 106, 0.55);
+    outline: 1px solid rgba(201, 168, 106, 0.28);
+    outline-offset: 2px;
+    border-radius: 2px;
+    font-family: var(--font-display);
+    font-variant: small-caps;
+    font-size: 1.02rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    flex-shrink: 0;
+  }
+  .lang__opt {
+    position: relative;
+    padding: 0.2rem 0 0.25rem 0.16em; /* left pad balances letter-spacing */
+    color: var(--cream-soft);
+    opacity: 0.72;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .lang__opt:hover { color: var(--gold-300); opacity: 1; }
+  .lang__opt.is-active { color: var(--cream-50); opacity: 1; }
+  .lang__opt.is-active::after {
+    content: "";
+    position: absolute;
+    left: 18%;
+    right: 10%;
+    bottom: -1px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .lang__opt:focus-visible { outline: 1px solid var(--gold-300); outline-offset: 3px; }
+  .lang__sep {
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.85;
+  }
+
   /* Compact always-visible booking CTA, mobile only */
   .header-book { display: none; }
 
-  @media (max-width: 880px) {
+  /* Mid-width desktops: the full nav (6 links + CTA + language switch) only
+     fits on one line from ~1240px — tighten its rhythm a little up to 1400. */
+  @media (min-width: 1241px) and (max-width: 1400px) {
+    .header-inner { gap: 1rem; }
+    .nav { gap: 1.1rem; }
+    .nav__link { letter-spacing: 0.1em; }
+  }
+
+  /* Compact header (logo · language · Book · menu) below 1240px. The full nav
+     overflowed between 881–1239px (and wraps "Signature Cases" in English),
+     more so with the longer Portuguese labels. */
+  @media (max-width: 1240px) {
+    .brand { order: 0; }
+    .lang { order: 1; margin-left: auto; padding: 0.24rem 0.55rem 0.3rem; gap: 0.45rem; font-size: 0.98rem; }
+    .header-book { order: 2; flex-shrink: 0; }
+    .nav-toggle { order: 3; flex-shrink: 0; }
     .header-book {
       display: inline-flex;
-      margin-left: auto;
-      margin-right: 0.6rem;
+      margin-left: 0.7rem;
+      margin-right: 0.4rem;
       padding: 0.6em 1.2em;
       min-height: 44px;
       font-size: var(--step--1);
@@ -185,6 +282,18 @@ const currentPath = Astro.url.pathname;
     .site-header.is-open { background: var(--wine-900); }
     .site-header.is-open .nav { transform: none; opacity: 1; visibility: visible; }
     .nav__cta { margin-left: 0; margin-top: 0.4rem; }
+  }
+
+  /* Phones: logo · EN◆PT · Reservar · ☰ must share ~335px. */
+  @media (max-width: 480px) {
+    .header-inner { gap: 0.55rem; }
+    .header-book { margin-left: 0; margin-right: 0; padding: 0.6em 1em; letter-spacing: 0.08em; }
+    .lang { padding: 0.2rem 0.45rem 0.26rem; gap: 0.38rem; font-size: 0.92rem; letter-spacing: 0.12em; }
+    .nav-toggle { width: 40px; margin-right: -8px; }
+  }
+  @media (max-width: 350px) {
+    .brand { width: 46px; }
+    .header-book { padding: 0.55em 0.8em; }
   }
 </style>
 

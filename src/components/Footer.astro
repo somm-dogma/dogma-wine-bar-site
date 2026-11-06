@@ -2,6 +2,12 @@
 /* Shared footer — the merged "Visit" + contact block used on every page
    (the Home page uses this same component, no separate inline footer). */
 import { site } from "../data/site";
+import { langFromPath, r } from "../i18n/routes";
+import { ui } from "../i18n/ui";
+
+const lang = langFromPath(Astro.url.pathname);
+const t = ui[lang];
+const f = t.footer;
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   `${site.contact.address}, ${site.contact.postalCode} ${site.contact.city}`
@@ -11,27 +17,27 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 <footer class="visit">
   <div class="wrap visit__inner">
     <div class="visit__lead">
-      <p class="overline overline--center"><span class="rule"></span>Visit<span class="rule"></span></p>
-      <h2 class="visit__title">Pull up a seat.</h2>
-      <p class="visit__tag">A place where the art of great winemakers fills glasses.</p>
+      <p class="overline overline--center"><span class="rule"></span>{f.overline}<span class="rule"></span></p>
+      <h2 class="visit__title">{f.title}</h2>
+      <p class="visit__tag">{f.tag}</p>
       <div class="visit__cta">
-        <a class="btn btn--cream" href={site.booking.table} target="_blank" rel="noopener">Book a table</a>
-        <a class="btn btn--ghost" href={site.booking.tasting}>Book a tasting</a>
-        <a class="btn btn--ghost" href="/menu/">Menu</a>
+        <a class="btn btn--cream" href={site.booking.table} target="_blank" rel="noopener">{t.bookTable}</a>
+        <a class="btn btn--ghost" href={r(lang, "tastings")}>{t.bookTasting}</a>
+        <a class="btn btn--ghost" href={r(lang, "menu")}>{t.menu}</a>
       </div>
     </div>
 
     <div class="visit__grid">
       <div class="visit__col">
-        <h3 class="visit__h">Services</h3>
+        <h3 class="visit__h">{f.services}</h3>
         <ul class="visit__list">
-          <li><a href="/menu/">Menu</a></li>
-          <li><a href={site.booking.tasting}>Degustation</a></li>
-          <li><a href="/signature-cases/">Wine Boxes</a></li>
+          <li><a href={r(lang, "menu")}>{t.menu}</a></li>
+          <li><a href={r(lang, "tastings")}>{f.degustation}</a></li>
+          <li><a href={r(lang, "cases")}>{f.wineBoxes}</a></li>
         </ul>
       </div>
       <div class="visit__col">
-        <h3 class="visit__h">Contacts</h3>
+        <h3 class="visit__h">{f.contacts}</h3>
         <ul class="visit__list">
           <li>
             <a href={mapsHref} target="_blank" rel="noopener">
@@ -43,17 +49,21 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
         </ul>
       </div>
       <div class="visit__col">
-        <h3 class="visit__h">Company</h3>
+        <h3 class="visit__h">{f.company}</h3>
         <ul class="visit__list">
-          <li><a href="/#place">About</a></li>
-          <li><a href="/sommelier/">Sommelier</a></li>
+          <li><a href={`${r(lang, "home")}#place`}>{f.about}</a></li>
+          <li><a href={r(lang, "sommelier")}>{f.sommelier}</a></li>
+          <li><a href={r(lang, "masterOfPort")}>Master of Port</a></li>
         </ul>
       </div>
     </div>
 
     <div class="visit__bottom">
-      <p class="visit__copy">&copy; {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-      <a class="visit__privacy" href="/privacy/">Privacy Policy</a>
+      <p class="visit__copy">&copy; {new Date().getFullYear()} {site.name}. {f.rights}</p>
+      <span class="visit__legal">
+        <a class="visit__privacy" href={r(lang, "privacy")}>{f.privacy}</a>
+        <a class="visit__privacy" href={r(lang, "cookies")}>{f.cookies}</a>
+      </span>
     </div>
   </div>
 </footer>
@@ -136,6 +146,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
   .visit__copy { margin: 0; }
   .visit__privacy { color: var(--cream-soft); transition: color var(--dur-fast) var(--ease-out); }
   .visit__privacy:hover { color: #f8f1e2; }
+  .visit__legal { display: inline-flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; justify-content: center; }
 
   @media (max-width: 760px) {
     .visit__grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }

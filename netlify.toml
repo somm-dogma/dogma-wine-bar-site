@@ -59,7 +59,11 @@ force = true
 # (verified live), so path-only rules cover every variant Search Console listed.
 # Targets keep their trailing slash to avoid a second 301 hop.
 
-# Old home + language roots → the real home.
+# Old home + language roots → the real home. The old Portuguese-language
+# Tilda URLs now point at their real Portuguese equivalents under /pt/
+# (the bilingual site launched 2026-11). NOTE: there is deliberately NO
+# rule for "/pt" any more — /pt/ is a real page now, and a forced "/pt"
+# rule would also swallow "/pt/" and bounce every PT visitor to English.
 [[redirects]]
 from = "/homepage"
 to = "/"
@@ -68,18 +72,12 @@ force = true
 
 [[redirects]]
 from = "/principal"
-to = "/"
+to = "/pt/"
 status = 301
 force = true
 
 [[redirects]]
 from = "/ru"
-to = "/"
-status = 301
-force = true
-
-[[redirects]]
-from = "/pt"
 to = "/"
 status = 301
 force = true
@@ -93,7 +91,7 @@ force = true
 
 [[redirects]]
 from = "/provas"
-to = "/bookatasting/"
+to = "/pt/provas/"
 status = 301
 force = true
 
@@ -105,13 +103,13 @@ force = true
 
 [[redirects]]
 from = "/enoturismo"
-to = "/bookatasting/"
+to = "/pt/provas/"
 status = 301
 force = true
 
 [[redirects]]
 from = "/eventos"
-to = "/bookatasting/"
+to = "/pt/provas/"
 status = 301
 force = true
 
@@ -130,7 +128,7 @@ force = true
 
 [[redirects]]
 from = "/wine-boxes-pt"
-to = "/signature-cases/"
+to = "/pt/caixas-de-vinho/"
 status = 301
 force = true
 
@@ -179,7 +177,7 @@ force = true
 
 [[redirects]]
 from = "/blog-pt/o_escancao"
-to = "/sommelier/"
+to = "/pt/escancao/"
 status = 301
 force = true
 
@@ -281,6 +279,13 @@ from = "/api/create-case-checkout"
 to = "/.netlify/functions/create-case-checkout"
 status = 200
 force = true
+
+# Portuguese 404 for anything unmatched under /pt/ (not forced: only applies
+# when no real page exists). Must sit above the generic catch-all.
+[[redirects]]
+from = "/pt/*"
+to = "/pt/404/"
+status = 404
 
 # Serve the custom 404 page with a proper 404 status for any unmatched URL.
 [[redirects]]

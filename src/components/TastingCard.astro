@@ -4,7 +4,9 @@
    to /bookatasting?tasting=<slug>; on the booking page a small script
    intercepts it to preselect the on-page form (see bookatasting.astro). */
 import { Image } from "astro:assets";
-import type { Tasting } from "../data/tastings";
+import { localizeTasting, type Tasting } from "../data/tastings";
+import { langFromPath, r } from "../i18n/routes";
+import { ui, euro } from "../i18n/ui";
 
 interface Props {
   tasting: Tasting;
@@ -12,12 +14,14 @@ interface Props {
   anchor?: boolean;
 }
 const { tasting, anchor = false } = Astro.props;
-const { slug, name, category, description, includes, price, duration, image, alt } = tasting;
+const lang = langFromPath(Astro.url.pathname);
+const t = ui[lang].card;
+const { slug, name, category, description, includes, price, duration, image, alt } = localizeTasting(tasting, lang);
 ---
 
 <a
   class="tcard"
-  href={`/bookatasting?tasting=${slug}`}
+  href={`${r(lang, "tastings")}?tasting=${slug}`}
   id={anchor ? slug : undefined}
   data-tasting={slug}
 >
@@ -37,12 +41,12 @@ const { slug, name, category, description, includes, price, duration, image, alt
     <span class="tcard__includes">{includes}</span>
     <span class="tcard__meta">
       <span class="tcard__price-wrap">
-        <span class="tcard__price">{price}</span>
-        <span class="tcard__pp">per person</span>
+        <span class="tcard__price">{euro(lang, price)}</span>
+        <span class="tcard__pp">{t.perPerson}</span>
       </span>
       <span class="tcard__dur">{duration}</span>
     </span>
-    <span class="tcard__reserve">Reserve</span>
+    <span class="tcard__reserve">{t.reserve}</span>
   </span>
 </a>
 

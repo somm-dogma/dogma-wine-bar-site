@@ -7,17 +7,20 @@
    - When consent is granted, loadAnalytics() runs — drop your GA4/gtag snippet
      there and nothing tracks until then.
    - Re-openable from the Cookie Policy page via the `dogma:open-consent` event. */
+import { langFromPath, r } from "../i18n/routes";
+import { ui } from "../i18n/ui";
+const lang = langFromPath(Astro.url.pathname);
+const c = ui[lang].cookie;
 ---
 
-<div id="cookie-consent" class="cc" role="region" aria-label="Cookie consent" hidden>
+<div id="cookie-consent" class="cc" role="region" aria-label={c.region} hidden>
   <div class="cc__inner">
     <p class="cc__text">
-      We use essential cookies to make this site work. With your consent we’d also use analytics
-      cookies to understand how it’s used. Read our <a href="/cookies/">Cookie Policy</a>.
+      {c.text} <a href={r(lang, "cookies")}>{c.policy}</a>.
     </p>
     <div class="cc__actions">
-      <button type="button" class="cc__btn cc__btn--accept" data-cc="accept">Accept</button>
-      <button type="button" class="cc__btn cc__btn--decline" data-cc="decline">Decline</button>
+      <button type="button" class="cc__btn cc__btn--accept" data-cc="accept">{c.accept}</button>
+      <button type="button" class="cc__btn cc__btn--decline" data-cc="decline">{c.decline}</button>
     </div>
   </div>
 </div>

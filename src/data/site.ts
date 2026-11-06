@@ -8,7 +8,7 @@ export const site = {
   shortName: "Dogma",
   tagline: "A place where the art of great winemakers fills glasses",
   description:
-    "Discover Dogma — a wine paradise in Porto's historic centre. Tastings, Port wine, and a curated cellar guided by Portugal's first Master of Port.",
+    "Wine and Port tastings in Porto's historic centre, led by Portugal's first Master of Port. Six guided flights from €45 — book online in a minute.",
   url: "https://dogmawinebar.com",
   established: "2023",
 
@@ -60,12 +60,7 @@ export const site = {
   },
 };
 
-// Main navigation — only real, live destinations (no "coming soon")
-export const nav = [
-  { label: "Tastings", href: "/bookatasting/" },
-  { label: "Signature Cases", href: "/signature-cases/" },
-  { label: "Menu", href: "/menu/" },
-  { label: "Services", href: "/services/" },
-  { label: "Sommelier", href: "/sommelier/" },
-  { label: "Contacts", href: "/contacts/" },
-];
+// Main navigation — only real, live destinations (no "coming soon").
+// Labels and paths are per language: see src/i18n/ui.ts (nav) and
+// src/i18n/routes.ts. Order here is the order in the header.
+export const navKeys = ["tastings", "cases", "menu", "services", "sommelier", "contacts"] as const;
