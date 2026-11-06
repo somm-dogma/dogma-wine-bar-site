@@ -10,6 +10,7 @@
 export const TASTINGS = {
   "vinho-verde": {
     label: "Vinho Verde, Beyond Expectations",
+    labelPt: "Vinho Verde, Além das Expectativas",
     pricePerPerson: 51, // EUR
     minPeople: 1,
     maxPeople: 12,
@@ -17,6 +18,7 @@ export const TASTINGS = {
   },
   "top-wines": {
     label: "TOP Wine Tasting",
+    labelPt: "Prova TOP de Vinhos",
     pricePerPerson: 75,
     minPeople: 1,
     maxPeople: 12,
@@ -24,6 +26,7 @@ export const TASTINGS = {
   },
   icons: {
     label: "Icons of Portugal",
+    labelPt: "Ícones de Portugal",
     pricePerPerson: 99,
     minPeople: 1,
     maxPeople: 12,
@@ -31,6 +34,7 @@ export const TASTINGS = {
   },
   "port-intro": {
     label: "Port Introduction",
+    labelPt: "Introdução ao Vinho do Porto",
     pricePerPerson: 45,
     minPeople: 1,
     maxPeople: 12,
@@ -38,6 +42,7 @@ export const TASTINGS = {
   },
   "port-top": {
     label: "TOP Port Selection",
+    labelPt: "Seleção TOP de Vinho do Porto",
     pricePerPerson: 72,
     minPeople: 1,
     maxPeople: 12,
@@ -45,6 +50,7 @@ export const TASTINGS = {
   },
   "dreamy-ports": {
     label: "Ports from Heaven",
+    labelPt: "Portos Divinos",
     pricePerPerson: 210,
     minPeople: 1,
     maxPeople: 12,

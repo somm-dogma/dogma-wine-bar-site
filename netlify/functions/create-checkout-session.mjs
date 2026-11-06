@@ -96,7 +96,9 @@ export default async (req, context) => {
             currency: CURRENCY,
             unit_amount: unitAmount,
             product_data: {
-              name: `${tasting.label} — Dogma Wine Bar`,
+              // Guest-facing name in their language; metadata.label below stays
+              // English so resOS notes and Telegram alerts are consistent.
+              name: `${lang === "pt" && tasting.labelPt ? tasting.labelPt : tasting.label} — Dogma Wine Bar`,
               description:
                 lang === "pt"
                   ? `${date} às ${time} · ${people} pessoa(s)`

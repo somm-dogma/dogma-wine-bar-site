@@ -31,8 +31,9 @@ export interface Tasting {
   duration: string;
   image: ImageMetadata;
   alt: string;
-  /** European-Portuguese copy. Names stay as set by Vasilii (fixed). */
-  pt: Pick<Tasting, "category" | "description" | "includes" | "alt">;
+  /** European-Portuguese copy, including the PT name (approved by Vasilii,
+   *  2026-11). Must match `labelPt` in netlify/lib/tastings.mjs. */
+  pt: Pick<Tasting, "name" | "category" | "description" | "includes" | "alt">;
 }
 
 /** The tasting with its copy in the requested language. */
@@ -53,6 +54,7 @@ export const tastings: Tasting[] = [
     image: imgVinhoVerde,
     alt: "Map of the Vinho Verde sub-regions of northern Portugal",
     pt: {
+      name: "Vinho Verde, Além das Expectativas",
       category: "Branco · Vinho Verde",
       description: "Muitas vezes confundido com um só estilo, o Vinho Verde é, na verdade, uma região diversa — fresca, vibrante e surpreendentemente variada.",
       includes: "Cinco amostras: espumante, dois brancos, dois tintos. Servidas com petiscos à nossa escolha.",
@@ -71,6 +73,7 @@ export const tastings: Tasting[] = [
     image: imgTopWine,
     alt: "A grid of wine corks from estates around the world on black",
     pt: {
+      name: "Prova TOP de Vinhos",
       category: "Prova de vinhos",
       description: "Portugal produz hoje alguns dos vinhos mais entusiasmantes da Europa. Esta prova é uma seleção cuidada de garrafas verdadeiramente excecionais.",
       includes: "Quatro amostras: dois brancos, dois tintos. Servidas com petiscos à nossa escolha.",
@@ -89,6 +92,7 @@ export const tastings: Tasting[] = [
     image: imgIcons,
     alt: "Bronze statue of a Portuguese helmsman against the sky in Porto",
     pt: {
+      name: "Ícones de Portugal",
       category: "Prova de vinhos",
       description: "Descubra os vinhos que construíram a reputação de Portugal — ousados, expressivos e enraizados em séculos de tradição vinícola.",
       includes: "Quatro amostras: dois brancos, dois tintos. Servidas com petiscos à nossa escolha.",
@@ -107,6 +111,7 @@ export const tastings: Tasting[] = [
     image: imgPortIntro,
     alt: "Stained-glass window glowing in a dark Porto wine lodge",
     pt: {
+      name: "Introdução ao Vinho do Porto",
       category: "Vinho do Porto",
       description: "Uma viagem guiada pelos estilos essenciais do vinho do Porto — dos brancos secos aos tawnies envelhecidos e aos rubies encorpados. Pensada para quem descobre o Porto pela primeira vez, com contexto, contraste e sem atalhos.",
       includes: "Três amostras, servidas com a nossa seleção de queijos.",
@@ -125,6 +130,7 @@ export const tastings: Tasting[] = [
     image: imgTopPort,
     alt: "Port pipes aging under a lantern in a dark cellar, black and white",
     pt: {
+      name: "Seleção TOP de Vinho do Porto",
       category: "Vinho do Porto",
       description: "Há Portos a que volto sempre. Não por serem caros — mas porque dizem alguma coisa. Esta é uma pequena seleção de garrafas que conquistaram um lugar permanente na minha lista. Venha prová-las comigo.",
       includes: "Três amostras, servidas com a nossa seleção de queijos.",
@@ -143,6 +149,7 @@ export const tastings: Tasting[] = [
     image: imgDreamyPorts,
     alt: "Forrester's 1843 engraved Map of the Wine District of the Alto-Douro",
     pt: {
+      name: "Portos Divinos",
       category: "Vinho do Porto · raro",
       description: "Uma prova extraordinária de Portos verdadeiramente excecionais, escolhidos e apresentados pessoalmente pelo primeiro Master of Port de Portugal.",
       includes: "Três amostras, servidas com a nossa seleção de queijos.",

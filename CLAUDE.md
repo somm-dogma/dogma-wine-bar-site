@@ -113,7 +113,8 @@ and `src/pages/pt/<slug>.astro` are 3-line wrappers. Language is derived from th
   = add a route entry + both wrappers.** Never hardcode `/menu/`-style hrefs in views.
 - `src/i18n/ui.ts` — shared UI copy (nav, footer, cookie banner, card labels, hours, `euro()` format).
 - Data files carry a `pt:` block (`tastings.ts`, `services.ts`, `cases.ts`) + `localizeX()` helpers.
-  Tasting **names** are not translated (owned by Vasilii).
+  Tasting names have approved PT versions (`pt.name` in `tastings.ts` = `labelPt` in
+  `netlify/lib/tastings.mjs`, used for the Stripe line item). resOS/Telegram keep the EN label.
 - Menu: `menu.ts` is shared and stays sync-owned; the PT page swaps headings to `titlePt` and takes tab
   labels/intros/footnotes from `src/i18n/menu-pt.ts`. A new footnote from the sync shows in English on
   `/pt/carta/` until its translation is added to `notesPt`.

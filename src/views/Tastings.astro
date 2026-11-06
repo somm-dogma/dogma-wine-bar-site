@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { Image } from "astro:assets";
-import { tastings } from "../data/tastings";
+import { tastings, localizeTasting } from "../data/tastings";
 import TastingCard from "../components/TastingCard.astro";
 import { langFromPath, r, HTML_LANG } from "../i18n/routes";
 import { euro } from "../i18n/ui";
@@ -15,7 +15,7 @@ const lang = langFromPath(Astro.url.pathname);
 // ever sends the slug as `tastingType`; this number is for display/estimate only.
 const selectRows = tastings.map((t) => ({
   key: t.slug,
-  name: t.name,
+  name: localizeTasting(t, lang).name,
   price: Number(t.price.replace(/[^0-9]/g, "")),
   min: 1,
   max: 12,
