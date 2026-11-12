@@ -149,9 +149,9 @@ export const menuSections: MenuSection[] = [
             desc: "bruschettas com pesto de tomate e sardinhas em tomate picante [ 2 uni ]",
           },
           {
-            price: "15",
-            name: "grilled season fruit & muxama (salted dry tuna loin) salad",
-            desc: "salada de muxama e fruta da época grelhada",
+            price: "12",
+            name: "muxama - dried tuna loin, sliced, with olive oil",
+            desc: "muxama do Algarve regada com azeite",
           },
         ],
       },
@@ -168,6 +168,11 @@ export const menuSections: MenuSection[] = [
             price: "9",
             name: "oxtail croquettes · Dijon mustard [ 2 pieces ]",
             desc: "croquetes de rabo de boi com mostarda de Dijon [ 2 uni ]",
+          },
+          {
+            price: "18",
+            name: "grilled aged [ 45 days ] beef sandwich [ ~200g · 7oz ]",
+            desc: "Prego no pão · carne maturada 45 dias [ ~200g ]",
           },
         ],
       },
@@ -194,7 +199,7 @@ export const menuSections: MenuSection[] = [
       },
       {
         title: "sweet chapter",
-        titlePt: "doces",
+        titlePt: "doce",
         items: [
           {
             price: "4.5",
