@@ -20,6 +20,8 @@ export const site = {
     phone: "+351 912 925 598",
     phoneHref: "tel:+351912925598",
     email: "somm@dogmawinebar.com",
+    // Taken from Google's own place data for the Maps link above (not guessed).
+    geo: { latitude: 41.1449728, longitude: -8.6149135 },
   },
 
   // Each line shows as "days — time"
@@ -44,8 +46,11 @@ export const site = {
     // a machine confirms the website, the TripAdvisor listing and this profile are
     // one business — so only add a URL you have actually opened and checked.
     starWineList: "https://starwinelist.com/wine-place/dogma-wine-bar",
-    // Paste the Google Maps place link here and it joins `sameAs` automatically.
-    googleMaps: "",
+    // Google Maps place. Verified 2026-11-14: Vasilii's share link resolves to
+    // "Dogma Wine Bar & Tastings" and its feature id (0x…:0x3a1dee9c1aa3f9e) is
+    // the same place as the cid Star Wine List links to. Stored in the permanent
+    // `cid` form rather than the maps.app.goo.gl short link, which can be revoked.
+    googleMaps: "https://maps.google.com/?cid=261735348922105758",
   },
 
   // Third-party accolades, used for schema.org `award`. Keep these literal and

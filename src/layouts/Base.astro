@@ -59,6 +59,12 @@ const schema = {
     addressLocality: site.contact.city,
     addressCountry: "PT",
   },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: site.contact.geo.latitude,
+    longitude: site.contact.geo.longitude,
+  },
+  hasMap: site.social.googleMaps,
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
