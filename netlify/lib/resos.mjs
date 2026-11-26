@@ -92,6 +92,27 @@ export async function getAvailableTimes({ date, people }) {
 }
 
 /**
+ * The next dates (after `date`) on which `time` is still bookable for this
+ * party size. Used for fixed-time group tastings when the asked-for day is
+ * full. Checks one day at a time and stops early to stay gentle on resOS.
+ */
+export async function nextDatesWithTime({ date, time, people, max = 3, lookahead = 10 }) {
+  const found = [];
+  const d = new Date(`${date}T12:00:00Z`);
+  for (let i = 0; i < lookahead && found.length < max; i++) {
+    d.setUTCDate(d.getUTCDate() + 1);
+    const day = d.toISOString().slice(0, 10);
+    try {
+      const { openingHourByTime } = await getAvailableTimes({ date: day, people });
+      if (openingHourByTime.has(time)) found.push(day);
+    } catch (err) {
+      if (err instanceof ResosError && err.rateLimited) break;
+    }
+  }
+  return found;
+}
+
+/**
  * Is this exact date/time/party bookable? Returns
  * { available, openingHourId, alternativeTimes }.
  */

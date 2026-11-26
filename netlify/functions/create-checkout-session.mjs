@@ -68,7 +68,7 @@ export default async (req, context) => {
   if (!isValidEmail(email)) fields.push("email");
   if (!isValidPhone(phone)) fields.push("phone");
   if (!tasting) fields.push("tastingType");
-  if (!isValidTime(time)) fields.push("time");
+  if (!isValidTime(time) || (tasting?.fixedTime && time !== tasting.fixedTime)) fields.push("time");
   if (!isFutureOrToday(date)) fields.push("date");
   if (!Number.isInteger(people)) fields.push("partySize");
   else if (tasting && (people < tasting.minPeople || people > tasting.maxPeople)) fields.push("partySize");
@@ -79,6 +79,7 @@ export default async (req, context) => {
     // Guard against booking a slot that filled up since the first check.
     const avail = await checkAvailability({ date, time, people });
     if (!avail.available) {
+      if (tasting.fixedTime) return json({ available: false, fullyBooked: true, slots: [] }, { origin });
       return json({ available: false, slots: avail.alternativeTimes }, { origin });
     }
 

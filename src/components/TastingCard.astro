@@ -16,7 +16,9 @@ interface Props {
 const { tasting, anchor = false } = Astro.props;
 const lang = langFromPath(Astro.url.pathname);
 const t = ui[lang].card;
-const { slug, name, category, description, includes, price, duration, image, alt } = localizeTasting(tasting, lang);
+const { slug, name, category, description, includes, price, duration, fixedTime, image, alt } = localizeTasting(tasting, lang);
+// PT writes times as "16h30"; EN keeps "16:30".
+const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTime.replace(":", "h") : fixedTime) : null;
 ---
 
 <a
@@ -44,7 +46,7 @@ const { slug, name, category, description, includes, price, duration, image, alt
         <span class="tcard__price">{euro(lang, price)}</span>
         <span class="tcard__pp">{t.perPerson}</span>
       </span>
-      <span class="tcard__dur">{duration}</span>
+      <span class="tcard__dur">{fixedLabel ?? duration}</span>
     </span>
     <span class="tcard__reserve">{t.reserve}</span>
   </span>

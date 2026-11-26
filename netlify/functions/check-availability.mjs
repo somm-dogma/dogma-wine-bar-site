@@ -2,6 +2,7 @@
    POST /api/check-availability
    Body: { date, time, partySize, tastingType }
    → { available: boolean, slots: string[] }   (alternative times)
+   Fixed-time tastings: → { available:false, fullyBooked:true, nextDates }
 
    Server-side only: validates input, asks resOS whether the slot is
    bookable, and returns just enough for the UI. The API key never
@@ -20,7 +21,7 @@ import {
   clampInt,
 } from "../lib/http.mjs";
 import { getTasting } from "../lib/tastings.mjs";
-import { checkAvailability, ResosError } from "../lib/resos.mjs";
+import { checkAvailability, nextDatesWithTime, ResosError } from "../lib/resos.mjs";
 
 export default async (req, context) => {
   const origin = pickOrigin(req);
@@ -49,7 +50,7 @@ export default async (req, context) => {
 
   const fields = [];
   if (!tasting) fields.push("tastingType");
-  if (!isValidTime(time)) fields.push("time");
+  if (!isValidTime(time) || (tasting?.fixedTime && time !== tasting.fixedTime)) fields.push("time");
   if (!isFutureOrToday(date)) fields.push("date");
   if (!Number.isInteger(people)) fields.push("partySize");
   else if (tasting && (people < tasting.minPeople || people > tasting.maxPeople)) fields.push("partySize");
@@ -57,6 +58,11 @@ export default async (req, context) => {
 
   try {
     const result = await checkAvailability({ date, time, people });
+    // Fixed-time group tasting: other hours are irrelevant — offer other days.
+    if (tasting.fixedTime && !result.available) {
+      const nextDates = await nextDatesWithTime({ date, time, people });
+      return json({ available: false, fullyBooked: true, slots: [], nextDates }, { origin });
+    }
     return json({ available: result.available, slots: result.alternativeTimes }, { origin });
   } catch (err) {
     if (err instanceof ResosError && err.rateLimited) {

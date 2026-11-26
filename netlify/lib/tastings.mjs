@@ -15,6 +15,8 @@ export const TASTINGS = {
     minPeople: 1,
     maxPeople: 12,
     durationMin: 90,
+    // Group session: one fixed start time per day. Any other time is refused.
+    fixedTime: "16:30",
   },
   "top-wines": {
     label: "TOP Wine Tasting",

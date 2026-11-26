@@ -29,6 +29,9 @@ export interface Tasting {
   price: string;
   /** Display duration. */
   duration: string;
+  /** Group session with one fixed daily start time ("16:30"). Must match
+   *  `fixedTime` in netlify/lib/tastings.mjs. Absent = private, any free time. */
+  fixedTime?: string;
   image: ImageMetadata;
   alt: string;
   /** European-Portuguese copy, including the PT name (approved by Vasilii,
@@ -51,6 +54,7 @@ export const tastings: Tasting[] = [
     includes: "Five samples: sparkling, two whites, two reds. Served with snacks of our selection.",
     price: "€51",
     duration: "90–120 min",
+    fixedTime: "16:30",
     image: imgVinhoVerde,
     alt: "Map of the Vinho Verde sub-regions of northern Portugal",
     pt: {

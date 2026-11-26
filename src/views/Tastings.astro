@@ -19,6 +19,7 @@ const selectRows = tastings.map((t) => ({
   price: Number(t.price.replace(/[^0-9]/g, "")),
   min: 1,
   max: 12,
+  fixed: t.fixedTime ?? "",
 }));
 
 // Reasonable starting times within opening hours (16:00–22:00). resOS is the
@@ -68,6 +69,10 @@ const T = {
       checking: "Checking availability…",
       available: "✓ That slot is available. Add your details below to confirm.",
       unavailable: "That exact time isn't available. Try one of the open times below, or another day.",
+      fullyBooked: "We're fully booked at {t} on that day — every seat has been taken.",
+      nextDatesLead: "Seats are still open on these days:",
+      tryAnother: "Please choose another day — this tasting runs Monday to Saturday at {t}.",
+      fixedNote: "This tasting runs once a day, at {t} sharp.",
       checkFirst: "Please check availability first.",
       needName: "Please enter your name.",
       needEmail: "Please enter a valid email.",
@@ -75,6 +80,7 @@ const T = {
       needConsent: "Please accept the Privacy Policy to continue.",
       redirecting: "Redirecting to secure payment…",
       taken: "Sorry — that slot was just taken. Please pick another time.",
+      takenFixed: "Sorry — the last seats at {t} were just taken. Please choose another day.",
       pay: "Pay & confirm",
       network: "Network error. Please try again.",
       couldNotCheck: "Could not check availability. Please try again.",
@@ -126,6 +132,10 @@ const T = {
       checking: "A verificar a disponibilidade…",
       available: "✓ Esta hora está disponível. Preencha os seus dados abaixo para confirmar.",
       unavailable: "Essa hora não está disponível. Experimente uma das horas livres abaixo ou outro dia.",
+      fullyBooked: "Nesse dia, a prova das {t} está esgotada — todos os lugares foram reservados.",
+      nextDatesLead: "Ainda há lugares nestes dias:",
+      tryAnother: "Escolha outro dia, por favor — esta prova realiza-se de segunda a sábado, às {t}.",
+      fixedNote: "Esta prova realiza-se uma vez por dia, às {t} em ponto.",
       checkFirst: "Verifique primeiro a disponibilidade.",
       needName: "Indique o seu nome.",
       needEmail: "Indique um email válido.",
@@ -133,6 +143,7 @@ const T = {
       needConsent: "Aceite a Política de Privacidade para continuar.",
       redirecting: "A redirecionar para o pagamento seguro…",
       taken: "Lamentamos — essa hora acabou de ser reservada. Escolha outra, por favor.",
+      takenFixed: "Lamentamos — os últimos lugares das {t} acabaram de ser reservados. Escolha outro dia, por favor.",
       pay: "Pagar e confirmar",
       network: "Erro de ligação. Tente novamente.",
       couldNotCheck: "Não foi possível verificar a disponibilidade. Tente novamente.",
@@ -199,7 +210,7 @@ const faqSchema = {
             <label for="tastingType">{t.tasting}</label>
             <select id="tastingType">
               {selectRows.map((row) => (
-                <option value={row.key} data-min={row.min} data-max={row.max} data-price={row.price}>
+                <option value={row.key} data-min={row.min} data-max={row.max} data-price={row.price} data-fixed={row.fixed}>
                   {row.name} — {euro(lang, row.price)} {t.pp}
                 </option>
               ))}
@@ -224,6 +235,7 @@ const faqSchema = {
           </div>
         </div>
 
+        <p class="booking__note" id="fixed-note" hidden></p>
         <p class="booking__price" id="price-line" aria-live="polite"></p>
 
         <button class="btn btn--primary" type="button" id="check-btn">{t.check}</button>
@@ -231,7 +243,7 @@ const faqSchema = {
         <!-- availability result -->
         <div class="booking__status" id="avail-status" role="status" aria-live="polite" hidden></div>
         <div class="booking__slots" id="slots" hidden>
-          <p>{t.slotsLead}</p>
+          <p id="slots-lead">{t.slotsLead}</p>
           <div class="slots__chips" id="slots-chips"></div>
         </div>
 
@@ -459,6 +471,11 @@ const faqSchema = {
     box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
   }
 
+  .booking__note {
+    margin-top: 0.9rem;
+    font-size: var(--step--1);
+    color: var(--wine-700);
+  }
   .booking__price {
     margin-top: 1rem;
     font-family: var(--font-mono);
@@ -556,8 +573,8 @@ const faqSchema = {
 </style>
 
 <script>
-  type AvailResp = { available?: boolean; slots?: string[]; error?: string; fields?: string[] };
-  type SessionResp = { url?: string; available?: boolean; slots?: string[]; error?: string };
+  type AvailResp = { available?: boolean; slots?: string[]; fullyBooked?: boolean; nextDates?: string[]; error?: string; fields?: string[] };
+  type SessionResp = { url?: string; available?: boolean; slots?: string[]; fullyBooked?: boolean; error?: string };
 
   const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -570,6 +587,8 @@ const faqSchema = {
   const availStatus = $("avail-status");
   const slotsBox = $("slots");
   const slotsChips = $("slots-chips");
+  const slotsLead = $("slots-lead");
+  const slotsLeadDefault = slotsLead.textContent || "";
   const contactStep = $("contact-step");
   const nameEl = $<HTMLInputElement>("name");
   const emailEl = $<HTMLInputElement>("email");
@@ -599,6 +618,57 @@ const faqSchema = {
   dateEl.min = todayStr;
 
   let confirmedAvailable = false;
+  const fixedNote = $("fixed-note");
+
+  // Group tastings run at one fixed time a day (data-fixed="16:30").
+  function fixedTime() {
+    return selectedOption().dataset.fixed || "";
+  }
+  // "16:30" → "16h30" in Portuguese.
+  function fmtTime(tm: string) {
+    return LANG === "pt" ? tm.replace(":", "h") : tm;
+  }
+  function withTime(msg: string) {
+    return msg.replace("{t}", fmtTime(fixedTime()));
+  }
+  function applyFixedTime() {
+    const fixed = fixedTime();
+    if (fixed) {
+      if (![...timeEl.options].some((o) => o.value === fixed)) {
+        const o = document.createElement("option");
+        o.value = fixed; o.textContent = fixed; timeEl.appendChild(o);
+      }
+      timeEl.value = fixed;
+      timeEl.disabled = true;
+      fixedNote.textContent = withTime(L.fixedNote);
+      fixedNote.hidden = false;
+    } else {
+      timeEl.disabled = false;
+      fixedNote.hidden = true;
+    }
+  }
+  // "2026-11-27" → "Fri, 27 Nov" / "sex., 27 nov."
+  function fmtDate(d: string) {
+    return new Intl.DateTimeFormat(LANG === "pt" ? "pt-PT" : "en-GB", {
+      weekday: "short", day: "numeric", month: "short", timeZone: "UTC",
+    }).format(new Date(`${d}T12:00:00Z`));
+  }
+  function renderDates(dates: string[]) {
+    slotsChips.innerHTML = "";
+    slotsLead.textContent = L.nextDatesLead;
+    for (const d of dates) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "slot-chip";
+      b.textContent = fmtDate(d);
+      b.addEventListener("click", () => {
+        dateEl.value = d;
+        checkAvailability();
+      });
+      slotsChips.appendChild(b);
+    }
+    slotsBox.hidden = false;
+  }
 
   function selectedOption() {
     return typeEl.selectedOptions[0];
@@ -660,6 +730,7 @@ const faqSchema = {
   function renderSlots(slots: string[]) {
     if (!slots || !slots.length) { slotsBox.hidden = true; return; }
     slotsChips.innerHTML = "";
+    slotsLead.textContent = slotsLeadDefault;
     for (const s of slots) {
       const b = document.createElement("button");
       b.type = "button";
@@ -682,6 +753,11 @@ const faqSchema = {
   async function checkAvailability() {
     if (!dateEl.value) { setStatus("no", L.chooseDate); return; }
     resetAvailability();
+    // Closed on Sundays: no need to ask resOS for a fixed-time tasting.
+    if (fixedTime() && new Date(`${dateEl.value}T12:00:00Z`).getUTCDay() === 0) {
+      setStatus("no", withTime(L.tryAnother));
+      return;
+    }
     checkBtn.disabled = true;
     setStatus("busy", L.checking);
     try {
@@ -695,6 +771,10 @@ const faqSchema = {
         setStatus("ok", L.available);
         contactStep.hidden = false;
         contactStep.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else if (body.fullyBooked) {
+        const next = body.nextDates || [];
+        setStatus("no", withTime(L.fullyBooked) + (next.length ? "" : " " + withTime(L.tryAnother)));
+        if (next.length) renderDates(next);
       } else {
         setStatus("no", L.unavailable);
         renderSlots(body.slots || []);
@@ -731,7 +811,7 @@ const faqSchema = {
 
       if (body.url) { window.location.href = body.url; return; }
       if (body.available === false) {
-        setStatus("no", L.taken);
+        setStatus("no", body.fullyBooked ? withTime(L.takenFixed) : L.taken);
         renderSlots(body.slots || []);
         contactStep.hidden = true;
         confirmedAvailable = false;
@@ -747,7 +827,7 @@ const faqSchema = {
   }
 
   // wire up
-  typeEl.addEventListener("change", () => { updatePartyBounds(); resetAvailability(); });
+  typeEl.addEventListener("change", () => { updatePartyBounds(); applyFixedTime(); resetAvailability(); });
   partyEl.addEventListener("input", () => { updatePrice(); resetAvailability(); });
   [dateEl, timeEl].forEach((el) => el.addEventListener("change", resetAvailability));
   checkBtn.addEventListener("click", checkAvailability);
@@ -761,6 +841,7 @@ const faqSchema = {
     if (!opt) return;
     typeEl.value = slug;
     updatePartyBounds();
+    applyFixedTime();
     resetAvailability();
     if (scroll) document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -791,4 +872,5 @@ const faqSchema = {
   }
 
   updatePartyBounds();
+  applyFixedTime();
 </script>
