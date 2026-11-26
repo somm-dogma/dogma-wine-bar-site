@@ -227,7 +227,7 @@ export const menuSections: MenuSection[] = [
             price: "15",
             name: "Vinho Verde",
             desc: "Alvarelhão · brut",
-            meta: "2022 · Pardusco Private Rosé",
+            meta: "2023 · Pardusco Private Rosé",
           },
           {
             price: "12",
@@ -295,16 +295,16 @@ export const menuSections: MenuSection[] = [
         titlePt: "tintos",
         items: [
           {
-            price: "15",
+            price: "9",
             name: "Vinho Verde",
-            desc: "Vinhão",
-            meta: "2019 · Quinta de S.Cristina Cave",
+            desc: "Alvarelhão",
+            meta: "2024 · Zafirah",
           },
           {
-            price: "14",
-            name: "Dão",
-            desc: "Touriga Nacional",
-            meta: "2021 · M.O.B.",
+            price: "24",
+            name: "Lisboa [ Colares ]",
+            desc: "Ramisco",
+            meta: "2016 · ARENAE",
           },
           {
             price: "31",
@@ -319,16 +319,16 @@ export const menuSections: MenuSection[] = [
             meta: "2023 · Casa de Saima Tonel 10",
           },
           {
-            price: "12",
-            name: "Setúbal",
-            desc: "Castelão",
-            meta: "2022 · Quinta do Piloto Reserva",
-          },
-          {
             price: "10",
             name: "Tejo",
             desc: "Trincadeira Preta",
             meta: "2023 · Casa Cadaval",
+          },
+          {
+            price: "12",
+            name: "Alentejo",
+            desc: "Blend",
+            meta: "2020 · Zagalos Reserva",
           },
         ],
       },
