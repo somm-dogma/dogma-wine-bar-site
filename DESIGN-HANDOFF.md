@@ -117,9 +117,9 @@ Display names are **final** (owned by Vasilii). Note the comma in #1.
 
 | # | Name | Price/person | Duration (proposed) | slug |
 |---|---|---|---|---|
-| 1 | Vinho Verde, Beyond Expectations | €51 | 90 min | `vinho-verde` |
-| 2 | TOP Wine Tasting | €75 | 120 min | `top-wines` |
-| 3 | Icons of Portugal | €99 | 120 min | `icons` |
+| 1 | Vinho Verde, Beyond Expectations (group, 16:30 Mon–Sat) | €51 (new price TBC) | 90 min | `vinho-verde` |
+| 2 | Portugal in Magnum (group, 19:00 Mon–Sat; replaced TOP Wine Tasting 2026-11) | €75 (TBC) | 120 min | `portugal-in-magnum` |
+| 3 | Icons of Portugal (private, 6 samples) | €180 | 120 min | `icons` |
 | 4 | Port Introduction | €45 | 90 min | `port-intro` |
 | 5 | TOP Port Selection | €72 | 120 min | `port-top` |
 | 6 | Ports from Heaven | €210 | 150 min | `dreamy-ports` |

@@ -18,18 +18,20 @@ export const TASTINGS = {
     // Group session: one fixed start time per day. Any other time is refused.
     fixedTime: "16:30",
   },
-  "top-wines": {
-    label: "TOP Wine Tasting",
-    labelPt: "Prova TOP de Vinhos",
-    pricePerPerson: 75,
+  "portugal-in-magnum": {
+    label: "Portugal in Magnum",
+    labelPt: "Portugal em Magnum",
+    pricePerPerson: 75, // TODO: confirm with Vasilii
     minPeople: 1,
     maxPeople: 12,
     durationMin: 120,
+    // Group session: one fixed start time per day.
+    fixedTime: "19:00",
   },
   icons: {
     label: "Icons of Portugal",
     labelPt: "Ícones de Portugal",
-    pricePerPerson: 99,
+    pricePerPerson: 180,
     minPeople: 1,
     maxPeople: 12,
     durationMin: 120,
