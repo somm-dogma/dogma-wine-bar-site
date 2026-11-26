@@ -11,7 +11,7 @@ export const ui = {
   en: {
     siteTitleSuffix: "Wine Bar in Porto · Master of Port",
     siteDescription:
-      "Wine and Port tastings in Porto's historic centre, led by Portugal's first Master of Port. Six guided flights from €45 — book online in a minute.",
+      "Wine and Port tastings in Porto's historic centre, led by Portugal's first Master of Port. Six guided flights from €36 — book online in a minute.",
     skip: "Skip to content",
     homeLabel: "Dogma — Wine Bar & Tasting, home",
     toggleMenu: "Toggle menu",
@@ -56,7 +56,7 @@ export const ui = {
   pt: {
     siteTitleSuffix: "Wine Bar no Porto · Master of Port",
     siteDescription:
-      "Provas de vinho e de vinho do Porto no centro histórico do Porto, conduzidas pelo primeiro Master of Port de Portugal. Seis provas desde 45 €.",
+      "Provas de vinho e de vinho do Porto no centro histórico do Porto, conduzidas pelo primeiro Master of Port de Portugal. Seis provas desde 36 €.",
     skip: "Saltar para o conteúdo",
     homeLabel: "Dogma — Wine Bar & Tasting, página inicial",
     toggleMenu: "Abrir ou fechar o menu",

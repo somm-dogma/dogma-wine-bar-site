@@ -11,7 +11,7 @@ export const TASTINGS = {
   "vinho-verde": {
     label: "Vinho Verde, Beyond Expectations",
     labelPt: "Vinho Verde, Além das Expectativas",
-    pricePerPerson: 51, // EUR
+    pricePerPerson: 36, // EUR
     minPeople: 1,
     maxPeople: 12,
     durationMin: 90,

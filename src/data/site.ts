@@ -8,7 +8,7 @@ export const site = {
   shortName: "Dogma",
   tagline: "A place where the art of great winemakers fills glasses",
   description:
-    "Wine and Port tastings in Porto's historic centre, led by Portugal's first Master of Port. Six guided flights from €45 — book online in a minute.",
+    "Wine and Port tastings in Porto's historic centre, led by Portugal's first Master of Port. Six guided flights from €36 — book online in a minute.",
   url: "https://dogmawinebar.com",
   established: "2023",
 
