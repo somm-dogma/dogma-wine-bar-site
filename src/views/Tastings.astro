@@ -20,6 +20,7 @@ const selectRows = tastings.map((t) => ({
   min: 1,
   max: 12,
   fixed: t.fixedTime ?? "",
+  upgrade: t.upgradePrice ?? 0,
 }));
 
 // Reasonable starting times within opening hours (16:00–22:00). resOS is the
@@ -39,6 +40,7 @@ const T = {
     canceled: "Your payment was cancelled — nothing was charged. You can pick a time and try again.",
     tasting: "Tasting", date: "Date", time: "Time", guests: "Guests", pp: "pp",
     check: "Check availability",
+    upgradeName: "Make it dinner",
     slotsLead: "These times are still open that day — tap one:",
     almost: "Almost there — your details",
     fullName: "Full name", email: "Email", phone: "Phone", honeypot: "Leave this empty",
@@ -73,6 +75,8 @@ const T = {
       nextDatesLead: "Seats are still open on these days:",
       tryAnother: "Please choose another day — this tasting runs Monday to Saturday at {t}.",
       fixedNote: "This tasting runs once a day, at {t} sharp.",
+      upgradeText: "more generous portions of each snack, +{p} per person.",
+      upgradeLine: "dinner",
       checkFirst: "Please check availability first.",
       needName: "Please enter your name.",
       needEmail: "Please enter a valid email.",
@@ -102,6 +106,7 @@ const T = {
     canceled: "O pagamento foi cancelado — nada foi cobrado. Pode escolher uma hora e tentar novamente.",
     tasting: "Prova", date: "Data", time: "Hora", guests: "Pessoas", pp: "p/p",
     check: "Ver disponibilidade",
+    upgradeName: "Versão jantar",
     slotsLead: "Estas horas ainda estão livres nesse dia — escolha uma:",
     almost: "Falta pouco — os seus dados",
     fullName: "Nome completo", email: "Email", phone: "Telemóvel", honeypot: "Deixe este campo vazio",
@@ -136,6 +141,8 @@ const T = {
       nextDatesLead: "Ainda há lugares nestes dias:",
       tryAnother: "Escolha outro dia, por favor — esta prova realiza-se de segunda a sábado, às {t}.",
       fixedNote: "Esta prova realiza-se uma vez por dia, às {t} em ponto.",
+      upgradeText: "porções mais generosas de cada petisco, +{p} por pessoa.",
+      upgradeLine: "jantar",
       checkFirst: "Verifique primeiro a disponibilidade.",
       needName: "Indique o seu nome.",
       needEmail: "Indique um email válido.",
@@ -210,7 +217,7 @@ const faqSchema = {
             <label for="tastingType">{t.tasting}</label>
             <select id="tastingType">
               {selectRows.map((row) => (
-                <option value={row.key} data-min={row.min} data-max={row.max} data-price={row.price} data-fixed={row.fixed}>
+                <option value={row.key} data-min={row.min} data-max={row.max} data-price={row.price} data-fixed={row.fixed} data-upgrade={row.upgrade}>
                   {row.name} — {euro(lang, row.price)} {t.pp}
                 </option>
               ))}
@@ -236,6 +243,10 @@ const faqSchema = {
         </div>
 
         <p class="booking__note" id="fixed-note" hidden></p>
+        <label class="consent booking__upgrade" id="upgrade-row" hidden>
+          <input type="checkbox" id="upgrade" />
+          <span><strong>{t.upgradeName}</strong> — <span id="upgrade-text"></span></span>
+        </label>
         <p class="booking__price" id="price-line" aria-live="polite"></p>
 
         <button class="btn btn--primary" type="button" id="check-btn">{t.check}</button>
@@ -471,6 +482,8 @@ const faqSchema = {
     box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
   }
 
+  .booking__upgrade { margin: 1rem 0 0; }
+  .booking__upgrade strong { color: var(--ink); font-weight: 600; }
   .booking__note {
     margin-top: 0.9rem;
     font-size: var(--step--1);
@@ -619,6 +632,18 @@ const faqSchema = {
 
   let confirmedAvailable = false;
   const fixedNote = $("fixed-note");
+  const upgradeRow = $("upgrade-row");
+  const upgradeEl = $<HTMLInputElement>("upgrade");
+  function upgradePrice() {
+    return Number(selectedOption().dataset.upgrade || "0");
+  }
+  function applyUpgrade() {
+    const p = upgradePrice();
+    upgradeRow.hidden = !p;
+    if (!p) upgradeEl.checked = false;
+    else $("upgrade-text").textContent = L.upgradeText.replace("{p}", money(p));
+    updatePrice();
+  }
 
   // Group tastings run at one fixed time a day (data-fixed="16:30").
   function fixedTime() {
@@ -686,8 +711,10 @@ const faqSchema = {
   function updatePrice() {
     const price = Number(selectedOption().dataset.price || "0");
     const people = Math.max(1, Number(partyEl.value) || 0);
-    const total = price * people;
-    priceLine.innerHTML = `${L.total}: <strong>${money(total)}</strong> &nbsp;·&nbsp; ${money(price)} × ${people} ${people > 1 ? L.guests : L.guest}`;
+    const extra = upgradeEl?.checked ? Number(selectedOption().dataset.upgrade || "0") : 0;
+    const total = (price + extra) * people;
+    const unit = extra ? `(${money(price)} + ${money(extra)} ${L.upgradeLine})` : money(price);
+    priceLine.innerHTML = `${L.total}: <strong>${money(total)}</strong> &nbsp;·&nbsp; ${unit} × ${people} ${people > 1 ? L.guests : L.guest}`;
   }
 
   function resetAvailability() {
@@ -710,6 +737,7 @@ const faqSchema = {
       date: dateEl.value,
       time: timeEl.value,
       partySize: Number(partyEl.value),
+      upgrade: upgradeEl.checked,
       botField: botEl.value,
       lang: LANG,
       ...extra,
@@ -827,7 +855,8 @@ const faqSchema = {
   }
 
   // wire up
-  typeEl.addEventListener("change", () => { updatePartyBounds(); applyFixedTime(); resetAvailability(); });
+  typeEl.addEventListener("change", () => { updatePartyBounds(); applyFixedTime(); applyUpgrade(); resetAvailability(); });
+  upgradeEl.addEventListener("change", updatePrice);
   partyEl.addEventListener("input", () => { updatePrice(); resetAvailability(); });
   [dateEl, timeEl].forEach((el) => el.addEventListener("change", resetAvailability));
   checkBtn.addEventListener("click", checkAvailability);
@@ -842,6 +871,7 @@ const faqSchema = {
     typeEl.value = slug;
     updatePartyBounds();
     applyFixedTime();
+    applyUpgrade();
     resetAvailability();
     if (scroll) document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -873,4 +903,5 @@ const faqSchema = {
 
   updatePartyBounds();
   applyFixedTime();
+  applyUpgrade();
 </script>

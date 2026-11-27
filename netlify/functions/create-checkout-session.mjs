@@ -85,6 +85,7 @@ export default async (req, context) => {
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const unitAmount = Math.round(tasting.pricePerPerson * 100); // cents
+    const upgrade = body?.upgrade === true && tasting.upgrade ? tasting.upgrade : null;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -107,6 +108,16 @@ export default async (req, context) => {
             },
           },
         },
+        ...(upgrade
+          ? [{
+              quantity: people,
+              price_data: {
+                currency: CURRENCY,
+                unit_amount: Math.round(upgrade.pricePerPerson * 100),
+                product_data: { name: lang === "pt" ? upgrade.labelPt : upgrade.label },
+              },
+            }]
+          : []),
       ],
       // Everything the webhook needs to create the resOS booking.
       metadata: {
@@ -119,6 +130,7 @@ export default async (req, context) => {
         name: name.trim(),
         phone: normalizePhone(phone),
         openingHourId: avail.openingHourId || "",
+        upgrade: upgrade ? "1" : "",
         lang,
       },
       payment_intent_data: {

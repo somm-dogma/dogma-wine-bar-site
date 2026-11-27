@@ -21,12 +21,14 @@ export const TASTINGS = {
   "portugal-in-magnum": {
     label: "Portugal in Magnum",
     labelPt: "Portugal em Magnum",
-    pricePerPerson: 75, // TODO: confirm with Vasilii
+    pricePerPerson: 90,
     minPeople: 1,
     maxPeople: 12,
     durationMin: 120,
     // Group session: one fixed start time per day.
     fixedTime: "19:00",
+    // Optional per-person add-on for the whole party: more generous portions.
+    upgrade: { pricePerPerson: 24, label: "Make it dinner", labelPt: "Versão jantar" },
   },
   icons: {
     label: "Icons of Portugal",

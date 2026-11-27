@@ -32,6 +32,8 @@ export interface Tasting {
   /** Group session with one fixed daily start time ("16:30"). Must match
    *  `fixedTime` in netlify/lib/tastings.mjs. Absent = private, any free time. */
   fixedTime?: string;
+  /** Optional per-person add-on (EUR). Must match `upgrade` in netlify/lib/tastings.mjs. */
+  upgradePrice?: number;
   image: ImageMetadata;
   alt: string;
   /** European-Portuguese copy, including the PT name (approved by Vasilii,
@@ -68,20 +70,21 @@ export const tastings: Tasting[] = [
   {
     slug: "portugal-in-magnum",
     name: "Portugal in Magnum",
-    category: "Large format",
+    category: "Wine flight · evening",
     description:
-      "Great Portuguese wines and older vintages, built around magnums and double magnums — the format in which wine ages slowest and shows best. One table, one evening: Monday to Saturday at 19:00.",
-    includes: "Five samples, each paired with a snack of its own.",
-    price: "€75",
+      "Five Portuguese wines that change with what we open — often from magnum, sometimes double magnum. Here the wine comes first and the food follows it. One table, one evening: Monday to Saturday at 19:00.",
+    includes: "Five samples: one sparkling, two whites, two reds — each with a snack of its own. Make it dinner: more generous portions, +€24 per person.",
+    price: "€90",
     duration: "90–120 min",
     fixedTime: "19:00",
+    upgradePrice: 24,
     image: imgTopWine,
     alt: "A grid of wine corks from estates around the world on black",
     pt: {
       name: "Portugal em Magnum",
-      category: "Grandes formatos",
-      description: "Grandes vinhos portugueses e colheitas antigas, em torno de magnuns e duplos magnuns — o formato em que o vinho envelhece mais devagar e se mostra no seu melhor. Uma mesa, um fim de tarde: de segunda a sábado, às 19h00.",
-      includes: "Cinco amostras, cada uma acompanhada do seu próprio petisco.",
+      category: "Prova de vinhos · ao fim do dia",
+      description: "Cinco vinhos portugueses que mudam com o que abrimos — muitas vezes em magnum, por vezes em duplo magnum. Aqui, o vinho vem primeiro e a comida segue-o. Uma mesa, um serão: de segunda a sábado, às 19h00.",
+      includes: "Cinco amostras: um espumante, dois brancos, dois tintos — cada uma com o seu petisco. Versão jantar: porções mais generosas, +24 € por pessoa.",
       alt: "Rolhas de vinho de produtores de todo o mundo, dispostas em grelha sobre fundo preto",
     },
   },

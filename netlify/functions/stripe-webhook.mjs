@@ -112,6 +112,7 @@ export default async (req) => {
 
     const people = parseInt(m.people, 10);
     const tasting = getTasting(m.tastingType);
+    const extra = m.upgrade === "1" ? ` + ${tasting?.upgrade?.label || "upgrade"}` : "";
 
     // Re-check the slot is still free now that payment cleared (guards the rare
     // race where the last table was taken during checkout).
@@ -141,7 +142,7 @@ export default async (req) => {
         email: session.customer_details?.email || session.customer_email,
         phone: m.phone,
       },
-      note: `Tasting: ${m.label} — ${people} guest(s) · paid ${amount} via Stripe`,
+      note: `Tasting: ${m.label}${extra} — ${people} guest(s) · paid ${amount} via Stripe`,
       metadata: { source: "website-tasting", tastingType: m.tastingType, stripeSessionId: session.id },
       // resOS accepts "request" (pending) or "approved" (confirmed) on insert —
       // "confirmed" is rejected. Paid bookings go straight in as approved.
@@ -158,7 +159,7 @@ export default async (req) => {
     console.log(`[stripe-webhook] resOS booking ${bookingId} created for session ${session.id}`);
     await notifyTelegram(
       `🍷 <b>New tasting booking</b>\n` +
-        `${esc(m.label)} · ${people} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
+        `${esc(m.label)}${esc(extra)} · ${people} guest(s)\n📅 ${esc(m.date)} at ${esc(m.time)}\n` +
         `👤 ${esc(m.name)}${m.lang === "pt" ? " · 🇵🇹 booked in Portuguese" : ""}\n📧 ${esc(guestEmail)} · 📞 ${esc(m.phone)}\n` +
         `💶 ${amount} paid · resOS <code>${esc(bookingId)}</code>`
     );
