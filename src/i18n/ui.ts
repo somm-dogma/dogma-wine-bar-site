@@ -51,7 +51,7 @@ export const ui = {
       accept: "Accept",
       decline: "Decline",
     },
-    card: { perPerson: "per person", reserve: "Reserve", schedule: "Mon–Sat · {t}" },
+    card: { perPerson: "per person", reserve: "Reserve", schedule: "Mon–Sat · {t}", private: "Private · your time" },
   },
   pt: {
     siteTitleSuffix: "Wine Bar no Porto · Master of Port",
@@ -96,7 +96,7 @@ export const ui = {
       accept: "Aceitar",
       decline: "Recusar",
     },
-    card: { perPerson: "por pessoa", reserve: "Reservar", schedule: "Seg.–Sáb. · {t}" },
+    card: { perPerson: "por pessoa", reserve: "Reservar", schedule: "Seg.–Sáb. · {t}", private: "Privada · à sua hora" },
   },
 } satisfies Record<Lang, unknown>;
 

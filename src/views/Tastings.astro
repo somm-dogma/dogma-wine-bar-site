@@ -396,7 +396,8 @@ const faqSchema = {
   .propose-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(16px, 2vw, 28px);
+    column-gap: clamp(16px, 2vw, 28px);
+    row-gap: clamp(20px, 2.5vw, 36px);
   }
   @media (max-width: 980px) { .propose-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 620px) { .propose-grid { grid-template-columns: 1fr; } }

@@ -73,7 +73,7 @@ export const tastings: Tasting[] = [
     category: "Wine flight · evening",
     description:
       "Five Portuguese wines we'd normally keep for ourselves: older vintages, limited bottles, often from magnum. The line-up changes; the food is chosen to follow the wine, not the other way round. One session a day, at 19:00.",
-    includes: "5 wines: 1 sparkling, 2 whites, 2 reds · a snack with each · Make it dinner: more generous portions, +€24 per person",
+    includes: "5 wines: 1 sparkling, 2 whites, 2 reds · a snack with each · dinner option +€24",
     price: "€90",
     duration: "90 min",
     fixedTime: "19:00",
@@ -84,7 +84,7 @@ export const tastings: Tasting[] = [
       name: "A Mesa do Colecionador",
       category: "Prova de vinhos · ao fim do dia",
       description: "Cinco vinhos portugueses que normalmente guardaríamos para nós: colheitas antigas, garrafas limitadas, muitas vezes em magnum. A seleção muda; a comida é escolhida para seguir o vinho, e não o contrário. Uma sessão por dia, às 19h00.",
-      includes: "5 vinhos: 1 espumante, 2 brancos, 2 tintos · um petisco com cada · Versão jantar: porções mais generosas, +24 € por pessoa",
+      includes: "5 vinhos: 1 espumante, 2 brancos, 2 tintos · um petisco com cada · versão jantar +24 €",
       alt: "Rolhas de vinho de produtores de todo o mundo, dispostas em grelha sobre fundo preto",
     },
   },

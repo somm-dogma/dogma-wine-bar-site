@@ -18,7 +18,9 @@ const lang = langFromPath(Astro.url.pathname);
 const t = ui[lang].card;
 const { slug, name, description, includes, price, duration, fixedTime, image, alt } = localizeTasting(tasting, lang);
 // PT writes times as "16h30"; EN keeps "16:30".
-const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTime.replace(":", "h") : fixedTime) : null;
+const when = fixedTime
+  ? t.schedule.replace("{t}", lang === "pt" ? fixedTime.replace(":", "h") : fixedTime)
+  : t.private;
 ---
 
 <a
@@ -36,43 +38,49 @@ const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTi
       loading="lazy"
     />
   </span>
-  <span class="tcard__body">
-    <h3 class="tcard__name">{name}</h3>
-    <span class="tcard__desc">{description}</span>
-    <span class="tcard__includes">{includes}</span>
+  <h3 class="tcard__name">{name}</h3>
+  <span class="tcard__desc">{description}</span>
+  <span class="tcard__includes">{includes}</span>
+  <span class="tcard__foot">
     <span class="tcard__meta">
       <span class="tcard__price-wrap">
         <span class="tcard__price">{euro(lang, price)}</span>
         <span class="tcard__pp">{t.perPerson}</span>
       </span>
-      <span class="tcard__dur">{fixedLabel && <span>{fixedLabel}</span>}<span>{duration}</span></span>
+      <span class="tcard__when">
+        <span>{when}</span>
+        <span>{duration}</span>
+      </span>
     </span>
-    <span class="tcard__reserve">{t.reserve}</span>
+    <span class="tcard__reserve">{t.reserve}<span class="tcard__arrow" aria-hidden="true">→</span></span>
   </span>
 </a>
 
 <style>
+  /* Editorial card. Rows sit on a shared subgrid so names, descriptions,
+     "includes" lines and footers align across every card in a row. */
   .tcard {
-    display: flex;
-    flex-direction: column;
+    --pad: clamp(1.25rem, 1rem + 0.9vw, 1.75rem);
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     overflow: hidden;
     text-decoration: none;
-    box-shadow: 0 14px 34px -18px rgba(43, 10, 17, 0.4);
-    transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+    color: inherit;
+    transition: border-color var(--dur-mid) var(--ease-out);
     scroll-margin-top: calc(var(--header-h) + 1.5rem);
   }
-  .tcard:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 26px 56px -22px rgba(43, 10, 17, 0.52);
-  }
+  .tcard:hover { border-color: rgba(36, 19, 23, 0.32); }
+  .tcard:focus-visible { outline: 2px solid var(--wine-700); outline-offset: 3px; }
 
   .tcard__media {
     display: block;
     overflow: hidden;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 4 / 3;
     background: var(--wine-900);
   }
   .tcard__media :global(img) {
@@ -80,89 +88,93 @@ const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTi
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 560ms var(--ease-out);
-    will-change: transform;
+    transition: transform var(--dur-slow) var(--ease-out);
   }
-  .tcard:hover .tcard__media :global(img) { transform: scale(1.05); }
+  .tcard:hover .tcard__media :global(img) { transform: scale(1.04); }
 
-  .tcard__body {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: clamp(1.15rem, 1rem + 0.8vw, 1.6rem);
-    gap: 12px;
-  }
   .tcard__name {
+    padding: calc(var(--pad) * 1.05) var(--pad) 0;
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(1.45rem, 1.2rem + 1vw, 1.9rem);
-    line-height: 1.08;
+    font-size: clamp(1.5rem, 1.25rem + 0.8vw, 1.85rem);
+    line-height: 1.1;
     letter-spacing: -0.01em;
     color: var(--wine-900);
+    text-wrap: balance;
   }
   .tcard__desc {
-    font-family: var(--font-body);
+    padding: 0.85rem var(--pad) 0;
     font-size: var(--step-0);
     line-height: 1.6;
     color: var(--ink-soft);
+    text-wrap: pretty;
   }
   .tcard__includes {
-    font-family: var(--font-body);
+    align-self: start;
+    margin: 1.25rem var(--pad) 0;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
     font-size: var(--step--1);
     line-height: 1.55;
-    color: var(--ink-soft);
-    font-style: italic;
+    color: var(--ink);
   }
+
+  .tcard__foot { display: flex; flex-direction: column; margin-top: 1.1rem; }
   .tcard__meta {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 12px;
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+    gap: 1rem;
+    padding: 0 var(--pad) 1.25rem;
   }
-  .tcard__price-wrap { display: flex; align-items: baseline; gap: 7px; }
+  .tcard__price-wrap { display: flex; flex-direction: column; gap: 0.15rem; }
   .tcard__price {
     white-space: nowrap;
     font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
-    letter-spacing: 0.01em;
+    font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.7rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--wine-900);
   }
-  .tcard__pp { font-family: var(--font-body); font-size: var(--step--1); color: var(--ink-soft); }
-  .tcard__dur {
+  .tcard__pp { font-size: var(--step--1); color: var(--ink-soft); }
+  .tcard__when {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    gap: 0.2rem;
+    padding-top: 0.2rem;
     white-space: nowrap;
-    font-family: var(--font-mono);
-    font-weight: 300;
     font-size: var(--step--1);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
     color: var(--ink-soft);
+    text-align: right;
   }
+  .tcard__when > :first-child { color: var(--wine-800); font-weight: 600; }
+
   .tcard__reserve {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background: var(--wine-800);
-    color: var(--cream-50);
-    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.05rem var(--pad);
+    border-top: 1px solid var(--line);
     font-weight: 600;
     font-size: var(--step--1);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 14px 20px;
-    border-radius: 999px;
-    margin-top: 4px;
-    transition: background 320ms var(--ease-out);
+    color: var(--wine-800);
+    transition: background var(--dur-mid) var(--ease-out), color var(--dur-mid) var(--ease-out);
   }
-  .tcard:hover .tcard__reserve { background: var(--wine-700); }
+  .tcard__arrow {
+    font-size: 1.15em;
+    letter-spacing: 0;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+  .tcard:hover .tcard__reserve { background: var(--wine-800); color: var(--cream-50); }
+  .tcard:hover .tcard__arrow { transform: translateX(4px); }
 
   @media (prefers-reduced-motion: reduce) {
-    .tcard, .tcard__media :global(img), .tcard__reserve { transition: none; }
-    .tcard:hover { transform: none; }
-    .tcard:hover .tcard__media :global(img) { transform: none; }
+    .tcard, .tcard__media :global(img), .tcard__reserve, .tcard__arrow { transition: none; }
+    .tcard:hover .tcard__media :global(img), .tcard:hover .tcard__arrow { transform: none; }
   }
 </style>
