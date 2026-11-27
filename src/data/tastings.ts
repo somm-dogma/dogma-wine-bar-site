@@ -68,8 +68,8 @@ export const tastings: Tasting[] = [
     },
   },
   {
-    slug: "portugal-in-magnum",
-    name: "Portugal in Magnum",
+    slug: "collectors-table",
+    name: "The Collector's Table",
     category: "Wine flight · evening",
     description:
       "Five Portuguese wines that change with what we open — often from magnum, sometimes double magnum. Here the wine comes first and the food follows it. One table, one evening: Monday to Saturday at 19:00.",
@@ -81,7 +81,7 @@ export const tastings: Tasting[] = [
     image: imgTopWine,
     alt: "A grid of wine corks from estates around the world on black",
     pt: {
-      name: "Portugal em Magnum",
+      name: "A Mesa do Colecionador",
       category: "Prova de vinhos · ao fim do dia",
       description: "Cinco vinhos portugueses que mudam com o que abrimos — muitas vezes em magnum, por vezes em duplo magnum. Aqui, o vinho vem primeiro e a comida segue-o. Uma mesa, um serão: de segunda a sábado, às 19h00.",
       includes: "Cinco amostras: um espumante, dois brancos, dois tintos — cada uma com o seu petisco. Versão jantar: porções mais generosas, +24 € por pessoa.",

@@ -18,9 +18,9 @@ export const TASTINGS = {
     // Group session: one fixed start time per day. Any other time is refused.
     fixedTime: "16:30",
   },
-  "portugal-in-magnum": {
-    label: "Portugal in Magnum",
-    labelPt: "Portugal em Magnum",
+  "collectors-table": {
+    label: "The Collector's Table",
+    labelPt: "A Mesa do Colecionador",
     pricePerPerson: 90,
     minPeople: 1,
     maxPeople: 12,
