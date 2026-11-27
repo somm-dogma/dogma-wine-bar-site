@@ -45,7 +45,7 @@ const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTi
         <span class="tcard__price">{euro(lang, price)}</span>
         <span class="tcard__pp">{t.perPerson}</span>
       </span>
-      <span class="tcard__dur">{fixedLabel ?? duration}</span>
+      <span class="tcard__dur">{fixedLabel && <span>{fixedLabel}</span>}<span>{duration}</span></span>
     </span>
     <span class="tcard__reserve">{t.reserve}</span>
   </span>
@@ -124,6 +124,7 @@ const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTi
   }
   .tcard__price-wrap { display: flex; align-items: baseline; gap: 7px; }
   .tcard__price {
+    white-space: nowrap;
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
@@ -132,6 +133,10 @@ const fixedLabel = fixedTime ? t.schedule.replace("{t}", lang === "pt" ? fixedTi
   }
   .tcard__pp { font-family: var(--font-body); font-size: var(--step--1); color: var(--ink-soft); }
   .tcard__dur {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    white-space: nowrap;
     font-family: var(--font-mono);
     font-weight: 300;
     font-size: var(--step--1);

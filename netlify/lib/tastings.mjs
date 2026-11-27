@@ -24,7 +24,7 @@ export const TASTINGS = {
     pricePerPerson: 90,
     minPeople: 1,
     maxPeople: 12,
-    durationMin: 120,
+    durationMin: 90,
     // Group session: one fixed start time per day.
     fixedTime: "19:00",
     // Optional per-person add-on for the whole party: more generous portions.
